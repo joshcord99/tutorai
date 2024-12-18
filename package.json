@@ -4,8 +4,13 @@
   "description": "Privacy-preserving coding problem tutor for LeetCode",
   "type": "module",
   "scripts": {
+    "dev": "node build.js",
+    "build": "node build.js",
     "lint": "eslint src --ext .ts,.js",
     "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "marked": "^9.1.6"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.260",
