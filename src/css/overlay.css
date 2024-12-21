@@ -1,1 +1,258 @@
-
+#leet-helper-overlay {
+    position: fixed;
+    z-index: 10000;
+    width: 500px;
+    height: 495px;
+    background: #f8f9fa;
+    border: none;
+    border-radius: 16px;
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 8px 16px rgba(0, 0, 0, 0.2);
+    font-family:
+      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: none;
+    overflow: hidden;
+    resize: both;
+    backdrop-filter: blur(10px);
+  
+    /* CSS Variables for theming */
+    --lh-bg: #ffffff;
+    --lh-border: #e2e8f0;
+    --lh-soft: #f1f5f9;
+    --lh-text: #1e293b;
+    --lh-muted: #64748b;
+    --lh-accent: #3b82f6;
+    --lh-accent-strong: #1d4ed8;
+    --lh-accent-bg: #eff6ff;
+  
+    /* Dark mode variables */
+    --lh-dark-bg: #1e293b;
+    --lh-dark-border: #334155;
+    --lh-dark-text: #f1f5f9;
+    --lh-dark-muted: #94a3b8;
+  }
+  
+  #leet-helper-overlay.lh-dark {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: #ecf0f1;
+  }
+  
+  #leet-helper-overlay.lh-light {
+    background: #f8f9fa;
+    color: #333;
+  }
+  
+  #leet-helper-overlay .lh-header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: grab;
+    user-select: none;
+    border-radius: 16px 16px 0 0;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-header {
+    background: rgba(44, 62, 80, 0.95);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  #leet-helper-overlay .lh-logo {
+    font-weight: 700;
+    font-size: 16px;
+    color: #2c3e50;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-logo {
+    color: #ecf0f1;
+  }
+  
+  #leet-helper-overlay .lh-controls {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  
+  #leet-helper-overlay .lh-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    color: #2c3e50;
+  }
+  
+  #leet-helper-overlay .lh-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  #leet-helper-overlay .lh-minimize {
+    font-weight: bold;
+    font-size: 16px;
+    padding: 0 10px 8px 10px;
+    line-height: 1;
+    color: #667eea;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #leet-helper-overlay.lh-minimized .lh-content,
+  #leet-helper-overlay.lh-minimized .lh-footer {
+    display: none;
+  }
+  
+  #leet-helper-overlay.lh-minimized {
+    transition: all 0.3s ease;
+  }
+  
+  #leet-helper-overlay .lh-content {
+    height: calc(100% - 120px);
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+  }
+  
+  #leet-helper-overlay .lh-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-tabs {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+    background: rgba(44, 62, 80, 0.8);
+  }
+  
+  #leet-helper-overlay .lh-tab {
+    flex: 1;
+    padding: 4px 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    border-bottom: 3px solid transparent;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    transition:
+      color 0.3s ease,
+      background-color 0.3s ease;
+    color: #666;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  
+  #leet-helper-overlay .lh-tab:last-child {
+    border-right: none;
+  }
+  
+  #leet-helper-overlay .lh-tab:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-tab {
+    border-right-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-tab:hover {
+    background: rgba(236, 240, 241, 0.1);
+    color: #ecf0f1;
+  }
+  
+  #leet-helper-overlay .lh-tab.active {
+    border-bottom-color: #667eea;
+    background: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    color: #667eea;
+    opacity: 0.8;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-tab.active {
+    background: rgba(39, 49, 60, 0.85);
+    border-bottom-color: #3498db;
+    color: #3498db;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+    opacity: 0.8;
+  }
+  
+  #leet-helper-overlay .lh-tab-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+    max-height: 100%;
+  }
+  
+  #leet-helper-overlay .lh-tab-pane {
+    display: none;
+  }
+  
+  #leet-helper-overlay .lh-tab-pane.active {
+    display: block;
+  }
+  
+  #leet-helper-overlay .lh-footer {
+    padding: 12px 16px;
+    border-top: 1px solid #e1e5e9;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: #f8f9fa;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-footer {
+    border-top-color: #404040;
+    background: #2d2d2d;
+  }
+  
+  #leet-helper-overlay .lh-small {
+    font-size: 11px;
+  }
+  
+  #leet-helper-overlay .lh-medium {
+    font-size: 13px;
+  }
+  
+  #leet-helper-overlay .lh-large {
+    font-size: 15px;
+  }
+  
+  #leet-helper-overlay .lh-small .lh-tab {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+  
+  #leet-helper-overlay .lh-large .lh-tab {
+    font-size: 13px;
+    padding: 10px 14px;
+  }
+  
+  #leet-helper-overlay .lh-small .lh-hint {
+    font-size: 11px;
+  }
+  
+  #leet-helper-overlay .lh-large .lh-hint {
+    font-size: 14px;
+  }
+  
