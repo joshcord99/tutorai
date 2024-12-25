@@ -616,10 +616,8 @@ import {
       }
     }
   
-    private getCurrentLanguage(): string {
+        private getCurrentLanguage(): string {
       try {
-        // Debug: Log all elements that might be language selectors
-  
         const allPossibleSelectors = [
           'button[aria-haspopup="dialog"][aria-expanded]',
           '[data-e2e-locator="language-selector"]',
@@ -632,19 +630,13 @@ import {
           "button[aria-haspopup]",
           '[role="combobox"]',
           "[aria-expanded]",
-        ];
-  
-        // Try multiple selectors for LeetCode's language selector
+                ];
+
         const selectors = [
-          // First priority: buttons that contain actual language names
           'button[aria-haspopup="dialog"][aria-expanded]',
           "button[aria-haspopup]",
           "button[aria-expanded]",
-          // Second priority: specific language selector elements
           '[data-e2e-locator="language-selector"]',
-          // Third priority: general selectors (avoid these as they contain dropdown lists)
-          // '.language-selector',
-          // '[class*="language-selector"]',
           'button[data-state="open"]',
           'button[aria-expanded="true"]',
         ];
@@ -1136,7 +1128,6 @@ import {
     }
   
     private showModelKeyError(model: string): void {
-      // Create error notification
       const errorDiv = document.createElement("div");
       errorDiv.className = "lh-model-error";
       errorDiv.style.cssText = `
@@ -1161,9 +1152,8 @@ import {
         No API key found for ${modelName}. Please add your ${modelName} API key in the extension options.
       `;
   
-      document.body.appendChild(errorDiv);
-  
-      // Remove the error after 5 seconds
+            document.body.appendChild(errorDiv);
+
       setTimeout(() => {
         if (errorDiv.parentNode) {
           errorDiv.parentNode.removeChild(errorDiv);
@@ -1174,18 +1164,15 @@ import {
     private getMonacoEditorContent(): string {
       try {
         const monacoEditor = document.querySelector(".monaco-editor");
-        if (!monacoEditor) return "";
-  
-        // Try multiple approaches to get the content
+                if (!monacoEditor) return "";
+
         let content = "";
-  
-        // Method 1: Try to get from Monaco's internal textarea
+
         const textarea = monacoEditor.querySelector("textarea");
         if (textarea && textarea.value) {
           content = textarea.value;
-        }
-  
-        // Method 2: Try to get from Monaco's view lines
+                }
+
         if (!content) {
           const viewLines = monacoEditor.querySelectorAll(".view-line");
           if (viewLines.length > 0) {
@@ -1194,17 +1181,15 @@ import {
               .filter((line) => line.length > 0)
               .join("\n");
           }
-        }
-  
-        // Method 3: Try to get from Monaco's text model
+                }
+
         if (!content) {
           const textModel = (window as any).monaco?.editor?.getModels?.()?.[0];
           if (textModel) {
             content = textModel.getValue();
           }
-        }
-  
-        // Method 4: Fallback to text content
+                }
+
         if (!content) {
           content = monacoEditor.textContent?.trim() || "";
         }
@@ -1217,48 +1202,40 @@ import {
   
     private collectDOMElements(): any {
       try {
-        // Collect problem title
         const titleElement =
           document.querySelector('[data-e2e-locator="problem-title"]') ||
           document.querySelector("h1") ||
           document.querySelector(".mr-2");
-        const title = titleElement?.textContent?.trim() || "";
-  
-        // Collect problem description
+                const title = titleElement?.textContent?.trim() || "";
+
         const descriptionElement =
           document.querySelector('[data-track-load="description_content"]') ||
           document.querySelector(".description__24sA") ||
           document.querySelector('[class*="description"]');
-        const description = descriptionElement?.textContent?.trim() || "";
-  
-        // Collect examples
+                const description = descriptionElement?.textContent?.trim() || "";
+
         const examplesElement =
           document.querySelector(".example__2hs5") ||
           document.querySelector('[class*="example"]');
-        const examples = examplesElement?.textContent?.trim() || "";
-  
-        // Collect constraints
+                const examples = examplesElement?.textContent?.trim() || "";
+
         const constraintsElement =
           document.querySelector(".constraint__2Z4X") ||
           document.querySelector('[class*="constraint"]');
-        const constraints = constraintsElement?.textContent?.trim() || "";
-  
-        // Collect code editor content from Monaco editor
+                const constraints = constraintsElement?.textContent?.trim() || "";
+
         let codeEditor = this.getMonacoEditorContent();
   
         if (codeEditor) {
-          // Get additional Monaco editor metadata
           const monacoEditor = document.querySelector(".monaco-editor");
-          if (monacoEditor) {
-            // Get current language/mode
-            const languageElement = document.querySelector("[data-mode]");
-            const language =
-              languageElement?.getAttribute("data-mode") ||
-              document.querySelector(".language-selector")?.textContent?.trim() ||
-              "javascript";
-  
-            // Get line count and cursor position if available
-            const lineCount = monacoEditor.querySelectorAll(".view-line").length;
+                      if (monacoEditor) {
+              const languageElement = document.querySelector("[data-mode]");
+                          const language =
+                languageElement?.getAttribute("data-mode") ||
+                document.querySelector(".language-selector")?.textContent?.trim() ||
+                "javascript";
+
+              const lineCount = monacoEditor.querySelectorAll(".view-line").length;
             const cursorElement = monacoEditor.querySelector(".cursor");
             const cursorPosition = cursorElement
               ? `${cursorElement.getAttribute("data-line") || "1"}:${cursorElement.getAttribute("data-column") || "1"}`
@@ -1267,14 +1244,12 @@ import {
             codeEditor = `Language: ${language}\nLine Count: ${lineCount}\nCursor: ${cursorPosition}\n\nCode:\n${codeEditor}`;
           }
         } else {
-          // Fallback to other editors
           const codeEditorElement =
             document.querySelector(".CodeMirror") ||
             document.querySelector('textarea[data-cy="code-editor"]');
-          codeEditor = codeEditorElement?.textContent?.trim() || "";
+                    codeEditor = codeEditorElement?.textContent?.trim() || "";
         }
-  
-        // Collect test cases
+
         const testCasesElement =
           document.querySelector(".testcase__2Z5j") ||
           document.querySelector('[class*="testcase"]');
@@ -1299,9 +1274,8 @@ import {
       this.isLoading = true;
       const content = this.container.querySelector(".lh-content") as HTMLElement;
       if (content) {
-        content.classList.add("loading");
-  
-        // Create loading overlay
+                content.classList.add("loading");
+
         const loadingOverlay = document.createElement("div");
         loadingOverlay.className = "lh-loading-overlay";
         loadingOverlay.innerHTML = `
@@ -1319,9 +1293,8 @@ import {
       this.isLoading = false;
       const content = this.container.querySelector(".lh-content") as HTMLElement;
       if (content) {
-        content.classList.remove("loading");
-  
-        // Remove loading overlay
+                content.classList.remove("loading");
+
         const loadingOverlay = content.querySelector(".lh-loading-overlay");
         if (loadingOverlay) {
           loadingOverlay.remove();
