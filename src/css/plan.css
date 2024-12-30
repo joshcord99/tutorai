@@ -1,3 +1,254 @@
 
 
 
+#leet-helper-overlay .lh-plan {
+    background: #f8f9fa;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-family:
+      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 12px;
+    line-height: 1.2;
+    overflow-x: auto;
+    overflow-y: visible;
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: pre-wrap;
+    border-left: 3px solid #007bff;
+    margin: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #e9ecef;
+    max-width: 100%;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-plan {
+    background: #2d2d2d;
+    border-left: none;
+    box-shadow: none;
+    border-bottom-color: #404040;
+    color: #000;
+  }
+  
+  #leet-helper-overlay .lh-plan h3 {
+    margin: 0 0 1px 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #000;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-plan h3 {
+    color: #000;
+  }
+  
+  #leet-helper-overlay .lh-plan ol {
+    margin: 0;
+    padding-left: 12px;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+  
+  #leet-helper-overlay .lh-plan li {
+    margin: 0;
+    line-height: 1.1;
+    color: #000;
+  }
+  
+  #leet-helper-overlay .lh-plan strong {
+    font-weight: 600;
+    color: #000;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-plan strong {
+    color: #000;
+  }
+  
+  #leet-helper-overlay .lh-plan code {
+    background: #f1f3f4;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 11px;
+    color: #000;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: pre-wrap;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-plan code {
+    background: #404040;
+    color: #000;
+  }
+  
+  #leet-helper-overlay .lh-plan p {
+    color: #000;
+    margin: 0;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+  
+  #leet-helper-overlay .lh-plan-container {
+    margin-top: 15px;
+  }
+  
+  #leet-helper-overlay .lh-plan-content {
+    background: #f8f9fa;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 8px 0;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-plan-content {
+    background: #2d2d2d;
+    border-color: #404040;
+  }
+  
+  #leet-helper-overlay .lh-plan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e1e5e9;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-plan-header {
+    border-bottom-color: #404040;
+  }
+  
+  #leet-helper-overlay .lh-plan-header h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-plan-header h3 {
+    color: #e1e1e1;
+  }
+  
+  #leet-helper-overlay .lh-regenerate-plan {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.2s;
+  }
+  
+  #leet-helper-overlay .lh-regenerate-plan:hover {
+    background: #0056b3;
+  }
+  
+  #leet-helper-overlay .lh-regenerate-plan:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  #leet-helper-overlay .lh-plan-body {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  
+  #leet-helper-overlay .lh-plan-loading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #666;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-plan-loading {
+    background: #404040;
+    color: #ccc;
+  }
+  
+  #leet-helper-overlay .lh-plan-loading .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ddd;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  #leet-helper-overlay .lh-plan-error {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    border: 1px solid #f5c6cb;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-plan-error {
+    background: #4a2c2c;
+    color: #f5c6cb;
+    border-color: #721c24;
+  }
+  
+  #leet-helper-overlay .lh-plan-steps {
+    counter-reset: step-counter;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  #leet-helper-overlay .lh-plan-steps li {
+    counter-increment: step-counter;
+    margin-bottom: 12px;
+    padding: 12px;
+    background: #ffffff;
+    border-radius: 6px;
+    border-left: 4px solid #007bff;
+    position: relative;
+  }
+  
+  #leet-helper-overlay .lh-plan-steps li::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #007bff;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-plan-steps li {
+    background: #374151;
+    border-left-color: #007bff;
+  }
+  
+  #leet-helper-overlay .lh-plan-steps li:last-child {
+    margin-bottom: 0;
+  }
+  
+  #leet-helper-overlay .lh-plan-summary {
+    background: #e7f3ff;
+    border: 1px solid #b3d9ff;
+    border-radius: 6px;
+    padding: 12px;
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-plan-summary {
+    background: #1a3a4a;
+    border-color: #2d5a6b;
+    color: #e1e1e1;
+  }
+  
