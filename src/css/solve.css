@@ -1,3 +1,300 @@
 
 
 
+#leet-helper-overlay .lh-solution-locked {
+    text-align: center;
+    padding: 40px 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px dashed #dee2e6;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-solution-locked {
+    background: #2d2d2d;
+    border-color: #404040;
+  }
+  
+  #leet-helper-overlay .lh-solution-locked p {
+    margin: 0 0 20px 0;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-solution-locked p {
+    color: #ccc;
+  }
+  
+  #leet-helper-overlay .lh-language-selector {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  #leet-helper-overlay .lh-language-selector label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-language-selector label {
+    color: #e1e1e1;
+  }
+  
+  #leet-helper-overlay .lh-language-dropdown {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    min-width: 150px;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-language-dropdown {
+    background: #1f2937;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+  
+  #leet-helper-overlay .lh-reveal-solution {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+  }
+  
+  #leet-helper-overlay .lh-reveal-solution:hover {
+    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
+  }
+  
+  #leet-helper-overlay .lh-reveal-solution:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  #leet-helper-overlay .lh-solution-content {
+    display: none;
+  }
+  
+  #leet-helper-overlay .lh-solution-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e1e5e9;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-solution-header {
+    border-bottom-color: #404040;
+  }
+  
+  #leet-helper-overlay .lh-solution {
+    background: #f8f9fa;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    padding: 16px;
+    font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", monospace;
+    font-size: 12px;
+    line-height: 1.4;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #333;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-solution {
+    background: #1e293b;
+    border-color: #334155;
+    color: #d4d4d4;
+  }
+  
+  #leet-helper-overlay .lh-solution::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  #leet-helper-overlay .lh-solution::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  #leet-helper-overlay .lh-solution::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+  }
+  
+  #leet-helper-overlay .lh-solution::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-solution::-webkit-scrollbar-track {
+    background: #2d3748;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-solution::-webkit-scrollbar-thumb {
+    background: #4a5568;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-solution::-webkit-scrollbar-thumb:hover {
+    background: #718096;
+  }
+  
+  #leet-helper-overlay .lh-solution-copy {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-left: 8px;
+  }
+  
+  #leet-helper-overlay .lh-solution-copy:hover {
+    background: #0056b3;
+  }
+  
+  #leet-helper-overlay .lh-solution-copy:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  #leet-helper-overlay .lh-solution-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    justify-content: flex-end;
+  }
+  
+  #leet-helper-overlay .lh-solution-explanation {
+    background: #e7f3ff;
+    border: 1px solid #b3d9ff;
+    border-radius: 6px;
+    padding: 12px;
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #1a365d;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-solution-explanation {
+    background: #1a3a4a;
+    border-color: #2d5a6b;
+    color: #e1e1e1;
+  }
+  
+  #leet-helper-overlay .lh-solution-explanation h4 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a365d;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-solution-explanation h4 {
+    color: #e1e1e1;
+  }
+  
+  #leet-helper-overlay .lh-solution-explanation p {
+    margin: 0;
+    font-size: 12px;
+  }
+  
+  #leet-helper-overlay .lh-solution-complexity {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    font-size: 12px;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-solution-complexity {
+    background: #2d2d2d;
+  }
+  
+  #leet-helper-overlay .lh-solution-complexity span {
+    font-weight: 600;
+    color: #007bff;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-solution-complexity span {
+    color: #60a5fa;
+  }
+  
+  #leet-helper-overlay .lh-solution-warning {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 6px;
+    padding: 12px;
+    margin-top: 16px;
+    font-size: 12px;
+    color: #856404;
+    text-align: center;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-solution-warning {
+    background: #3d2c1a;
+    border-color: #5a4a2a;
+    color: #f5c6cb;
+  }
+  
+  #leet-helper-overlay .lh-solution-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-solution-loading {
+    background: #2d2d2d;
+    color: #ccc;
+  }
+  
+  #leet-helper-overlay .lh-solution-loading .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ddd;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 12px;
+  }
+  
+  #leet-helper-overlay .lh-solution-error {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    border: 1px solid #f5c6cb;
+    text-align: center;
+  }
+  
+  #leet-helper-overlay.lh-dark .lh-solution-error {
+    background: #4a2c2c;
+    color: #f5c6cb;
+    border-color: #721c24;
+  }
+  
