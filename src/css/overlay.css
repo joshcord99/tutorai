@@ -16,7 +16,6 @@
     resize: both;
     backdrop-filter: blur(10px);
   
-    /* CSS Variables for theming */
     --lh-bg: #ffffff;
     --lh-border: #e2e8f0;
     --lh-soft: #f1f5f9;
@@ -26,7 +25,6 @@
     --lh-accent-strong: #1d4ed8;
     --lh-accent-bg: #eff6ff;
   
-    /* Dark mode variables */
     --lh-dark-bg: #1e293b;
     --lh-dark-border: #334155;
     --lh-dark-text: #f1f5f9;

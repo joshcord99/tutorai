@@ -56,17 +56,20 @@ interface HintsConfig {
   
     public async generateHints(): Promise<void> {
       if (this.isLoading || !this.config.currentProblem) return;
-  
+
+      console.log("Generating hints for problem:", this.config.currentProblem);
       this.isLoading = true;
       this.showLoading();
-  
+
       try {
         const apiKey = this.config.getApiKeyForModel(this.config.selectedModel);
         if (!apiKey) {
+          console.log("No API key found for model:", this.config.selectedModel);
           this.config.showModelKeyError(this.config.selectedModel);
           return;
         }
-  
+
+        console.log("Sending hints request to server...");
         const response = await fetch(`${this.config.serverUrl}/hints`, {
           method: "POST",
           headers: {
@@ -82,14 +85,16 @@ interface HintsConfig {
             ),
           }),
         });
-  
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-  
+
         const data = await response.json();
+        console.log("Received hints from server:", data.hints);
         this.displayHints(data.hints);
       } catch (error) {
+        console.error("Error generating hints:", error);
         this.showError("Failed to generate hints. Please try again.");
       } finally {
         this.isLoading = false;
@@ -98,12 +103,14 @@ interface HintsConfig {
     }
   
     private displayHints(hints: string[]): void {
+      console.log("Displaying hints:", hints);
       const hintsList = this.container.querySelector(
         ".lh-hints-list"
       ) as HTMLElement;
       if (hintsList) {
         hintsList.innerHTML = "";
         hints.forEach((hint, index) => {
+          console.log(`Hint ${index + 1}:`, hint);
           const hintDiv = document.createElement("div");
           hintDiv.className = "lh-hint-item";
           hintDiv.innerHTML = `

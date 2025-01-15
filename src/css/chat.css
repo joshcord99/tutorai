@@ -1,5 +1,4 @@
 
-/* Give the chat a positioning context and leave room for the input bar */
 #leet-helper-overlay .lh-chat-container {
     position: relative;
     margin-top: 15px;
@@ -37,7 +36,6 @@
     color: white;
   }
   
-  /* Input bar: keep it pinned within the container bounds */
   #leet-helper-overlay .lh-chat-input-container {
     position: absolute;
     bottom: 0;
@@ -57,7 +55,6 @@
     border-top-color: #404040;
   }
   
-  /* Make the messages area taller by default */
   #leet-helper-overlay .lh-chat-input-container .lh-chat-messages {
     max-height: 320px;
     overflow-y: auto;
@@ -254,11 +251,6 @@
     color: #9ca3af;
   }
   
-  /* === Class-name compatibility layer ===
-     Your TS uses .lh-user-message / .lh-ai-message
-     Your CSS styles target .lh-chat-message.user / .assistant.
-     Add these to make both work without rewriting everything.
-  */
   #leet-helper-overlay .lh-chat-message.lh-user-message {
     background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
     color: white;
