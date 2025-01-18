@@ -145,13 +145,6 @@ interface EdgeCasesConfig {
       } else {
         console.warn('[EdgeCasesComponent] Edge cases list element not found');
       }
-      
-      setTimeout(() => {
-        if (edgeCasesList) {
-          edgeCasesList.innerHTML = "";
-          console.log('[EdgeCasesComponent] BUG: Cleared edge cases list after display');
-        }
-      }, 100);
     }
   
     private showLoading(): void {
