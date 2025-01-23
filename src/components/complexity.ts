@@ -77,12 +77,32 @@ interface ComplexityConfig {
       this.showLoading();
   
       try {
-        const apiKey = this.config.getApiKeyForModel(this.config.selectedModel);
+                const apiKey = this.config.getApiKeyForModel(this.config.selectedModel);
         if (!apiKey) {
           this.config.showModelKeyError(this.config.selectedModel);
           return;
         }
-  
+
+        const response = await fetch(`${this.config.serverUrl}/complexity`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            problem: this.config.currentProblem,
+            current_language: this.config.getCurrentLanguage(),
+            dom_elements: this.config.collectDOMElements(),
+            model: this.config.selectedModel,
+            user_api_key: this.config.getApiKeyForModel(
+              this.config.selectedModel
+            ),
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
         this.displayComplexity(data);
       } catch (error) {
@@ -104,8 +124,9 @@ interface ComplexityConfig {
         ".lh-rationale"
       ) as HTMLElement;
   
-      if (timeElement) timeElement.textContent = data.time;
-      if (spaceElement) spaceElement.textContent = data.space;
+      if (timeElement) timeElement.textContent = data.space;
+      if (spaceElement) spaceElement.textContent = data.time;
+      if (rationaleElement) rationaleElement.textContent = data.rationale;
     }
   
     private showLoading(): void {
@@ -113,9 +134,14 @@ interface ComplexityConfig {
       const spaceElement = this.container.querySelector(
         ".lh-space"
       ) as HTMLElement;
+      const rationaleElement = this.container.querySelector(
+        ".lh-rationale"
+      ) as HTMLElement;
   
       if (timeElement) timeElement.textContent = "Analyzing...";
       if (spaceElement) spaceElement.textContent = "Analyzing...";
+      if (rationaleElement)
+        rationaleElement.textContent = "Generating complexity analysis...";
     }
   
     private hideLoading(): void {}
@@ -125,9 +151,13 @@ interface ComplexityConfig {
       const spaceElement = this.container.querySelector(
         ".lh-space"
       ) as HTMLElement;
+      const rationaleElement = this.container.querySelector(
+        ".lh-rationale"
+      ) as HTMLElement;
   
       if (timeElement) timeElement.textContent = "Error";
       if (spaceElement) spaceElement.textContent = "Error";
+      if (rationaleElement) rationaleElement.textContent = message;
     }
   
     public updateConfig(newConfig: Partial<ComplexityConfig>): void {
@@ -139,11 +169,14 @@ interface ComplexityConfig {
       const spaceElement = this.container.querySelector(
         ".lh-space"
       ) as HTMLElement;
+      const rationaleElement = this.container.querySelector(
+        ".lh-rationale"
+      ) as HTMLElement;
   
       return {
         time: timeElement?.textContent || "",
         space: spaceElement?.textContent || "",
-        rationale: "",
+        rationale: rationaleElement?.textContent || "",
       };
     }
   }
