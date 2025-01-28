@@ -124,8 +124,8 @@ interface ComplexityConfig {
         ".lh-rationale"
       ) as HTMLElement;
   
-      if (timeElement) timeElement.textContent = data.space;
-      if (spaceElement) spaceElement.textContent = data.time;
+      if (timeElement) timeElement.textContent = data.time;
+      if (spaceElement) spaceElement.textContent = data.space;
       if (rationaleElement) rationaleElement.textContent = data.rationale;
     }
   
