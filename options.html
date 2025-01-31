@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TUTORAI Options</title>
+  <link rel="stylesheet" href="src/css/options.css">
+</head>
+<body>
+  <h1>TUTORAI Options</h1>
+  
+  <div class="section">
+    <h3>Privacy & Security</h3>
+    <div class="form-group">
+      <div class="checkbox-group">
+        <input type="checkbox" id="contestSafeMode">
+        <label for="contestSafeMode">Contest-safe mode (disable on contest pages)</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="checkbox-group">
+        <input type="checkbox" id="localServerEnabled">
+        <label for="localServerEnabled">Send content to local server</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="serverUrl">Local server URL:</label>
+      <input type="url" id="serverUrl" placeholder="http://127.0.0.1:5050">
+    </div>
+    <div class="form-group">
+      <div class="checkbox-group">
+        <input type="checkbox" id="neverUploadToRemote">
+        <label for="neverUploadToRemote">Never upload problem text to remote servers</label>
+      </div>
+      <div class="warning">
+        This setting prevents any data from leaving your device. Keep enabled for maximum privacy.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>AI Model API Keys</h3>
+    <div class="form-group">
+      <label for="openaiApiKey">OpenAI API Key (optional):</label>
+      <input type="password" id="openaiApiKey" placeholder="sk-...">
+      <div class="warning">
+        For development, you can use a .env file. For production, enter your OpenAI API key here.
+        <br><br>
+        <strong>Privacy:</strong> Your API key is stored locally and never sent to remote servers.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="anthropicApiKey">Anthropic (Claude) API Key (optional):</label>
+      <input type="password" id="anthropicApiKey" placeholder="sk-ant-...">
+      <div class="warning">
+        <strong>Privacy:</strong> Your API key is stored locally and never sent to remote servers.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="geminiApiKey">Google Gemini API Key (optional):</label>
+      <input type="password" id="geminiApiKey" placeholder="AIza...">
+      <div class="warning">
+        <strong>Privacy:</strong> Your API key is stored locally and never sent to remote servers.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="claudeApiKey">Claude API Key (optional):</label>
+      <input type="password" id="claudeApiKey" placeholder="sk-ant-...">
+      <div class="warning">
+        <strong>Privacy:</strong> Your API key is stored locally and never sent to remote servers.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Appearance</h3>
+    <div class="form-group">
+      <label for="panelPosition">Panel position:</label>
+      <select id="panelPosition">
+        <option value="bottom-right">Bottom Right</option>
+        <option value="bottom-left">Bottom Left</option>
+        <option value="top-right">Top Right</option>
+        <option value="top-left">Top Left</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <div class="checkbox-group">
+        <input type="checkbox" id="darkMode">
+        <label for="darkMode">Dark mode</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="fontSize">Font size:</label>
+      <select id="fontSize">
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="section">
+    <button class="btn" id="saveSettings">Save Settings</button>
+    <button class="btn btn-secondary" id="resetSettings">Reset to Defaults</button>
+  </div>
+
+  <div class="status" id="status"></div>
+
+  <script src="src/options.js"></script>
+</body>
+</html>
