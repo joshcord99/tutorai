@@ -284,6 +284,5 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 window.addEventListener("beforeunload", () => {
-window.addEventListener("beforeunload", () => {
   leetHelper.destroy();
 });

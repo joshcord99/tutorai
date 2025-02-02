@@ -33,6 +33,7 @@ class ChatMessage(BaseModel):
     current_language: Optional[str] = None
     dom_elements: Optional[dict] = None
     timestamp: Optional[str] = None
+    user_api_key: Optional[str] = None
 
 class ChatResponse(BaseModel):
     message: str

@@ -401,8 +401,9 @@ async def get_hints(problem: Problem, user_api_key: str = None):
             raise HTTPException(status_code=500, detail=f"Failed to generate hints: {str(e)}")
 
 @app.post("/chat", response_model=ChatResponse)
-async def chat_with_ai(message: ChatMessage, user_api_key: str = None):
+async def chat_with_ai(message: ChatMessage):
     """Chat with AI for problem-solving guidance."""
+    user_api_key = getattr(message, 'user_api_key', None)
     client = get_openai_client(user_api_key)
     if not client:
         raise HTTPException(status_code=503, detail="OpenAI API not available")
