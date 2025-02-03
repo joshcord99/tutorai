@@ -8,7 +8,7 @@
   "content_scripts": [
     {
       "matches": ["https://leetcode.com/problems/*"],
-      "js": ["src/content.js"],
+      "js": ["dist/src/content.js"],
       "css": [
         "src/css/overlay.css",
         "src/css/chat.css",
@@ -25,7 +25,7 @@
     }
   ],
   "background": {
-    "service_worker": "src/background.js"
+    "service_worker": "dist/src/background.js"
   },
   "action": {
     "default_title": "TUTORAI"

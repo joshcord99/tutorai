@@ -39,7 +39,7 @@
   }
   
   #leet-helper-overlay .lh-edge-cases li::before {
-    content: "⚠️";
+    content: "";
     margin-right: 8px;
     font-size: 14px;
   }

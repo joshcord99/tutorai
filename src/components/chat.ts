@@ -278,7 +278,7 @@ export class ChatComponent {
     this.config = { ...this.config, ...newConfig };
   }
 
-  /* --- helpers --- */
+  
   private escapeHTML(s: string): string {
     return s
       .replace(/&/g, "&amp;")
