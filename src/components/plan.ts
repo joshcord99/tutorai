@@ -101,14 +101,52 @@ export class PlanComponent {
   private displayPlan(plan: string): void {
     const planElement = this.container.querySelector(".lh-plan") as HTMLElement;
     if (planElement) {
-      planElement.textContent = plan;
+      const formattedPlan = this.formatPlanResponse(plan);
+      planElement.innerHTML = formattedPlan;
     }
+  }
+
+  private formatPlanResponse(plan: string): string {
+    if (!plan || plan.trim() === "") {
+      return '<div class="lh-plan-error">No plan generated. Please try again.</div>';
+    }
+
+    let formattedPlan = plan.trim();
+
+    formattedPlan = formattedPlan
+      .replace(/\n\n+/g, "\n\n")
+      .replace(/^(\d+\.\s*)/gm, "<li>$1")
+      .replace(/(\n)(?=\d+\.\s*)/g, "</li>$1")
+      .replace(/(\n\n)(?=\d+\.\s*)/g, "</li>$1")
+      .replace(/(\n\n)(?=[A-Z][^a-z])/g, "</li>$1<h4>$2")
+      .replace(/(\n)(?=[A-Z][^a-z])/g, "</li>$1<h4>$2")
+      .replace(/([A-Z][^a-z].*?)(?=\n|$)/g, "$1</h4>");
+
+    if (formattedPlan.includes("<li>")) {
+      formattedPlan = '<ol class="lh-plan-steps">' + formattedPlan + "</ol>";
+    }
+
+    formattedPlan = formattedPlan
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")
+      .replace(/`([^`]+)`/g, "<code>$1</code>")
+      .replace(/\n/g, "<br>")
+      .replace(/<br><br>/g, "</p><p>")
+      .replace(/^/, "<p>")
+      .replace(/$/, "</p>");
+
+    return formattedPlan;
   }
 
   private showLoading(): void {
     const planElement = this.container.querySelector(".lh-plan") as HTMLElement;
     if (planElement) {
-      planElement.textContent = "Generating plan...";
+      planElement.innerHTML = `
+        <div class="lh-plan-loading">
+          <div class="spinner"></div>
+          <span>Generating plan...</span>
+        </div>
+      `;
     }
   }
 
@@ -117,7 +155,7 @@ export class PlanComponent {
   private showError(message: string): void {
     const planElement = this.container.querySelector(".lh-plan") as HTMLElement;
     if (planElement) {
-      planElement.textContent = message;
+      planElement.innerHTML = `<div class="lh-plan-error">${message}</div>`;
     }
   }
 

@@ -11,11 +11,11 @@
     --chat-send-btn-hover-bg: green;
     --chat-send-btn-shadow: rgba(16, 185, 129, 0.2);
     --chat-send-btn-hover-shadow: rgba(16, 185, 129, 0.3);
-    --chat-message-user-bg: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+    --chat-message-user-bg: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
     --chat-message-user-color: white;
-    --chat-message-assistant-bg: white;
-    --chat-message-assistant-color: black;
-    --chat-message-assistant-border: black;
+    --chat-message-assistant-bg: #10b981;
+    --chat-message-assistant-color: white;
+    --chat-message-assistant-border: #10b981;
     --chat-loading-bg: white;
     --chat-loading-color: black;
     --chat-error-bg: #f8d7da;
@@ -180,6 +180,7 @@
     line-height: 1.4;
     font-size: 14px;
     box-shadow: 0 2px 8px var(--chat-shadow);
+    transition: all 0.2s ease;
   }
 
   .lh-user-message {
@@ -188,6 +189,12 @@
     margin-left: auto;
     text-align: left;
     border-bottom-right-radius: 4px;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  }
+
+  .lh-user-message:hover {
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+    transform: translateY(-1px);
   }
 
   .lh-ai-message {
@@ -197,6 +204,12 @@
     margin-bottom: 30px;
     border: 1px solid var(--chat-message-assistant-border);
     border-bottom-left-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .lh-ai-message:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
   }
 
   .lh-message-timestamp {

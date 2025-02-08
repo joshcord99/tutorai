@@ -116,10 +116,27 @@ export class EdgeCasesComponent {
       edgeCasesList.innerHTML = "";
       edgeCases.forEach((edgeCase, index) => {
         const li = document.createElement("li");
-        li.textContent = edgeCase;
+        const formattedEdgeCase = this.formatEdgeCase(edgeCase);
+        li.innerHTML = formattedEdgeCase;
         edgeCasesList.appendChild(li);
       });
     }
+  }
+
+  private formatEdgeCase(edgeCase: string): string {
+    if (!edgeCase || edgeCase.trim() === "") {
+      return "Empty edge case";
+    }
+
+    let formattedEdgeCase = edgeCase.trim();
+
+    formattedEdgeCase = formattedEdgeCase
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")
+      .replace(/`([^`]+)`/g, "<code>$1</code>")
+      .replace(/\n/g, "<br>");
+
+    return formattedEdgeCase;
   }
 
   private showLoading(): void {
@@ -127,7 +144,12 @@ export class EdgeCasesComponent {
       ".lh-edge-cases"
     ) as HTMLElement;
     if (edgeCasesList) {
-      edgeCasesList.innerHTML = "<li>Generating edge cases...</li>";
+      edgeCasesList.innerHTML = `
+        <div class="lh-edge-cases-loading">
+          <div class="spinner"></div>
+          <span>Generating edge cases...</span>
+        </div>
+      `;
     }
   }
 
@@ -138,7 +160,7 @@ export class EdgeCasesComponent {
       ".lh-edge-cases"
     ) as HTMLElement;
     if (edgeCasesList) {
-      edgeCasesList.innerHTML = `<li>${message}</li>`;
+      edgeCasesList.innerHTML = `<div class="lh-edge-cases-error">${message}</div>`;
     }
   }
 

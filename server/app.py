@@ -130,12 +130,13 @@ Requirements:
 
 IMPORTANT: Write in plain text only. No HTML, no markdown, no special formatting.
 Use numbered lists (1. 2. 3.) and simple headers.
-DO NOT include edge cases - those belong in a separate section."""
+DO NOT include edge cases - those belong in a separate section.
+DO NOT include time or space complexity analysis - that belongs in a separate section."""
 
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a helpful programming tutor. Create clear, educational step-by-step plans for solving coding problems. IMPORTANT: Always return plain text only - no HTML, no markdown, no special formatting."},
+                {"role": "system", "content": "You are a helpful programming tutor. Create clear, educational step-by-step plans for solving coding problems. IMPORTANT: Always return plain text only - no HTML, no markdown, no special formatting. Do NOT include time complexity, space complexity, or complexity analysis in your plan - those belong in a separate complexity analysis section."},
                 {"role": "user", "content": prompt}
             ],
             max_tokens=250,
