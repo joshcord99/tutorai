@@ -3,23 +3,23 @@
   "name": "TUTORAI",
   "version": "1.0.0",
   "description": "Privacy-preserving coding problem tutor for LeetCode",
-  "permissions": ["activeTab", "scripting", "storage"],
+  "permissions": ["activeTab", "storage", "tabs"],
   "host_permissions": ["https://leetcode.com/*"],
   "content_scripts": [
     {
       "matches": ["https://leetcode.com/problems/*"],
       "js": ["dist/src/content.js"],
       "css": [
-        "src/css/overlay.css",
-        "src/css/chat.css",
-        "src/css/hint.css",
-        "src/css/solve.css",
-        "src/css/edge-cases.css",
-        "src/css/plan.css",
-        "src/css/loading.css",
-        "src/css/disclaimer.css",
-        "src/css/complexity.css",
-        "src/css/model-change.css"
+        "dist/src/css/overlay.css",
+        "dist/src/css/chat.css",
+        "dist/src/css/hint.css",
+        "dist/src/css/solve.css",
+        "dist/src/css/edge-cases.css",
+        "dist/src/css/plan.css",
+        "dist/src/css/loading.css",
+        "dist/src/css/disclaimer.css",
+        "dist/src/css/complexity.css",
+        "dist/src/css/model-change.css"
       ],
       "run_at": "document_idle"
     }

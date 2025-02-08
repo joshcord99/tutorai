@@ -13,6 +13,11 @@ import {
 import { marked } from "marked";
 import { DisclaimerModal } from "./disclaimer";
 import { SolveComponent } from "./solve";
+import { ChatComponent } from "./chat";
+import { HintsComponent } from "./hints";
+import { PlanComponent } from "./plan";
+import { ComplexityComponent } from "./complexity";
+import { EdgeCasesComponent } from "./edge-cases";
 
 marked.setOptions({
   breaks: true,
@@ -28,18 +33,19 @@ export class LeetHelperOverlay {
   private preferences: UserPreferences;
   private currentProblem: Problem | null = null;
   private isLoading = false;
+  private loadingComponents = new Set<string>();
   private selectedLanguage: string = "python";
   private selectedModel: string = "openai";
   private languageDetectionInterval: number | null = null;
   private boundEventHandlers: { [key: string]: any } = {};
   private disclaimerModal!: DisclaimerModal;
   private solveComponent!: SolveComponent;
+  private chatComponent!: ChatComponent;
+  private hintsComponent!: HintsComponent;
+  private planComponent!: PlanComponent;
+  private complexityComponent!: ComplexityComponent;
+  private edgeCasesComponent!: EdgeCasesComponent;
   private userManuallyChangedLanguage: boolean = false;
-  private chatHistory: Array<{
-    role: "user" | "assistant";
-    content: string;
-    timestamp: number;
-  }> = [];
 
   constructor() {
     this.container = this.createContainer();
@@ -76,6 +82,85 @@ export class LeetHelperOverlay {
         this.preferences
       );
     }
+
+    const chatContainer = this.container.querySelector(
+      '.lh-tab-pane[data-tab="chat"]'
+    ) as HTMLElement;
+    if (chatContainer) {
+      this.chatComponent = new ChatComponent(chatContainer, {
+        serverUrl: this.preferences.serverUrl,
+        selectedModel: this.selectedModel,
+        getApiKeyForModel: this.getApiKeyForModel.bind(this),
+        showModelKeyError: this.showModelKeyError.bind(this),
+        currentProblem: this.currentProblem,
+        getCurrentLanguage: this.getCurrentLanguage.bind(this),
+        collectDOMElements: this.collectDOMElements.bind(this),
+      });
+    }
+
+    const hintsContainer = this.container.querySelector(
+      '.lh-tab-pane[data-tab="hints"]'
+    ) as HTMLElement;
+    if (hintsContainer) {
+      this.hintsComponent = new HintsComponent(hintsContainer, {
+        serverUrl: this.preferences.serverUrl,
+        selectedModel: this.selectedModel,
+        getApiKeyForModel: this.getApiKeyForModel.bind(this),
+        showModelKeyError: this.showModelKeyError.bind(this),
+        currentProblem: this.currentProblem,
+        getCurrentLanguage: this.getCurrentLanguage.bind(this),
+        collectDOMElements: this.collectDOMElements.bind(this),
+        finishComponentLoading: this.finishComponentLoading.bind(this),
+      });
+    }
+
+    const planContainer = this.container.querySelector(
+      '.lh-tab-pane[data-tab="plan"]'
+    ) as HTMLElement;
+    if (planContainer) {
+      this.planComponent = new PlanComponent(planContainer, {
+        serverUrl: this.preferences.serverUrl,
+        selectedModel: this.selectedModel,
+        getApiKeyForModel: this.getApiKeyForModel.bind(this),
+        showModelKeyError: this.showModelKeyError.bind(this),
+        currentProblem: this.currentProblem,
+        getCurrentLanguage: this.getCurrentLanguage.bind(this),
+        collectDOMElements: this.collectDOMElements.bind(this),
+        finishComponentLoading: this.finishComponentLoading.bind(this),
+      });
+    }
+
+    const complexityContainer = this.container.querySelector(
+      '.lh-tab-pane[data-tab="complexity"]'
+    ) as HTMLElement;
+    if (complexityContainer) {
+      this.complexityComponent = new ComplexityComponent(complexityContainer, {
+        serverUrl: this.preferences.serverUrl,
+        selectedModel: this.selectedModel,
+        getApiKeyForModel: this.getApiKeyForModel.bind(this),
+        showModelKeyError: this.showModelKeyError.bind(this),
+        currentProblem: this.currentProblem,
+        getCurrentLanguage: this.getCurrentLanguage.bind(this),
+        collectDOMElements: this.collectDOMElements.bind(this),
+        finishComponentLoading: this.finishComponentLoading.bind(this),
+      });
+    }
+
+    const edgeCasesContainer = this.container.querySelector(
+      '.lh-tab-pane[data-tab="edge-cases"]'
+    ) as HTMLElement;
+    if (edgeCasesContainer) {
+      this.edgeCasesComponent = new EdgeCasesComponent(edgeCasesContainer, {
+        serverUrl: this.preferences.serverUrl,
+        selectedModel: this.selectedModel,
+        getApiKeyForModel: this.getApiKeyForModel.bind(this),
+        showModelKeyError: this.showModelKeyError.bind(this),
+        currentProblem: this.currentProblem,
+        getCurrentLanguage: this.getCurrentLanguage.bind(this),
+        collectDOMElements: this.collectDOMElements.bind(this),
+        finishComponentLoading: this.finishComponentLoading.bind(this),
+      });
+    }
   }
 
   private createContainer(): HTMLElement {
@@ -108,36 +193,19 @@ export class LeetHelperOverlay {
           </div>
           <div class="lh-tab-content">
             <div class="lh-tab-pane active" data-tab="chat">
-              <div class="lh-chat-welcome">
-                <button class="lh-btn lh-need-help-btn">Chat</button>
-              </div>
-              <div class="lh-chat" style="display: none;">
-                <div class="lh-chat-messages"></div>
-                <div class="lh-chat-input">
-                  <input type="text" class="lh-chat-text" placeholder="Ask for hints or guidance...">
-                  <button class="lh-btn lh-send-btn">Send</button>
-                </div>
-              </div>
+              <!-- Chat component will be initialized here -->
             </div>
             <div class="lh-tab-pane" data-tab="plan">
-              <pre class="lh-plan"></pre>
+              <!-- Plan component will be initialized here -->
             </div>
             <div class="lh-tab-pane" data-tab="edge-cases">
-              <ul class="lh-edge-cases"></ul>
+              <!-- Edge cases component will be initialized here -->
             </div>
             <div class="lh-tab-pane" data-tab="hints">
-              <div class="lh-hints-list"></div>
+              <!-- Hints component will be initialized here -->
             </div>
             <div class="lh-tab-pane" data-tab="complexity">
-              <div class="lh-complexity">
-                <div class="lh-complexity-item">
-                  <strong>Time:</strong> <span class="lh-time"></span>
-                </div>
-                <div class="lh-complexity-item">
-                  <strong>Space:</strong> <span class="lh-space"></span>
-                </div>
-                <div class="lh-rationale"></div>
-              </div>
+              <!-- Complexity component will be initialized here -->
             </div>
             <div class="lh-tab-pane" data-tab="solution">
               ${SolveComponent.createHTML()}
@@ -237,27 +305,6 @@ export class LeetHelperOverlay {
     }
 
     this.setupLanguageDetection();
-
-    const needHelpBtn = this.container.querySelector(
-      ".lh-need-help-btn"
-    ) as HTMLElement;
-    const chatInput = this.container.querySelector(
-      ".lh-chat-text"
-    ) as HTMLInputElement;
-    const sendBtn = this.container.querySelector(".lh-send-btn") as HTMLElement;
-
-    if (needHelpBtn) {
-      needHelpBtn.addEventListener("click", this.startChat.bind(this));
-    }
-
-    if (chatInput && sendBtn) {
-      sendBtn.addEventListener("click", this.sendChatMessage.bind(this));
-      chatInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-          this.sendChatMessage();
-        }
-      });
-    }
   }
 
   private startDrag(e: MouseEvent): void {
@@ -417,201 +464,33 @@ export class LeetHelperOverlay {
   public updateContent(data: HintResponse, problem?: Problem): void {
     if (problem) {
       this.currentProblem = problem;
+
+      // Start loading for all components
+      this.startComponentLoading("hints");
+      this.startComponentLoading("plan");
+      this.startComponentLoading("complexity");
+      this.startComponentLoading("edge-cases");
+
+      // Update all components with the new problem and trigger data generation
       if (this.solveComponent) {
         this.solveComponent.updateContent(problem);
       }
-    }
-
-    const hintsList = this.container.querySelector(
-      ".lh-hints-list"
-    ) as HTMLElement;
-    const plan = this.container.querySelector(".lh-plan") as HTMLElement;
-    const edgeCases = this.container.querySelector(
-      ".lh-edge-cases"
-    ) as HTMLElement;
-    const time = this.container.querySelector(".lh-time") as HTMLElement;
-    const space = this.container.querySelector(".lh-space") as HTMLElement;
-    const rationale = this.container.querySelector(
-      ".lh-rationale"
-    ) as HTMLElement;
-
-    hintsList.innerHTML = data.hints
-      .map((hint) => `<div class="lh-hint">${marked.parse(hint)}</div>`)
-      .join("");
-    plan.innerHTML = marked.parse(data.plan);
-
-    edgeCases.innerHTML = data.edge_cases
-      .map((edge) => `<li>${marked.parse(edge)}</li>`)
-      .join("");
-    time.textContent = data.complexity.time;
-    space.textContent = data.complexity.space;
-    rationale.innerHTML = marked.parse(data.complexity.rationale);
-  }
-
-  private startChat(): void {
-    const chatWelcome = this.container.querySelector(
-      ".lh-chat-welcome"
-    ) as HTMLElement;
-    const chat = this.container.querySelector(".lh-chat") as HTMLElement;
-    const chatMessages = this.container.querySelector(
-      ".lh-chat-messages"
-    ) as HTMLElement;
-
-    if (!chatWelcome || !chat || !chatMessages) return;
-
-    chatWelcome.style.display = "none";
-    chat.style.display = "block";
-
-    if (this.chatHistory.length > 0) {
-      this.displayChatHistory();
-    } else {
-      const aiMessageDiv = document.createElement("div");
-      aiMessageDiv.className = "lh-chat-message lh-ai-message";
-      aiMessageDiv.innerHTML = `<div class="lh-message-content">Hello! I'm here to help you with this problem. What would you like to know?</div>`;
-      chatMessages.appendChild(aiMessageDiv);
-    }
-
-    const chatInput = this.container.querySelector(
-      ".lh-chat-text"
-    ) as HTMLInputElement;
-    if (chatInput) {
-      chatInput.focus();
-    }
-  }
-
-  private displayChatHistory(): void {
-    const chatMessages = this.container.querySelector(
-      ".lh-chat-messages"
-    ) as HTMLElement;
-
-    if (!chatMessages || this.chatHistory.length === 0) return;
-
-    chatMessages.innerHTML = "";
-
-    this.chatHistory.forEach((msg) => {
-      const messageDiv = document.createElement("div");
-      messageDiv.className = `lh-chat-message lh-${msg.role === "user" ? "user" : "ai"}-message`;
-      messageDiv.innerHTML = `<div class="lh-message-content">${msg.role === "user" ? msg.content : marked.parse(msg.content)}</div>`;
-      chatMessages.appendChild(messageDiv);
-    });
-
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-
-  private clearChatHistory(): void {
-    this.chatHistory = [];
-    const chatMessages = this.container.querySelector(
-      ".lh-chat-messages"
-    ) as HTMLElement;
-    if (chatMessages) {
-      chatMessages.innerHTML = "";
-    }
-  }
-
-  private async sendChatMessage(): Promise<void> {
-    const chatInput = this.container.querySelector(
-      ".lh-chat-text"
-    ) as HTMLInputElement;
-    const chatMessages = this.container.querySelector(
-      ".lh-chat-messages"
-    ) as HTMLElement;
-
-    if (!chatInput || !chatMessages) return;
-
-    const message = chatInput.value.trim();
-    if (!message) return;
-
-    this.chatHistory.push({
-      role: "user",
-      content: message,
-      timestamp: Date.now(),
-    });
-
-    const userMessageDiv = document.createElement("div");
-    userMessageDiv.className = "lh-chat-message lh-user-message";
-    userMessageDiv.innerHTML = `<div class="lh-message-content">${message}</div>`;
-    chatMessages.appendChild(userMessageDiv);
-
-    chatInput.value = "";
-
-    const loadingDiv = document.createElement("div");
-    loadingDiv.className = "lh-chat-message lh-ai-message lh-loading";
-    loadingDiv.innerHTML = `<div class="lh-message-content">Thinking...</div>`;
-    chatMessages.appendChild(loadingDiv);
-
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    try {
-      const apiKey = this.getApiKeyForModel(this.selectedModel);
-      if (!apiKey) {
-        this.showModelKeyError(this.selectedModel);
-        return;
+      if (this.hintsComponent) {
+        this.hintsComponent.updateConfig({ currentProblem: problem });
+        this.hintsComponent.generateHints();
       }
-
-      const problemContext = `Problem: ${this.currentProblem?.title || "Unknown"}\nDescription: ${this.currentProblem?.description || "No description available"}`;
-
-      const currentLanguage = this.getCurrentLanguage();
-
-      const domElements = this.collectDOMElements();
-
-      const conversationHistory = this.chatHistory
-        .slice(-10)
-        .map(
-          (msg) =>
-            `${msg.role === "user" ? "User" : "Assistant"}: ${msg.content}`
-        )
-        .join("\n");
-
-      const response = await fetch(`${this.preferences.serverUrl}/chat`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          content: message,
-          problem_context: problemContext,
-          current_language: currentLanguage,
-          dom_elements: domElements,
-          conversation_history: conversationHistory,
-          timestamp: new Date().toISOString(),
-          model: this.selectedModel,
-          user_api_key: this.getApiKeyForModel(this.selectedModel),
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (this.planComponent) {
+        this.planComponent.updateConfig({ currentProblem: problem });
+        this.planComponent.generatePlan();
       }
-
-      const data = await response.json();
-
-      chatMessages.removeChild(loadingDiv);
-
-      this.chatHistory.push({
-        role: "assistant",
-        content: data.message,
-        timestamp: Date.now(),
-      });
-
-      const aiMessageDiv = document.createElement("div");
-      aiMessageDiv.className = "lh-chat-message lh-ai-message";
-      aiMessageDiv.innerHTML = `<div class="lh-message-content">${marked.parse(data.message)}</div>`;
-      chatMessages.appendChild(aiMessageDiv);
-
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    } catch (error) {
-      chatMessages.removeChild(loadingDiv);
-
-      const errorDiv = document.createElement("div");
-      errorDiv.className = "lh-chat-message lh-error-message";
-      const messageDiv = document.createElement("div");
-      messageDiv.className = "lh-message-content";
-      messageDiv.textContent =
-        "Sorry, I couldn't process your message. Please try again.";
-      errorDiv.appendChild(messageDiv);
-      chatMessages.appendChild(errorDiv);
-
-      chatMessages.scrollTop = chatMessages.scrollHeight;
+      if (this.complexityComponent) {
+        this.complexityComponent.updateConfig({ currentProblem: problem });
+        this.complexityComponent.generateComplexity();
+      }
+      if (this.edgeCasesComponent) {
+        this.edgeCasesComponent.updateConfig({ currentProblem: problem });
+        this.edgeCasesComponent.generateEdgeCases();
+      }
     }
   }
 
@@ -1059,7 +938,7 @@ export class LeetHelperOverlay {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ...this.currentProblem,
+          problem: this.currentProblem,
           model: model,
           user_api_key: this.getApiKeyForModel(model),
         }),
@@ -1083,16 +962,26 @@ export class LeetHelperOverlay {
       return null;
     }
 
+    let apiKey: string | null = null;
     switch (model) {
       case "openai":
-        return this.preferences.openaiApiKey || null;
+        apiKey = this.preferences.openaiApiKey || null;
+        break;
       case "anthropic":
-        return this.preferences.anthropicApiKey || null;
+        apiKey = this.preferences.anthropicApiKey || null;
+        break;
       case "gemini":
-        return this.preferences.geminiApiKey || null;
+        apiKey = this.preferences.geminiApiKey || null;
+        break;
       default:
-        return this.preferences.openaiApiKey || null;
+        apiKey = this.preferences.openaiApiKey || null;
+        break;
     }
+
+    if (!apiKey) {
+      // API key not found
+    }
+    return apiKey;
   }
 
   private isValidLanguage(text: string): boolean {
@@ -1148,7 +1037,7 @@ export class LeetHelperOverlay {
     const modelName = model.charAt(0).toUpperCase() + model.slice(1);
     errorDiv.innerHTML = `
         <strong>TUTORAI</strong><br>
-        No API key found for ${modelName}. Please add your ${modelName} API key in the extension options.
+        No API key found for ${modelName}. Please add your ${modelName} API key in the extension options or right-click the extension icon and select "Options".
       `;
 
     document.body.appendChild(errorDiv);
@@ -1298,6 +1187,28 @@ export class LeetHelperOverlay {
       if (loadingOverlay) {
         loadingOverlay.remove();
       }
+    }
+  }
+
+  public startComponentLoading(componentName: string): void {
+    this.loadingComponents.add(componentName);
+    this.showLoading();
+
+    // Set a timeout to force hide loading after 30 seconds
+    setTimeout(() => {
+      this.loadingComponents.delete(componentName);
+      if (this.loadingComponents.size === 0) {
+        this.hideLoading();
+      }
+    }, 30000);
+  }
+
+  public finishComponentLoading(componentName: string): void {
+    this.loadingComponents.delete(componentName);
+
+    // Only hide loading if all components are done
+    if (this.loadingComponents.size === 0) {
+      this.hideLoading();
     }
   }
 

@@ -1,1 +1,19 @@
+.lh-model-dropdown {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: #495057;
+  cursor: pointer;
+  outline: none;
+}
 
+.lh-model-dropdown:hover {
+  border-color: #adb5bd;
+}
+
+.lh-model-dropdown:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}

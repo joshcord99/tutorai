@@ -1,4 +1,3 @@
-
 import { marked } from "marked";
 
 interface ChatMessage {
@@ -278,7 +277,6 @@ export class ChatComponent {
     this.config = { ...this.config, ...newConfig };
   }
 
-  
   private escapeHTML(s: string): string {
     return s
       .replace(/&/g, "&amp;")

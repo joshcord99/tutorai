@@ -140,6 +140,9 @@ class LeetHelperContent {
     this.currentProblem = problem;
 
     if (this.preferences.localServerEnabled) {
+      if (!this.preferences.openaiApiKey) {
+        return;
+      }
       await this.fetchHints(problem);
     }
   }
@@ -159,7 +162,7 @@ class LeetHelperContent {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          ...problem,
+          problem: problem,
           user_api_key: this.preferences.openaiApiKey || null,
         }),
         signal: controller.signal,
@@ -174,12 +177,17 @@ class LeetHelperContent {
       const data: HintResponse = await response.json();
       this.overlay.updateContent(data, problem);
 
-      this.overlay.hideLoading();
+      // Don't hide loading here - let the overlay manage it
     } catch (error) {
       this.overlay.hideLoading();
 
       if (error instanceof Error && error.name === "AbortError") {
         this.showTimeoutNotice();
+      } else if (
+        error instanceof Error &&
+        error.message.includes("Failed to fetch")
+      ) {
+        this.showServerConnectionError();
       } else {
         this.showErrorNotice();
       }
@@ -248,8 +256,43 @@ class LeetHelperContent {
     }, 5000);
   }
 
+  private showServerConnectionError(): void {
+    const notice = document.createElement("div");
+    notice.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 13px;
+      color: #721c24;
+      z-index: 9999;
+      max-width: 300px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    `;
+    notice.innerHTML = `
+      <strong>TUTORAI</strong><br>
+      Cannot connect to local server. Make sure the server is running at ${this.preferences.serverUrl}
+    `;
+
+    document.body.appendChild(notice);
+
+    setTimeout(() => {
+      if (notice.parentNode) {
+        notice.parentNode.removeChild(notice);
+      }
+    }, 5000);
+  }
+
   public toggleOverlay(): void {
     if (isContestPage()) {
+      return;
+    }
+
+    if (!this.overlay) {
       return;
     }
 
@@ -274,15 +317,56 @@ class LeetHelperContent {
   }
 }
 
-const leetHelper = new LeetHelperContent();
+let leetHelper: LeetHelperContent | null = null;
+let isInitializing = false;
+
+function initializeLeetHelper() {
+  if (!leetHelper && !isInitializing) {
+    isInitializing = true;
+    try {
+      leetHelper = new LeetHelperContent();
+    } catch (error) {
+      // Failed to initialize TUTORAI
+    } finally {
+      isInitializing = false;
+    }
+  }
+}
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === "toggle") {
-    leetHelper.toggleOverlay();
-    sendResponse({ success: true });
+  try {
+    if (message.action === "toggle") {
+      if (!leetHelper) {
+        initializeLeetHelper();
+        // Give a small delay for initialization
+        setTimeout(() => {
+          if (leetHelper) {
+            leetHelper.toggleOverlay();
+          }
+        }, 100);
+        sendResponse({ success: true });
+      } else {
+        leetHelper.toggleOverlay();
+        sendResponse({ success: true });
+      }
+    }
+  } catch (error) {
+    sendResponse({
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
   }
 });
 
+// Initialize when the script loads
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeLeetHelper);
+} else {
+  initializeLeetHelper();
+}
+
 window.addEventListener("beforeunload", () => {
-  leetHelper.destroy();
+  if (leetHelper) {
+    leetHelper.destroy();
+  }
 });

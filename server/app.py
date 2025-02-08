@@ -346,8 +346,10 @@ Use simple headers and indented code."""
 
 
 @app.post("/hints", response_model=HintResponse)
-async def get_hints(problem: Problem, user_api_key: str = None):
+async def get_hints(request: dict):
     """Generate AI-powered hints and guidance for a coding problem."""
+    problem = Problem(**request.get("problem", {}))
+    user_api_key = request.get("user_api_key")
     try:
         tags = infer_tags(problem)
         
@@ -493,6 +495,50 @@ async def get_solution(request: dict):
         return {"solution": solution}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate solution: {str(e)}")
+
+@app.post("/plan")
+async def get_plan(request: dict):
+    """Generate AI-powered step-by-step plan."""
+    problem = Problem(**request.get("problem", {}))
+    user_api_key = request.get("user_api_key")
+    
+    try:
+        tags = infer_tags(problem)
+        client = get_openai_client(user_api_key)
+        plan = generate_plan(problem, tags, client)
+        
+        return {"plan": plan}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate plan: {str(e)}")
+
+@app.post("/complexity")
+async def get_complexity(request: dict):
+    """Generate AI-powered complexity analysis."""
+    problem = Problem(**request.get("problem", {}))
+    user_api_key = request.get("user_api_key")
+    
+    try:
+        tags = infer_tags(problem)
+        client = get_openai_client(user_api_key)
+        complexity = analyze_complexity(problem, tags, client)
+        
+        return {"complexity": complexity}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate complexity analysis: {str(e)}")
+
+@app.post("/edge-cases")
+async def get_edge_cases(request: dict):
+    """Generate AI-powered edge cases."""
+    problem = Problem(**request.get("problem", {}))
+    user_api_key = request.get("user_api_key")
+    
+    try:
+        client = get_openai_client(user_api_key)
+        edge_cases = generate_edge_cases(problem, client)
+        
+        return {"edge_cases": edge_cases}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate edge cases: {str(e)}")
 
 @app.get("/health")
 async def health_check():
