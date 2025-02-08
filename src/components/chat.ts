@@ -33,32 +33,16 @@ export class ChatComponent {
       this.container.classList.add("lh-chat-container");
     }
 
-    const chatContainer = document.createElement("div");
-    chatContainer.innerHTML = `
+    this.container.innerHTML = `
       <div class="lh-chat-welcome">
         <button class="lh-btn lh-need-help-btn">Chat</button>
       </div>
-    `;
-    const chatInputContainer = document.createElement("div");
-    chatInputContainer.className = "lh-chat-input-container";
-    chatInputContainer.style.display = "none";
-
-    chatInputContainer.innerHTML = `
-      <div class="lh-chat-messages"></div>
-      <div class="lh-chat-input">
+      <div class="lh-chat-messages" style="display: none;"></div>
+      <div class="lh-chat-input" style="display: none;">
         <input type="text" class="lh-chat-text" placeholder="Ask for hints or guidance..." />
         <button class="lh-btn lh-send-btn" disabled>Send</button>
       </div>
     `;
-
-    const existingWelcome = this.container.querySelector(".lh-chat-welcome");
-    if (existingWelcome && existingWelcome.parentElement) {
-      existingWelcome.parentElement.replaceWith(chatContainer);
-    } else {
-      this.container.appendChild(chatContainer);
-    }
-
-    this.container.appendChild(chatInputContainer);
 
     this.setupEventListeners();
   }
@@ -100,18 +84,19 @@ export class ChatComponent {
     const chatWelcome = this.container.querySelector(
       ".lh-chat-welcome"
     ) as HTMLElement | null;
-    const chatInputContainer = this.container.querySelector(
-      ".lh-chat-input-container"
-    ) as HTMLElement | null;
     const chatMessages = this.container.querySelector(
       ".lh-chat-messages"
     ) as HTMLElement | null;
+    const chatInput = this.container.querySelector(
+      ".lh-chat-input"
+    ) as HTMLElement | null;
 
-    if (!chatWelcome || !chatInputContainer || !chatMessages) return;
+    if (!chatWelcome || !chatMessages || !chatInput) return;
 
     this.isVisible = true;
     chatWelcome.style.display = "none";
-    chatInputContainer.style.display = "block";
+    chatMessages.style.display = "block";
+    chatInput.style.display = "flex";
 
     if (this.chatHistory.length > 0) {
       this.displayChatHistory();
@@ -122,23 +107,27 @@ export class ChatComponent {
       chatMessages.appendChild(aiMessageDiv);
     }
 
-    const chatInput = this.container.querySelector(
+    const chatInputField = this.container.querySelector(
       ".lh-chat-text"
     ) as HTMLInputElement | null;
-    chatInput?.focus();
+    chatInputField?.focus();
   }
 
   public hideChat(): void {
     const chatWelcome = this.container.querySelector(
       ".lh-chat-welcome"
     ) as HTMLElement | null;
-    const chatInputContainer = this.container.querySelector(
-      ".lh-chat-input-container"
+    const chatMessages = this.container.querySelector(
+      ".lh-chat-messages"
     ) as HTMLElement | null;
-    if (chatWelcome && chatInputContainer) {
+    const chatInput = this.container.querySelector(
+      ".lh-chat-input"
+    ) as HTMLElement | null;
+    if (chatWelcome && chatMessages && chatInput) {
       this.isVisible = false;
       chatWelcome.style.display = "flex";
-      chatInputContainer.style.display = "none";
+      chatMessages.style.display = "none";
+      chatInput.style.display = "none";
     }
   }
 
