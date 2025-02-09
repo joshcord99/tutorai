@@ -118,7 +118,7 @@ export class ComplexityComponent {
     }
   }
 
-  private displayComplexity(data: ComplexityData): void {
+  public displayComplexity(data: ComplexityData): void {
     const timeElement = this.container.querySelector(".lh-time") as HTMLElement;
     const spaceElement = this.container.querySelector(
       ".lh-space"
@@ -149,7 +149,7 @@ export class ComplexityComponent {
 
   private hideLoading(): void {}
 
-  private showError(message: string): void {
+  public showError(message: string): void {
     const timeElement = this.container.querySelector(".lh-time") as HTMLElement;
     const spaceElement = this.container.querySelector(
       ".lh-space"

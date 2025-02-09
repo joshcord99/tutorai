@@ -461,36 +461,130 @@ export class LeetHelperOverlay {
     }
   }
 
-  public updateContent(data: HintResponse, problem?: Problem): void {
+  public async updateContent(
+    data: HintResponse,
+    problem?: Problem
+  ): Promise<void> {
     if (problem) {
       this.currentProblem = problem;
+      await this.loadAllTutoringData(problem);
+    }
+  }
 
-      // Start loading for all components
-      this.startComponentLoading("hints");
-      this.startComponentLoading("plan");
-      this.startComponentLoading("complexity");
-      this.startComponentLoading("edge-cases");
+  private async loadAllTutoringData(problem: Problem): Promise<void> {
+    this.startComponentLoading("hints");
+    this.startComponentLoading("plan");
+    this.startComponentLoading("complexity");
+    this.startComponentLoading("edge-cases");
 
-      // Update all components with the new problem and trigger data generation
-      if (this.solveComponent) {
-        this.solveComponent.updateContent(problem);
+    if (this.solveComponent) {
+      this.solveComponent.updateContent(problem);
+    }
+
+    try {
+      const apiKey = this.getApiKeyForModel(this.selectedModel);
+      if (!apiKey) {
+        this.showModelKeyError(this.selectedModel);
+        return;
       }
-      if (this.hintsComponent) {
-        this.hintsComponent.updateConfig({ currentProblem: problem });
-        this.hintsComponent.generateHints();
+
+      const requestBody = {
+        problem: problem,
+        current_language: this.getCurrentLanguage(),
+        dom_elements: this.collectDOMElements(),
+        model: this.selectedModel,
+        user_api_key: apiKey,
+      };
+
+      const [
+        hintsResponse,
+        planResponse,
+        complexityResponse,
+        edgeCasesResponse,
+      ] = await Promise.allSettled([
+        fetch(`${this.preferences.serverUrl}/hints`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestBody),
+        }),
+        fetch(`${this.preferences.serverUrl}/plan`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestBody),
+        }),
+        fetch(`${this.preferences.serverUrl}/complexity`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestBody),
+        }),
+        fetch(`${this.preferences.serverUrl}/edge-cases`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestBody),
+        }),
+      ]);
+
+      if (hintsResponse.status === "fulfilled" && hintsResponse.value.ok) {
+        const hintsData = await hintsResponse.value.json();
+        if (this.hintsComponent) {
+          this.hintsComponent.updateConfig({ currentProblem: problem });
+          this.hintsComponent.displayHints(hintsData.hints);
+        }
+      } else if (this.hintsComponent) {
+        this.hintsComponent.showError("Failed to load hints");
       }
-      if (this.planComponent) {
-        this.planComponent.updateConfig({ currentProblem: problem });
-        this.planComponent.generatePlan();
+
+      if (planResponse.status === "fulfilled" && planResponse.value.ok) {
+        const planData = await planResponse.value.json();
+        if (this.planComponent) {
+          this.planComponent.updateConfig({ currentProblem: problem });
+          this.planComponent.displayPlan(planData.plan);
+        }
+      } else if (this.planComponent) {
+        this.planComponent.showError("Failed to load plan");
       }
-      if (this.complexityComponent) {
-        this.complexityComponent.updateConfig({ currentProblem: problem });
-        this.complexityComponent.generateComplexity();
+
+      if (
+        complexityResponse.status === "fulfilled" &&
+        complexityResponse.value.ok
+      ) {
+        const complexityData = await complexityResponse.value.json();
+        if (this.complexityComponent) {
+          this.complexityComponent.updateConfig({ currentProblem: problem });
+          this.complexityComponent.displayComplexity(complexityData.complexity);
+        }
+      } else if (this.complexityComponent) {
+        this.complexityComponent.showError(
+          "Failed to load complexity analysis"
+        );
       }
-      if (this.edgeCasesComponent) {
-        this.edgeCasesComponent.updateConfig({ currentProblem: problem });
-        this.edgeCasesComponent.generateEdgeCases();
+
+      if (
+        edgeCasesResponse.status === "fulfilled" &&
+        edgeCasesResponse.value.ok
+      ) {
+        const edgeCasesData = await edgeCasesResponse.value.json();
+        if (this.edgeCasesComponent) {
+          this.edgeCasesComponent.updateConfig({ currentProblem: problem });
+          this.edgeCasesComponent.displayEdgeCases(edgeCasesData.edge_cases);
+        }
+      } else if (this.edgeCasesComponent) {
+        this.edgeCasesComponent.showError("Failed to load edge cases");
       }
+    } catch (error) {
+      if (this.hintsComponent)
+        this.hintsComponent.showError("Failed to load data");
+      if (this.planComponent)
+        this.planComponent.showError("Failed to load data");
+      if (this.complexityComponent)
+        this.complexityComponent.showError("Failed to load data");
+      if (this.edgeCasesComponent)
+        this.edgeCasesComponent.showError("Failed to load data");
+    } finally {
+      this.finishComponentLoading("hints");
+      this.finishComponentLoading("plan");
+      this.finishComponentLoading("complexity");
+      this.finishComponentLoading("edge-cases");
     }
   }
 
@@ -931,30 +1025,7 @@ export class LeetHelperOverlay {
       return;
     }
 
-    try {
-      const response = await fetch(`${this.preferences.serverUrl}/hints`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          problem: this.currentProblem,
-          model: model,
-          user_api_key: this.getApiKeyForModel(model),
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      this.updateContent(data, this.currentProblem);
-    } catch (error) {
-    } finally {
-      this.hideLoading();
-    }
+    await this.loadAllTutoringData(this.currentProblem);
   }
 
   private getApiKeyForModel(model: string): string | null {
@@ -979,7 +1050,6 @@ export class LeetHelperOverlay {
     }
 
     if (!apiKey) {
-      // API key not found
     }
     return apiKey;
   }
@@ -1194,7 +1264,6 @@ export class LeetHelperOverlay {
     this.loadingComponents.add(componentName);
     this.showLoading();
 
-    // Set a timeout to force hide loading after 30 seconds
     setTimeout(() => {
       this.loadingComponents.delete(componentName);
       if (this.loadingComponents.size === 0) {
@@ -1206,7 +1275,6 @@ export class LeetHelperOverlay {
   public finishComponentLoading(componentName: string): void {
     this.loadingComponents.delete(componentName);
 
-    // Only hide loading if all components are done
     if (this.loadingComponents.size === 0) {
       this.hideLoading();
     }

@@ -108,33 +108,63 @@ export class EdgeCasesComponent {
     }
   }
 
-  private displayEdgeCases(edgeCases: string[]): void {
+  public displayEdgeCases(edgeCases: string[]): void {
     const edgeCasesList = this.container.querySelector(
       ".lh-edge-cases"
     ) as HTMLElement;
     if (edgeCasesList) {
       edgeCasesList.innerHTML = "";
-      edgeCases.forEach((edgeCase, index) => {
-        const li = document.createElement("li");
-        const formattedEdgeCase = this.formatEdgeCase(edgeCase);
-        li.innerHTML = formattedEdgeCase;
-        edgeCasesList.appendChild(li);
-      });
+
+      const combinedEdgeCases = edgeCases.join("\n");
+      const formattedEdgeCases = this.formatEdgeCase(combinedEdgeCases);
+      edgeCasesList.innerHTML = formattedEdgeCases;
     }
   }
 
   private formatEdgeCase(edgeCase: string): string {
     if (!edgeCase || edgeCase.trim() === "") {
-      return "Empty edge case";
+      return '<div class="lh-edge-cases-error">No edge cases generated. Please try again.</div>';
     }
 
     let formattedEdgeCase = edgeCase.trim();
 
+    const lines = formattedEdgeCase.split("\n");
+    const result: string[] = [];
+    let currentItem: string[] = [];
+    let inNumberedItem = false;
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const isNumberedLine = /^\d+\.\s*/.test(line);
+
+      if (isNumberedLine) {
+        if (inNumberedItem && currentItem.length > 0) {
+          result.push("<li>" + currentItem.join("<br>") + "</li>");
+        }
+        currentItem = [line];
+        inNumberedItem = true;
+      } else if (inNumberedItem) {
+        currentItem.push(line);
+      } else {
+        result.push(line);
+      }
+    }
+
+    if (inNumberedItem && currentItem.length > 0) {
+      result.push("<li>" + currentItem.join("<br>") + "</li>");
+    }
+
+    formattedEdgeCase = result.join("\n");
+
+    if (formattedEdgeCase.includes("<li>")) {
+      formattedEdgeCase =
+        '<ol class="lh-edge-cases-steps">' + formattedEdgeCase + "</ol>";
+    }
+
     formattedEdgeCase = formattedEdgeCase
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
       .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      .replace(/`([^`]+)`/g, "<code>$1</code>")
-      .replace(/\n/g, "<br>");
+      .replace(/`([^`]+)`/g, "<code>$1</code>");
 
     return formattedEdgeCase;
   }
@@ -155,7 +185,7 @@ export class EdgeCasesComponent {
 
   private hideLoading(): void {}
 
-  private showError(message: string): void {
+  public showError(message: string): void {
     const edgeCasesList = this.container.querySelector(
       ".lh-edge-cases"
     ) as HTMLElement;

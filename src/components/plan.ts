@@ -98,7 +98,7 @@ export class PlanComponent {
     }
   }
 
-  private displayPlan(plan: string): void {
+  public displayPlan(plan: string): void {
     const planElement = this.container.querySelector(".lh-plan") as HTMLElement;
     if (planElement) {
       const formattedPlan = this.formatPlanResponse(plan);
@@ -152,7 +152,7 @@ export class PlanComponent {
 
   private hideLoading(): void {}
 
-  private showError(message: string): void {
+  public showError(message: string): void {
     const planElement = this.container.querySelector(".lh-plan") as HTMLElement;
     if (planElement) {
       planElement.innerHTML = `<div class="lh-plan-error">${message}</div>`;

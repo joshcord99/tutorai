@@ -151,46 +151,12 @@ class LeetHelperContent {
     try {
       this.overlay.showLoading();
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => {
-        controller.abort();
-      }, 30000);
+      await this.overlay.updateContent({} as HintResponse, problem);
 
-      const response = await fetch(`${this.preferences.serverUrl}/hints`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          problem: problem,
-          user_api_key: this.preferences.openaiApiKey || null,
-        }),
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeoutId);
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-
-      const data: HintResponse = await response.json();
-      this.overlay.updateContent(data, problem);
-
-      // Don't hide loading here - let the overlay manage it
+      this.overlay.hideLoading();
     } catch (error) {
       this.overlay.hideLoading();
-
-      if (error instanceof Error && error.name === "AbortError") {
-        this.showTimeoutNotice();
-      } else if (
-        error instanceof Error &&
-        error.message.includes("Failed to fetch")
-      ) {
-        this.showServerConnectionError();
-      } else {
-        this.showErrorNotice();
-      }
+      this.showErrorNotice();
     }
   }
 

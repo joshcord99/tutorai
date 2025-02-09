@@ -18,7 +18,6 @@ if api_key:
     openai_client = OpenAI(api_key=api_key)
 
 def get_openai_client(user_api_key: str = None):
-    """Get OpenAI client with either user-provided key or .env key"""
     if user_api_key:
         return OpenAI(api_key=user_api_key)
     elif api_key:
@@ -34,7 +33,6 @@ app.add_middleware(
 )
 
 def infer_tags(problem: Problem) -> List[str]:
-    """Infer problem tags based on content analysis."""
     text = f"{problem.title} {problem.description}".lower()
     tags = []
     
@@ -75,7 +73,6 @@ def infer_tags(problem: Problem) -> List[str]:
     return tags[:5]
 
 def generate_hints(problem: Problem, tags: List[str], client: OpenAI = None) -> List[str]:
-    """Generate AI-powered hints based on problem analysis."""
     if not client:
         return ["AI hints not available - using fallback hints"]
     
@@ -111,7 +108,6 @@ Write one hint per line."""
         return ["AI hints not available - using fallback hints"]
 
 def generate_plan(problem: Problem, tags: List[str], client: OpenAI = None) -> str:
-    """Generate AI-powered step-by-step plan."""
     if not client:
         return "AI plan not available - using fallback plan"
     
@@ -149,7 +145,6 @@ DO NOT include time or space complexity analysis - that belongs in a separate se
         return "AI plan not available - using fallback plan"
 
 def generate_edge_cases(problem: Problem, client: OpenAI = None) -> List[str]:
-    """Generate AI-powered edge cases."""
     if not client:
         return ["AI edge cases not available - using fallback edge cases"]
     
@@ -184,7 +179,6 @@ Write one edge case per line."""
         return ["AI edge cases not available - using fallback edge cases"]
 
 def analyze_complexity(problem: Problem, tags: List[str], client: OpenAI = None) -> Complexity:
-    """Analyze AI-powered time and space complexity."""
     if not client:
         return Complexity(
             time="AI analysis not available",
@@ -248,7 +242,6 @@ Rationale: [explanation]"""
         )
 
 def generate_solution(problem: Problem, tags: List[str], client: OpenAI = None) -> str:
-    """Generate AI-powered sample solution."""
     if not client:
         return "AI solution not available - using fallback solution"
     
@@ -284,7 +277,6 @@ Use simple headers and indented code."""
         return "AI solution not available due to error."
 
 def generate_solution_in_language(problem: Problem, tags: List[str], language: str, client: OpenAI = None) -> str:
-    """Generate AI-powered sample solution in specific language."""
     if not client:
         return "AI solution not available - using fallback solution"
     
@@ -346,9 +338,26 @@ Use simple headers and indented code."""
 
 
 
-@app.post("/hints", response_model=HintResponse)
+@app.post("/hints")
 async def get_hints(request: dict):
-    """Generate AI-powered hints and guidance for a coding problem."""
+    problem = Problem(**request.get("problem", {}))
+    user_api_key = request.get("user_api_key")
+    
+    try:
+        tags = infer_tags(problem)
+        client = get_openai_client(user_api_key)
+        hints = generate_hints(problem, tags, client)
+        
+        return {"hints": hints}
+    except Exception as e:
+        try:
+            fallback_hints = ["Consider the problem step by step", "Think about the data structures you might need", "Start with a simple approach"]
+            return {"hints": fallback_hints}
+        except Exception:
+            raise HTTPException(status_code=500, detail=f"Failed to generate hints: {str(e)}")
+
+@app.post("/tutoring", response_model=HintResponse)
+async def get_tutoring(request: dict):
     problem = Problem(**request.get("problem", {}))
     user_api_key = request.get("user_api_key")
     try:
@@ -401,11 +410,10 @@ async def get_hints(request: dict):
                 disclaimer="This guidance is for personal educational use only. Not affiliated with LeetCode."
             )
         except Exception:
-            raise HTTPException(status_code=500, detail=f"Failed to generate hints: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Failed to generate tutoring content: {str(e)}")
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat_with_ai(message: ChatMessage):
-    """Chat with AI for problem-solving guidance."""
     user_api_key = getattr(message, 'user_api_key', None)
     client = get_openai_client(user_api_key)
     if not client:
@@ -475,12 +483,10 @@ Remember: The student is coding in {current_language}, so all examples and guida
         )
     
     except Exception as e:
-        print(f"OpenAI chat error: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to generate chat response: {str(e)}")
 
 @app.post("/solution")
 async def get_solution(request: dict):
-    """Generate AI-powered solution in specific language."""
     problem = Problem(**request.get("problem", {}))
     language = request.get("language", "python")
     user_api_key = request.get("user_api_key")
@@ -499,7 +505,6 @@ async def get_solution(request: dict):
 
 @app.post("/plan")
 async def get_plan(request: dict):
-    """Generate AI-powered step-by-step plan."""
     problem = Problem(**request.get("problem", {}))
     user_api_key = request.get("user_api_key")
     
@@ -514,7 +519,6 @@ async def get_plan(request: dict):
 
 @app.post("/complexity")
 async def get_complexity(request: dict):
-    """Generate AI-powered complexity analysis."""
     problem = Problem(**request.get("problem", {}))
     user_api_key = request.get("user_api_key")
     
@@ -529,7 +533,6 @@ async def get_complexity(request: dict):
 
 @app.post("/edge-cases")
 async def get_edge_cases(request: dict):
-    """Generate AI-powered edge cases."""
     problem = Problem(**request.get("problem", {}))
     user_api_key = request.get("user_api_key")
     
@@ -543,7 +546,6 @@ async def get_edge_cases(request: dict):
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint."""
     return {"status": "healthy", "service": "TUTORAI API"}
 
 if __name__ == "__main__":

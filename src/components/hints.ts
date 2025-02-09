@@ -98,7 +98,7 @@ export class HintsComponent {
     }
   }
 
-  private displayHints(hints: string[]): void {
+  public displayHints(hints: string[]): void {
     const hintsList = this.container.querySelector(
       ".lh-hints-list"
     ) as HTMLElement;
@@ -128,7 +128,7 @@ export class HintsComponent {
 
   private hideLoading(): void {}
 
-  private showError(message: string): void {
+  public showError(message: string): void {
     const hintsList = this.container.querySelector(
       ".lh-hints-list"
     ) as HTMLElement;
