@@ -319,12 +319,14 @@ Requirements:
 - Include proper syntax and language-specific conventions
 
 IMPORTANT: Write in plain text only. No HTML, no markdown, no special formatting.
-Use simple headers and indented code."""
+Use simple headers and indented code.
+
+CRITICAL: DO NOT include any time complexity analysis, space complexity analysis, or complexity explanations in your response. Stop after providing the complete working solution. Do not add any text about "This solution has a time complexity of..." or similar complexity analysis."""
 
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": f"You are a helpful programming tutor. Provide complete, working {language_name} solutions with clear explanations and good coding practices. IMPORTANT: Always return plain text only - no HTML, no markdown, no special formatting."},
+                {"role": "system", "content": f"You are a helpful programming tutor. Provide complete, working {language_name} solutions with clear explanations and good coding practices. IMPORTANT: Always return plain text only - no HTML, no markdown, no special formatting. CRITICAL: Never include time complexity analysis, space complexity analysis, or complexity explanations in your solution responses. Stop after providing the complete working solution."},
                 {"role": "user", "content": prompt}
             ],
             max_tokens=500,

@@ -292,7 +292,6 @@ function initializeLeetHelper() {
     try {
       leetHelper = new LeetHelperContent();
     } catch (error) {
-      console.error("Failed to initialize TUTORAI:", error);
     } finally {
       isInitializing = false;
     }
@@ -304,7 +303,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "toggle") {
       if (!leetHelper) {
         initializeLeetHelper();
-        // Give a small delay for initialization
+
         setTimeout(() => {
           if (leetHelper) {
             leetHelper.toggleOverlay();
@@ -328,9 +327,7 @@ const initializeWithDelay = () => {
   setTimeout(() => {
     try {
       initializeLeetHelper();
-    } catch (error) {
-      console.error("Failed to initialize TUTORAI with delay:", error);
-    }
+    } catch (error) {}
   }, 1000);
 };
 

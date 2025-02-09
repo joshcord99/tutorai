@@ -9,8 +9,6 @@ async function buildExtension() {
       fs.rmSync("dist", { recursive: true });
     }
 
-    console.log("Building extension scripts...");
-
     await build(
       defineConfig({
         build: {
@@ -90,7 +88,6 @@ async function buildExtension() {
       throw new Error(`Background script not found at ${backgroundPath}`);
     }
 
-    console.log("Copying CSS files...");
     const cssFiles = [
       "overlay.css",
       "chat.css",
@@ -115,17 +112,9 @@ async function buildExtension() {
 
       if (fs.existsSync(sourcePath)) {
         fs.copyFileSync(sourcePath, destPath);
-        console.log(`Copied: ${cssFile}`);
-      } else {
-        console.warn(`Warning: CSS file not found: ${sourcePath}`);
       }
     }
-
-    console.log("Extension built successfully!");
-    console.log(`Content script: ${contentPath}`);
-    console.log(`Background script: ${backgroundPath}`);
   } catch (error) {
-    console.error("Build failed:", error);
     process.exit(1);
   }
 }

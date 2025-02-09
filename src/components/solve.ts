@@ -100,16 +100,18 @@ export class SolveComponent {
     try {
       this.showLoading();
 
+      const requestBody = {
+        problem: this.currentProblem,
+        language: language,
+        user_api_key: this.preferences.openaiApiKey || null,
+      };
+
       const response = await fetch(`${this.preferences.serverUrl}/solution`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          problem: this.currentProblem,
-          language: language,
-          user_api_key: this.preferences.openaiApiKey || null,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {

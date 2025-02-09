@@ -477,6 +477,12 @@ export class LeetHelperOverlay {
     this.startComponentLoading("complexity");
     this.startComponentLoading("edge-cases");
 
+    let retries = 0;
+    while (!this.solveComponent && retries < 10) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      retries++;
+    }
+
     if (this.solveComponent) {
       this.solveComponent.updateContent(problem);
     }
