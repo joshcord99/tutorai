@@ -146,7 +146,8 @@
 
 #leet-helper-overlay .lh-plan-body {
   font-size: 13px;
-  line-height: 1.4;
+  line-height: 1.6;
+  padding: 16px 0;
 }
 
 #leet-helper-overlay .lh-plan-loading {
@@ -197,12 +198,13 @@
 }
 
 #leet-helper-overlay .lh-plan-steps li {
-  margin-bottom: 12px;
-  padding: 12px;
+  margin-bottom: 16px;
+  padding: 16px;
   background: #ffffff;
   border-radius: 6px;
   border: 1px solid #000;
   position: relative;
+  line-height: 1.6;
 }
 
 #leet-helper-overlay.lh-dark .lh-plan-steps li {
@@ -214,14 +216,27 @@
   margin-bottom: 0;
 }
 
+#leet-helper-overlay .lh-plan-steps li p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+#leet-helper-overlay .lh-plan-steps li p:first-child {
+  margin-top: 0;
+}
+
+#leet-helper-overlay .lh-plan-steps li p:last-child {
+  margin-bottom: 0;
+}
+
 #leet-helper-overlay .lh-plan-summary {
   background: #e7f3ff;
   border: 1px solid #b3d9ff;
   border-radius: 6px;
-  padding: 12px;
-  margin-top: 16px;
+  padding: 16px;
+  margin-top: 20px;
   font-size: 13px;
-  line-height: 1.4;
+  line-height: 1.6;
 }
 
 #leet-helper-overlay.lh-dark .lh-plan-summary {

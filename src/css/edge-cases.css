@@ -1,7 +1,6 @@
 #leet-helper-overlay .lh-edge-cases {
   margin: 0;
   padding: 0;
-  border-left: 4px solid #00ff3c;
   list-style: none;
 }
 
@@ -47,11 +46,13 @@
   border-radius: 8px;
   padding: 12px;
   margin: 8px 0;
+  border-left: 4px solid #00ff3c;
 }
 
 #leet-helper-overlay.lh-dark .lh-edge-cases-content {
   background: #2d2d2d;
   border-color: #404040;
+  border-left-color: #00ff3c;
 }
 
 #leet-helper-overlay .lh-edge-cases-header {
@@ -215,12 +216,13 @@
 }
 
 #leet-helper-overlay .lh-edge-cases-steps li {
-  margin-bottom: 12px;
-  padding: 12px;
+  margin-bottom: 16px;
+  padding: 16px;
   background: #ffffff;
   border-radius: 6px;
   border: 1px solid #000;
   position: relative;
+  line-height: 1.6;
 }
 
 #leet-helper-overlay.lh-dark .lh-edge-cases-steps li {
@@ -229,5 +231,18 @@
 }
 
 #leet-helper-overlay .lh-edge-cases-steps li:last-child {
+  margin-bottom: 0;
+}
+
+#leet-helper-overlay .lh-edge-cases-steps li p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+#leet-helper-overlay .lh-edge-cases-steps li p:first-child {
+  margin-top: 0;
+}
+
+#leet-helper-overlay .lh-edge-cases-steps li p:last-child {
   margin-bottom: 0;
 }

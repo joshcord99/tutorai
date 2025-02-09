@@ -11,7 +11,6 @@ async function buildExtension() {
 
     console.log("Building extension scripts...");
 
-    // Build content script
     await build(
       defineConfig({
         build: {
@@ -30,7 +29,6 @@ async function buildExtension() {
       })
     );
 
-    // Build background script
     await build(
       defineConfig({
         build: {
@@ -49,7 +47,6 @@ async function buildExtension() {
       })
     );
 
-    // Build options script
     await build(
       defineConfig({
         build: {
@@ -68,7 +65,6 @@ async function buildExtension() {
       })
     );
 
-    // Move files to final location
     if (!fs.existsSync("dist/src")) {
       fs.mkdirSync("dist/src", { recursive: true });
     }
@@ -80,7 +76,6 @@ async function buildExtension() {
     );
     fs.copyFileSync("dist-temp-options/options.js", "dist/src/options.js");
 
-    // Clean up temp directories
     fs.rmSync("dist-temp-content", { recursive: true, force: true });
     fs.rmSync("dist-temp-background", { recursive: true, force: true });
     fs.rmSync("dist-temp-options", { recursive: true, force: true });

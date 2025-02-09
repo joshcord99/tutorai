@@ -292,7 +292,7 @@ function initializeLeetHelper() {
     try {
       leetHelper = new LeetHelperContent();
     } catch (error) {
-      // Failed to initialize TUTORAI
+      console.error("Failed to initialize TUTORAI:", error);
     } finally {
       isInitializing = false;
     }
@@ -324,11 +324,20 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 });
 
-// Initialize when the script loads
+const initializeWithDelay = () => {
+  setTimeout(() => {
+    try {
+      initializeLeetHelper();
+    } catch (error) {
+      console.error("Failed to initialize TUTORAI with delay:", error);
+    }
+  }, 1000);
+};
+
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initializeLeetHelper);
+  document.addEventListener("DOMContentLoaded", initializeWithDelay);
 } else {
-  initializeLeetHelper();
+  initializeWithDelay();
 }
 
 window.addEventListener("beforeunload", () => {

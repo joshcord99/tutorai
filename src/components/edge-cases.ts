@@ -164,7 +164,12 @@ export class EdgeCasesComponent {
     formattedEdgeCase = formattedEdgeCase
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
       .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      .replace(/`([^`]+)`/g, "<code>$1</code>");
+      .replace(/`([^`]+)`/g, "<code>$1</code>")
+      .replace(/\n/g, "<br>")
+      .replace(/<br><br>/g, "</p><p>")
+      .replace(/^/, "<p>")
+      .replace(/$/, "</p>")
+      .replace(/<p><\/p>/g, "");
 
     return formattedEdgeCase;
   }

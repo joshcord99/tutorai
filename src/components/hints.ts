@@ -104,16 +104,58 @@ export class HintsComponent {
     ) as HTMLElement;
     if (hintsList) {
       hintsList.innerHTML = "";
-      hints.forEach((hint, index) => {
-        const hintDiv = document.createElement("div");
-        hintDiv.className = "lh-hint-item";
-        hintDiv.innerHTML = `
-            <div class="lh-hint-number">${index + 1}</div>
-            <div class="lh-hint-text">${hint}</div>
-          `;
-        hintsList.appendChild(hintDiv);
-      });
+
+      const combinedHints = hints.join("\n");
+      const formattedHints = this.formatHints(combinedHints);
+      hintsList.innerHTML = formattedHints;
     }
+  }
+
+  private formatHints(hints: string): string {
+    if (!hints || hints.trim() === "") {
+      return '<div class="lh-hints-error">No hints generated. Please try again.</div>';
+    }
+
+    let formattedHints = hints.trim();
+
+    const lines = formattedHints.split("\n");
+    const result: string[] = [];
+    let currentItem: string[] = [];
+    let inNumberedItem = false;
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const isNumberedLine = /^\d+\.\s*/.test(line);
+
+      if (isNumberedLine) {
+        if (inNumberedItem && currentItem.length > 0) {
+          result.push("<li>" + currentItem.join("<br>") + "</li>");
+        }
+        currentItem = [line];
+        inNumberedItem = true;
+      } else if (inNumberedItem) {
+        currentItem.push(line);
+      } else {
+        result.push(line);
+      }
+    }
+
+    if (inNumberedItem && currentItem.length > 0) {
+      result.push("<li>" + currentItem.join("<br>") + "</li>");
+    }
+
+    formattedHints = result.join("\n");
+
+    if (formattedHints.includes("<li>")) {
+      formattedHints = '<ol class="lh-hints-steps">' + formattedHints + "</ol>";
+    }
+
+    formattedHints = formattedHints
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")
+      .replace(/`([^`]+)`/g, "<code>$1</code>");
+
+    return formattedHints;
   }
 
   private showLoading(): void {

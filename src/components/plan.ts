@@ -26,7 +26,7 @@ export class PlanComponent {
     planContainer.innerHTML = `
         <div class="lh-plan-content">
           <div class="lh-plan-header">
-            <h3>Solution Plan</h3>
+            <h3>Plan</h3>
             <button class="lh-btn lh-regenerate-plan">Regenerate</button>
           </div>
           <div class="lh-plan-body">
@@ -113,6 +113,11 @@ export class PlanComponent {
 
     let formattedPlan = plan.trim();
 
+    const firstNumberedStepIndex = formattedPlan.search(/^\d+\.\s*/m);
+    if (firstNumberedStepIndex !== -1) {
+      formattedPlan = formattedPlan.substring(firstNumberedStepIndex);
+    }
+
     formattedPlan = formattedPlan
       .replace(/\n\n+/g, "\n\n")
       .replace(/^(\d+\.\s*)/gm, "<li>$1")
@@ -133,7 +138,8 @@ export class PlanComponent {
       .replace(/\n/g, "<br>")
       .replace(/<br><br>/g, "</p><p>")
       .replace(/^/, "<p>")
-      .replace(/$/, "</p>");
+      .replace(/$/, "</p>")
+      .replace(/<p><\/p>/g, "");
 
     return formattedPlan;
   }
