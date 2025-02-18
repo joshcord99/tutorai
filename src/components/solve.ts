@@ -1,6 +1,7 @@
 import { Problem, UserPreferences } from "../types";
 import { savePreferences } from "../tools/utils";
 import { marked } from "marked";
+import { AIClient, AIConfig } from "../tools/serverless-logic";
 
 export class SolveComponent {
   private container: HTMLElement;
@@ -100,31 +101,61 @@ export class SolveComponent {
     try {
       this.showLoading();
 
-      const requestBody = {
-        problem: this.currentProblem,
-        language: language,
-        user_api_key: this.preferences.openaiApiKey || null,
+      const aiConfig: AIConfig = {
+        selectedModel: this.selectedModel,
+        getApiKeyForModel: this.getApiKeyForModel.bind(this),
       };
 
-      const response = await fetch(`${this.preferences.serverUrl}/solution`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
+      const aiClient = new AIClient(aiConfig);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      const languageMap: { [key: string]: string } = {
+        python: "python",
+        python3: "python",
+        javascript: "javascript",
+        typescript: "typescript",
+        java: "java",
+        cpp: "cpp",
+        c: "c",
+        csharp: "csharp",
+        php: "php",
+        swift: "swift",
+        kotlin: "kotlin",
+        dart: "dart",
+        go: "go",
+        ruby: "ruby",
+        scala: "scala",
+        rust: "rust",
+        racket: "racket",
+        erlang: "erlang",
+        elixir: "elixir",
+      };
 
-      const data = await response.json();
+      const languageName = languageMap[language.toLowerCase()] || language;
+
+      const prompt = `Write a complete solution for this coding problem in ${languageName}.
+
+Problem: ${this.currentProblem.title}
+Description: ${this.currentProblem.description}
+
+Requirements:
+- Write a working ${languageName} solution
+- Use clear variable names and add comments
+- Handle edge cases properly
+- Follow good coding practices for ${languageName}
+- Include proper syntax and language-specific conventions
+
+IMPORTANT: Write in plain text only. No HTML, no markdown, no special formatting.
+Use simple headers and indented code.
+
+CRITICAL: DO NOT include any time complexity analysis, space complexity analysis, or complexity explanations in your response. Stop after providing the complete working solution. Do not add any text about "This solution has a time complexity of..." or similar complexity analysis.`;
+
+      const solution = await aiClient.makeAIRequest(prompt, 500);
 
       const solutionElement = this.container.querySelector(
         ".lh-solution"
       ) as HTMLElement;
       if (solutionElement) {
-        solutionElement.innerHTML = marked.parse(data.solution);
+        solutionElement.innerHTML = marked.parse(solution);
       }
     } catch (error) {
       this.showError("Failed to generate solution. Please try again.");

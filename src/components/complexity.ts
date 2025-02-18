@@ -1,4 +1,4 @@
-import { AIClient, AIConfig } from "../tools/ai-client";
+import { AIClient, AIConfig } from "../tools/serverless-logic";
 
 interface ComplexityConfig {
   selectedModel: string;

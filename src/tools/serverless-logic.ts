@@ -108,7 +108,7 @@ export class AIClient {
     return data.candidates[0].content.parts[0].text;
   }
 
-  private async makeAIRequest(
+  public async makeAIRequest(
     prompt: string,
     maxTokens: number = 200
   ): Promise<string> {

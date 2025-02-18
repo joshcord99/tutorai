@@ -365,7 +365,6 @@
 }
 
 #leet-helper-overlay .lh-hints-steps {
-  counter-reset: step-counter;
   list-style: none;
   padding: 0;
   margin: 0;

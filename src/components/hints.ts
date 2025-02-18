@@ -1,4 +1,4 @@
-import { AIClient, AIConfig } from "../tools/ai-client";
+import { AIClient, AIConfig } from "../tools/serverless-logic";
 
 interface HintsConfig {
   selectedModel: string;
@@ -208,36 +208,76 @@ export class HintsComponent {
 
     let formattedHints = hints.trim();
 
-    const lines = formattedHints.split("\n");
-    const result: string[] = [];
-    let currentItem: string[] = [];
-    let inNumberedItem = false;
+    const isBulletedHints =
+      /^-\s/.test(formattedHints) || /^\d+\.\s/.test(formattedHints);
 
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      const isNumberedLine = /^\d+\.\s*/.test(line);
+    if (isBulletedHints) {
+      const lines = formattedHints.split("\n");
+      const result: string[] = [];
+      let currentItem: string[] = [];
+      let inNumberedItem = false;
 
-      if (isNumberedLine) {
-        if (inNumberedItem && currentItem.length > 0) {
-          result.push("<li>" + currentItem.join("<br>") + "</li>");
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const isNumberedLine = /^\d+\.\s*/.test(line);
+        const isBulletLine = /^-\s*/.test(line);
+
+        if (isNumberedLine || isBulletLine) {
+          if (inNumberedItem && currentItem.length > 0) {
+            result.push("<li>" + currentItem.join("<br>") + "</li>");
+          }
+          currentItem = [line];
+          inNumberedItem = true;
+        } else if (inNumberedItem) {
+          currentItem.push(line);
+        } else {
+          result.push(line);
         }
-        currentItem = [line];
-        inNumberedItem = true;
-      } else if (inNumberedItem) {
-        currentItem.push(line);
-      } else {
-        result.push(line);
       }
-    }
 
-    if (inNumberedItem && currentItem.length > 0) {
-      result.push("<li>" + currentItem.join("<br>") + "</li>");
-    }
+      if (inNumberedItem && currentItem.length > 0) {
+        result.push("<li>" + currentItem.join("<br>") + "</li>");
+      }
 
-    formattedHints = result.join("\n");
+      formattedHints = result.join("\n");
 
-    if (formattedHints.includes("<li>")) {
-      formattedHints = '<ol class="lh-hints-steps">' + formattedHints + "</ol>";
+      if (formattedHints.includes("<li>")) {
+        formattedHints =
+          '<ol class="lh-hints-steps">' + formattedHints + "</ol>";
+      }
+    } else {
+      const lines = formattedHints.split("\n");
+      const result: string[] = [];
+      let currentItem: string[] = [];
+      let inNumberedItem = false;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const isNumberedLine = /^\d+\.\s*/.test(line);
+
+        if (isNumberedLine) {
+          if (inNumberedItem && currentItem.length > 0) {
+            result.push("<li>" + currentItem.join("<br>") + "</li>");
+          }
+          currentItem = [line];
+          inNumberedItem = true;
+        } else if (inNumberedItem) {
+          currentItem.push(line);
+        } else {
+          result.push(line);
+        }
+      }
+
+      if (inNumberedItem && currentItem.length > 0) {
+        result.push("<li>" + currentItem.join("<br>") + "</li>");
+      }
+
+      formattedHints = result.join("\n");
+
+      if (formattedHints.includes("<li>")) {
+        formattedHints =
+          '<ol class="lh-hints-steps">' + formattedHints + "</ol>";
+      }
     }
 
     formattedHints = formattedHints

@@ -1,5 +1,5 @@
 import { marked } from "marked";
-import { AIClient, AIConfig } from "../tools/ai-client";
+import { AIClient, AIConfig } from "../tools/serverless-logic";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -95,7 +95,7 @@ export class ChatComponent {
 
     this.isVisible = true;
     chatWelcome.style.display = "none";
-    chatMessages.style.display = "block";
+    chatMessages.style.display = "flex";
     chatInput.style.display = "flex";
 
     if (this.chatHistory.length > 0) {

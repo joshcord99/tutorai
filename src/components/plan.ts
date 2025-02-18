@@ -1,4 +1,4 @@
-import { AIClient, AIConfig } from "../tools/ai-client";
+import { AIClient, AIConfig } from "../tools/serverless-logic";
 
 interface PlanConfig {
   selectedModel: string;
@@ -208,17 +208,35 @@ export class PlanComponent {
       formattedPlan = formattedPlan.substring(firstNumberedStepIndex);
     }
 
-    formattedPlan = formattedPlan
-      .replace(/\n\n+/g, "\n\n")
-      .replace(/^(\d+\.\s*)/gm, "<li>$1")
-      .replace(/(\n)(?=\d+\.\s*)/g, "</li>$1")
-      .replace(/(\n\n)(?=\d+\.\s*)/g, "</li>$1")
-      .replace(/(\n\n)(?=[A-Z][^a-z])/g, "</li>$1<h4>$2")
-      .replace(/(\n)(?=[A-Z][^a-z])/g, "</li>$1<h4>$2")
-      .replace(/([A-Z][^a-z].*?)(?=\n|$)/g, "$1</h4>");
+    const isStepByStepPlan =
+      /Step-by-step Plan/i.test(plan) || /Step \d+:/i.test(plan);
 
-    if (formattedPlan.includes("<li>")) {
-      formattedPlan = '<ol class="lh-plan-steps">' + formattedPlan + "</ol>";
+    if (isStepByStepPlan) {
+      formattedPlan = formattedPlan
+        .replace(/\n\n+/g, "\n\n")
+        .replace(/^(\d+\.\s*)/gm, "<li>$1")
+        .replace(/(\n)(?=\d+\.\s*)/g, "</li>$1")
+        .replace(/(\n\n)(?=\d+\.\s*)/g, "</li>$1")
+        .replace(/(\n\n)(?=[A-Z][^a-z])/g, "</li>$1<h4>$2")
+        .replace(/(\n)(?=[A-Z][^a-z])/g, "</li>$1<h4>$2")
+        .replace(/([A-Z][^a-z].*?)(?=\n|$)/g, "$1</h4>");
+
+      if (formattedPlan.includes("<li>")) {
+        formattedPlan = '<ol class="lh-plan-steps">' + formattedPlan + "</ol>";
+      }
+    } else {
+      formattedPlan = formattedPlan
+        .replace(/\n\n+/g, "\n\n")
+        .replace(/^(\d+\.\s*)/gm, "<li>$1")
+        .replace(/(\n)(?=\d+\.\s*)/g, "</li>$1")
+        .replace(/(\n\n)(?=\d+\.\s*)/g, "</li>$1")
+        .replace(/(\n\n)(?=[A-Z][^a-z])/g, "</li>$1<h4>$2")
+        .replace(/(\n)(?=[A-Z][^a-z])/g, "</li>$1<h4>$2")
+        .replace(/([A-Z][^a-z].*?)(?=\n|$)/g, "$1</h4>");
+
+      if (formattedPlan.includes("<li>")) {
+        formattedPlan = '<ol class="lh-plan-steps">' + formattedPlan + "</ol>";
+      }
     }
 
     formattedPlan = formattedPlan

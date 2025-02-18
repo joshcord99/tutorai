@@ -210,6 +210,12 @@
   display: block;
 }
 
+#leet-helper-overlay .lh-tab-pane[data-tab="chat"].active {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 #leet-helper-overlay .lh-footer {
   padding: 12px 16px;
   border-top: 1px solid #e1e5e9;
