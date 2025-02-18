@@ -14,8 +14,6 @@ class OptionsManager {
 
   private initializeFormElements(): void {
     const elements = [
-      "contestSafeMode",
-      "neverUploadToRemote",
       "openaiApiKey",
       "anthropicApiKey",
       "geminiApiKey",
@@ -190,8 +188,6 @@ class OptionsManager {
         "panelPosition",
         "darkMode",
         "fontSize",
-        "contestSafeMode",
-        "neverUploadToRemote",
         "panelVisible",
       ];
       for (const field of requiredFields) {

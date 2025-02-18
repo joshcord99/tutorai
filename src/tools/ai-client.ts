@@ -1,10 +1,4 @@
-import {
-  Problem,
-  HintResponse,
-  Complexity,
-  ChatMessage,
-  ChatResponse,
-} from "../types";
+import { Problem, Complexity, ChatMessage, ChatResponse } from "../types";
 
 export interface AIConfig {
   selectedModel: string;
@@ -127,7 +121,7 @@ export class AIClient {
             {
               role: "system",
               content:
-                "You are a helpful programming tutor. Provide clear, educational guidance for solving coding problems.",
+                "You are a helpful programming tutor. Your role is to guide students to solutions, not provide complete answers. Give hints, explain concepts, and ask leading questions. Never provide complete code solutions unless specifically asked for a small snippet to demonstrate a concept.",
             },
             { role: "user", content: prompt },
           ],
@@ -159,6 +153,8 @@ Rules:
 - Don't give away the complete solution
 - Mention useful data structures or algorithms
 - Keep each hint short and clear
+- Focus on guiding the student's thinking process
+- Ask questions that help them discover the approach
 
 Write one hint per line.`;
 
@@ -273,17 +269,34 @@ Rationale: [simple explanation]`;
     }
   }
 
-  async chat(messages: ChatMessage[]): Promise<ChatResponse> {
+  async chat(
+    messages: ChatMessage[],
+    problem?: Problem,
+    context?: {
+      currentLanguage?: string;
+      domElements?: any;
+    }
+  ): Promise<ChatResponse> {
     try {
       const conversation = messages.map((msg) => ({
         role: msg.role as "user" | "assistant",
         content: msg.content,
       }));
 
-      const response = await this.makeAIRequest(
-        `You are a helpful programming tutor. Continue this conversation:\n\n${conversation.map((msg) => `${msg.role}: ${msg.content}`).join("\n")}`,
-        300
-      );
+      let prompt =
+        "You are a helpful programming tutor. Your role is to guide students to solutions, not provide complete answers. Give hints, explain concepts, and ask leading questions. Never provide complete code solutions unless specifically asked for a small snippet to demonstrate a concept.\n\n";
+
+      if (problem) {
+        prompt += `You are helping with this coding problem:\n\nProblem: ${problem.title}\nDescription: ${problem.description}\n\n`;
+      }
+
+      if (context?.currentLanguage) {
+        prompt += `The user is working in ${context.currentLanguage}.\n\n`;
+      }
+
+      prompt += `Remember: Guide, don't solve. Ask questions to help them think through the problem. Continue this conversation:\n\n${conversation.map((msg) => `${msg.role}: ${msg.content}`).join("\n")}`;
+
+      const response = await this.makeAIRequest(prompt, 300);
 
       return {
         response: response,

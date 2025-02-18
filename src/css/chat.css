@@ -52,8 +52,8 @@
   }
 
   .lh-need-help-btn {
-    background: blue;
-    color: white;
+    background: blue !important;
+    color: white !important;
     border: none;
     padding: 16px 32px;
     border-radius: 30px;
@@ -66,10 +66,10 @@
   }
 
   .lh-need-help-btn:hover {
-    background: blue;
+    background: blue !important;
     transform: translateY(-3px) scale(1.05);
     box-shadow: 0 10px 25px rgba(0, 0, 255, 0.6);
-    color: white;
+    color: white !important;
   }
 
   .lh-chat-input {
@@ -141,29 +141,31 @@
   }
 
   .lh-send-btn {
-    background: var(--chat-send-btn-bg);
-    color: white;
-    border: none;
+    background: green !important;
+    color: white !important;
+    border: none !important;
     padding: 12px 20px;
     border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 4px var(--chat-send-btn-shadow);
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
     min-width: 80px;
     max-width: 100px;
     flex-shrink: 0;
   }
 
   .lh-send-btn:hover {
-    background: var(--chat-send-btn-hover-bg);
+    background: green !important;
+    color: white !important;
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px var(--chat-send-btn-hover-shadow);
+    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
   }
 
   .lh-send-btn:disabled {
-    background: var(--chat-disabled-bg);
+    background: #9ca3af !important;
+    color: white !important;
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
@@ -184,8 +186,8 @@
   }
 
   .lh-user-message {
-    background: var(--chat-message-user-bg);
-    color: var(--chat-message-user-color);
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%) !important;
+    color: white !important;
     margin-left: auto;
     text-align: left;
     border-bottom-right-radius: 4px;
@@ -198,11 +200,11 @@
   }
 
   .lh-ai-message {
-    background: var(--chat-message-assistant-bg);
-    color: var(--chat-message-assistant-color);
+    background: #10b981 !important;
+    color: white !important;
     margin-right: auto;
     margin-bottom: 30px;
-    border: 1px solid var(--chat-message-assistant-border);
+    border: 1px solid #10b981 !important;
     border-bottom-left-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   }

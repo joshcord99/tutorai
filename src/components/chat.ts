@@ -227,7 +227,14 @@ export class ChatComponent {
 
       const aiClient = new AIClient(aiConfig);
 
-      const chatResponse = await aiClient.chat(this.chatHistory);
+      const chatResponse = await aiClient.chat(
+        this.chatHistory,
+        this.config.currentProblem,
+        {
+          currentLanguage: this.config.getCurrentLanguage(),
+          domElements: this.config.collectDOMElements(),
+        }
+      );
       const data = { message: chatResponse.response };
 
       chatMessages.removeChild(loadingDiv);

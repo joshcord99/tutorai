@@ -5,15 +5,19 @@ const DEFAULT_PREFERENCES: UserPreferences = {
   darkMode: false,
   fontSize: "medium",
   contestSafeMode: true,
-  localServerEnabled: true,
-  serverUrl: "http://127.0.0.1:5050",
   neverUploadToRemote: true,
   panelVisible: false,
 };
 
 export async function getPreferences(): Promise<UserPreferences> {
   const result = await chrome.storage.sync.get("preferences");
-  return { ...DEFAULT_PREFERENCES, ...result.preferences };
+  const userPreferences = { ...DEFAULT_PREFERENCES, ...result.preferences };
+
+  return {
+    ...userPreferences,
+    contestSafeMode: true,
+    neverUploadToRemote: true,
+  };
 }
 
 export async function savePreferences(
@@ -21,6 +25,10 @@ export async function savePreferences(
 ): Promise<void> {
   const current = await getPreferences();
   const updated = { ...current, ...preferences };
+
+  updated.contestSafeMode = true;
+  updated.neverUploadToRemote = true;
+
   await chrome.storage.sync.set({ preferences: updated });
 }
 

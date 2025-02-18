@@ -1,4 +1,4 @@
-.lh-model-dropdown {
+.ai-model-switch {
   background: #f8f9fa;
   border: 1px solid #dee2e6;
   border-radius: 4px;
@@ -9,11 +9,11 @@
   outline: none;
 }
 
-.lh-model-dropdown:hover {
+.ai-model-switch:hover {
   border-color: #adb5bd;
 }
 
-.lh-model-dropdown:focus {
+.ai-model-switch:focus {
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }

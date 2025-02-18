@@ -164,7 +164,7 @@ export class LeetHelperOverlay {
         <div class="lh-header">
           <div class="lh-logo">TUTORAI</div>
           <div class="lh-model-selector">
-            <select id="lh-ai-model" class="lh-model-dropdown">
+            <select id="lh-ai-model" class="ai-model-switch">
               <option value="openai">OpenAI</option>
               <option value="anthropic">Claude</option>
               <option value="gemini">Gemini</option>
