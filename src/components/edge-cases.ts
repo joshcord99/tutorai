@@ -1,5 +1,6 @@
+import { AIClient, AIConfig } from "../tools/ai-client";
+
 interface EdgeCasesConfig {
-  serverUrl: string;
   selectedModel: string;
   getApiKeyForModel: (model: string) => string | null;
   showModelKeyError: (model: string) => void;
@@ -77,28 +78,17 @@ export class EdgeCasesComponent {
         return;
       }
 
-      const requestBody = {
-        problem: this.config.currentProblem,
-        current_language: this.config.getCurrentLanguage(),
-        dom_elements: this.config.collectDOMElements(),
-        model: this.config.selectedModel,
-        user_api_key: this.config.getApiKeyForModel(this.config.selectedModel),
+      const aiConfig: AIConfig = {
+        selectedModel: this.config.selectedModel,
+        getApiKeyForModel: this.config.getApiKeyForModel,
       };
 
-      const response = await fetch(`${this.config.serverUrl}/edge-cases`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
+      const aiClient = new AIClient(aiConfig);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      this.displayEdgeCases(data.edge_cases);
+      const edgeCases = await aiClient.generateEdgeCases(
+        this.config.currentProblem
+      );
+      this.displayEdgeCases(edgeCases);
     } catch (error) {
       this.showError("Failed to generate edge cases. Please try again.");
     } finally {

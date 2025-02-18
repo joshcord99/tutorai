@@ -1,4 +1,5 @@
 import { marked } from "marked";
+import { AIClient, AIConfig } from "../tools/ai-client";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -7,7 +8,6 @@ interface ChatMessage {
 }
 
 interface ChatConfig {
-  serverUrl: string;
   selectedModel: string;
   getApiKeyForModel: (model: string) => string | null;
   showModelKeyError: (model: string) => void;
@@ -220,23 +220,15 @@ export class ChatComponent {
         .map((m) => `${m.role === "user" ? "User" : "Assistant"}: ${m.content}`)
         .join("\n");
 
-      const resp = await fetch(`${this.config.serverUrl}/chat`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          content: message,
-          problem_context: problemContext,
-          current_language: currentLanguage,
-          dom_elements: domElements,
-          conversation_history: conversationHistory,
-          timestamp: new Date().toISOString(),
-          model: this.config.selectedModel,
-          user_api_key: apiKey,
-        }),
-      });
+      const aiConfig: AIConfig = {
+        selectedModel: this.config.selectedModel,
+        getApiKeyForModel: this.config.getApiKeyForModel,
+      };
 
-      if (!resp.ok) throw new Error(`HTTP error! status: ${resp.status}`);
-      const data = await resp.json();
+      const aiClient = new AIClient(aiConfig);
+
+      const chatResponse = await aiClient.chat(this.chatHistory);
+      const data = { message: chatResponse.response };
 
       chatMessages.removeChild(loadingDiv);
 

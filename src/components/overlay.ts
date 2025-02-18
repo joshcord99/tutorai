@@ -55,8 +55,6 @@ export class LeetHelperOverlay {
       darkMode: false,
       fontSize: "medium",
       contestSafeMode: true,
-      localServerEnabled: true,
-      serverUrl: "http://127.0.0.1:5050",
       neverUploadToRemote: true,
       panelVisible: false,
     };
@@ -88,7 +86,6 @@ export class LeetHelperOverlay {
     ) as HTMLElement;
     if (chatContainer) {
       this.chatComponent = new ChatComponent(chatContainer, {
-        serverUrl: this.preferences.serverUrl,
         selectedModel: this.selectedModel,
         getApiKeyForModel: this.getApiKeyForModel.bind(this),
         showModelKeyError: this.showModelKeyError.bind(this),
@@ -103,7 +100,6 @@ export class LeetHelperOverlay {
     ) as HTMLElement;
     if (hintsContainer) {
       this.hintsComponent = new HintsComponent(hintsContainer, {
-        serverUrl: this.preferences.serverUrl,
         selectedModel: this.selectedModel,
         getApiKeyForModel: this.getApiKeyForModel.bind(this),
         showModelKeyError: this.showModelKeyError.bind(this),
@@ -119,7 +115,6 @@ export class LeetHelperOverlay {
     ) as HTMLElement;
     if (planContainer) {
       this.planComponent = new PlanComponent(planContainer, {
-        serverUrl: this.preferences.serverUrl,
         selectedModel: this.selectedModel,
         getApiKeyForModel: this.getApiKeyForModel.bind(this),
         showModelKeyError: this.showModelKeyError.bind(this),
@@ -135,7 +130,6 @@ export class LeetHelperOverlay {
     ) as HTMLElement;
     if (complexityContainer) {
       this.complexityComponent = new ComplexityComponent(complexityContainer, {
-        serverUrl: this.preferences.serverUrl,
         selectedModel: this.selectedModel,
         getApiKeyForModel: this.getApiKeyForModel.bind(this),
         showModelKeyError: this.showModelKeyError.bind(this),
@@ -151,7 +145,6 @@ export class LeetHelperOverlay {
     ) as HTMLElement;
     if (edgeCasesContainer) {
       this.edgeCasesComponent = new EdgeCasesComponent(edgeCasesContainer, {
-        serverUrl: this.preferences.serverUrl,
         selectedModel: this.selectedModel,
         getApiKeyForModel: this.getApiKeyForModel.bind(this),
         showModelKeyError: this.showModelKeyError.bind(this),
@@ -494,88 +487,24 @@ export class LeetHelperOverlay {
         return;
       }
 
-      const requestBody = {
-        problem: problem,
-        current_language: this.getCurrentLanguage(),
-        dom_elements: this.collectDOMElements(),
-        model: this.selectedModel,
-        user_api_key: apiKey,
-      };
-
-      const [
-        hintsResponse,
-        planResponse,
-        complexityResponse,
-        edgeCasesResponse,
-      ] = await Promise.allSettled([
-        fetch(`${this.preferences.serverUrl}/hints`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(requestBody),
-        }),
-        fetch(`${this.preferences.serverUrl}/plan`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(requestBody),
-        }),
-        fetch(`${this.preferences.serverUrl}/complexity`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(requestBody),
-        }),
-        fetch(`${this.preferences.serverUrl}/edge-cases`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(requestBody),
-        }),
-      ]);
-
-      if (hintsResponse.status === "fulfilled" && hintsResponse.value.ok) {
-        const hintsData = await hintsResponse.value.json();
-        if (this.hintsComponent) {
-          this.hintsComponent.updateConfig({ currentProblem: problem });
-          this.hintsComponent.displayHints(hintsData.hints);
-        }
-      } else if (this.hintsComponent) {
-        this.hintsComponent.showError("Failed to load hints");
+      if (this.hintsComponent) {
+        this.hintsComponent.updateConfig({ currentProblem: problem });
+        await this.hintsComponent.generateHints();
       }
 
-      if (planResponse.status === "fulfilled" && planResponse.value.ok) {
-        const planData = await planResponse.value.json();
-        if (this.planComponent) {
-          this.planComponent.updateConfig({ currentProblem: problem });
-          this.planComponent.displayPlan(planData.plan);
-        }
-      } else if (this.planComponent) {
-        this.planComponent.showError("Failed to load plan");
+      if (this.planComponent) {
+        this.planComponent.updateConfig({ currentProblem: problem });
+        await this.planComponent.generatePlan();
       }
 
-      if (
-        complexityResponse.status === "fulfilled" &&
-        complexityResponse.value.ok
-      ) {
-        const complexityData = await complexityResponse.value.json();
-        if (this.complexityComponent) {
-          this.complexityComponent.updateConfig({ currentProblem: problem });
-          this.complexityComponent.displayComplexity(complexityData.complexity);
-        }
-      } else if (this.complexityComponent) {
-        this.complexityComponent.showError(
-          "Failed to load complexity analysis"
-        );
+      if (this.complexityComponent) {
+        this.complexityComponent.updateConfig({ currentProblem: problem });
+        await this.complexityComponent.generateComplexity();
       }
 
-      if (
-        edgeCasesResponse.status === "fulfilled" &&
-        edgeCasesResponse.value.ok
-      ) {
-        const edgeCasesData = await edgeCasesResponse.value.json();
-        if (this.edgeCasesComponent) {
-          this.edgeCasesComponent.updateConfig({ currentProblem: problem });
-          this.edgeCasesComponent.displayEdgeCases(edgeCasesData.edge_cases);
-        }
-      } else if (this.edgeCasesComponent) {
-        this.edgeCasesComponent.showError("Failed to load edge cases");
+      if (this.edgeCasesComponent) {
+        this.edgeCasesComponent.updateConfig({ currentProblem: problem });
+        await this.edgeCasesComponent.generateEdgeCases();
       }
     } catch (error) {
       if (this.hintsComponent)

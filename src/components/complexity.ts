@@ -1,5 +1,6 @@
+import { AIClient, AIConfig } from "../tools/ai-client";
+
 interface ComplexityConfig {
-  serverUrl: string;
   selectedModel: string;
   getApiKeyForModel: (model: string) => string | null;
   showModelKeyError: (model: string) => void;
@@ -85,28 +86,19 @@ export class ComplexityComponent {
         return;
       }
 
-      const response = await fetch(`${this.config.serverUrl}/complexity`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          problem: this.config.currentProblem,
-          current_language: this.config.getCurrentLanguage(),
-          dom_elements: this.config.collectDOMElements(),
-          model: this.config.selectedModel,
-          user_api_key: this.config.getApiKeyForModel(
-            this.config.selectedModel
-          ),
-        }),
-      });
+      const aiConfig: AIConfig = {
+        selectedModel: this.config.selectedModel,
+        getApiKeyForModel: this.config.getApiKeyForModel,
+      };
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      const aiClient = new AIClient(aiConfig);
 
-      const data = await response.json();
-      this.displayComplexity(data.complexity);
+      const tags = this.inferTags(this.config.currentProblem);
+      const complexity = await aiClient.analyzeComplexity(
+        this.config.currentProblem,
+        tags
+      );
+      this.displayComplexity(complexity);
     } catch (error) {
       this.showError(
         "Failed to generate complexity analysis. Please try again."
@@ -165,6 +157,104 @@ export class ComplexityComponent {
 
   public updateConfig(newConfig: Partial<ComplexityConfig>): void {
     this.config = { ...this.config, ...newConfig };
+  }
+
+  private inferTags(problem: any): string[] {
+    const text = `${problem.title} ${problem.description}`.toLowerCase();
+    const tags = [];
+
+    if (
+      text.includes("array") ||
+      text.includes("list") ||
+      text.includes("sequence")
+    ) {
+      tags.push("array");
+    }
+    if (
+      text.includes("string") ||
+      text.includes("text") ||
+      text.includes("character")
+    ) {
+      tags.push("string");
+    }
+    if (
+      text.includes("hash") ||
+      text.includes("map") ||
+      text.includes("dictionary")
+    ) {
+      tags.push("hash map");
+    }
+    if (
+      text.includes("stack") ||
+      text.includes("push") ||
+      text.includes("pop")
+    ) {
+      tags.push("stack");
+    }
+    if (
+      text.includes("queue") ||
+      text.includes("heap") ||
+      text.includes("priority")
+    ) {
+      tags.push("heap");
+    }
+    if (
+      text.includes("tree") ||
+      text.includes("node") ||
+      text.includes("binary")
+    ) {
+      tags.push("tree");
+    }
+    if (
+      text.includes("graph") ||
+      text.includes("edge") ||
+      text.includes("vertex")
+    ) {
+      tags.push("graph");
+    }
+    if (
+      text.includes("two pointer") ||
+      text.includes("two-pointer") ||
+      text.includes("pointer")
+    ) {
+      tags.push("two pointers");
+    }
+    if (text.includes("binary search") || text.includes("search")) {
+      tags.push("binary search");
+    }
+    if (
+      text.includes("bfs") ||
+      text.includes("breadth") ||
+      text.includes("level")
+    ) {
+      tags.push("BFS");
+    }
+    if (
+      text.includes("dfs") ||
+      text.includes("depth") ||
+      text.includes("recursion")
+    ) {
+      tags.push("DFS");
+    }
+    if (
+      text.includes("dynamic programming") ||
+      text.includes("dp") ||
+      text.includes("memoization")
+    ) {
+      tags.push("dynamic programming");
+    }
+    if (text.includes("greedy") || text.includes("optimal")) {
+      tags.push("greedy");
+    }
+    if (
+      text.includes("math") ||
+      text.includes("mathematical") ||
+      text.includes("number")
+    ) {
+      tags.push("math");
+    }
+
+    return tags.length > 0 ? tags.slice(0, 5) : ["array", "string"];
   }
 
   public getComplexity(): ComplexityData {

@@ -15,8 +15,6 @@ class OptionsManager {
   private initializeFormElements(): void {
     const elements = [
       "contestSafeMode",
-      "localServerEnabled",
-      "serverUrl",
       "neverUploadToRemote",
       "openaiApiKey",
       "anthropicApiKey",
@@ -180,8 +178,6 @@ class OptionsManager {
         darkMode: false,
         fontSize: "medium",
         contestSafeMode: true,
-        localServerEnabled: true,
-        serverUrl: "http://127.0.0.1:5050",
         neverUploadToRemote: true,
         openaiApiKey: "",
         anthropicApiKey: "",
@@ -195,8 +191,6 @@ class OptionsManager {
         "darkMode",
         "fontSize",
         "contestSafeMode",
-        "localServerEnabled",
-        "serverUrl",
         "neverUploadToRemote",
         "panelVisible",
       ];

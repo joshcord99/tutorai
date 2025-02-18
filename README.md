@@ -1,6 +1,6 @@
 # TUTORAI
 
-A privacy-preserving coding problem tutor for LeetCode that provides AI-powered hints, solutions, and tutoring.
+A standalone privacy-preserving coding problem tutor for LeetCode that provides AI-powered hints, solutions, and tutoring.
 
 ## Quick Start
 
@@ -9,11 +9,6 @@ A privacy-preserving coding problem tutor for LeetCode that provides AI-powered 
 ```bash
 # Install Node.js dependencies
 npm install
-
-# Install Python dependencies
-cd server
-pip install -r requirements.txt
-cd ..
 ```
 
 ### 2. Build the Extension
@@ -22,19 +17,20 @@ cd ..
 npm run build
 ```
 
-### 3. Start the Server
-
-```bash
-cd server
-uvicorn app:app --reload --host 127.0.0.1 --port 5050
-```
-
-### 4. Load the Chrome Extension
+### 3. Load the Chrome Extension
 
 1. Open Chrome and go to `chrome://extensions/`
 2. Enable "Developer mode" (toggle in top right)
 3. Click "Load unpacked" and select the `dist` folder
 4. The extension will appear as "TUTORAI"
+
+### 4. Configure API Keys
+
+1. Click on the extension icon and select "Options"
+2. Enter your API keys for the AI services you want to use:
+   - OpenAI API Key (for GPT models)
+   - Anthropic API Key (for Claude models)
+   - Google Gemini API Key (for Gemini models)
 
 ### 5. Use the Extension
 
@@ -48,16 +44,9 @@ uvicorn app:app --reload --host 127.0.0.1 --port 5050
 - Complexity analysis
 - Edge case identification
 - Interactive chat with AI tutor
-- Privacy-preserving (runs locally)
+- Privacy-preserving (runs entirely in your browser)
+- Support for multiple AI providers (OpenAI, Anthropic, Google)
 
-## API Documentation
+## Privacy
 
-Visit `http://127.0.0.1:5050/docs` to see the FastAPI documentation.
-
-## Environment Variables
-
-Create a `.env` file in the server directory with your OpenAI API key:
-
-```
-OPENAI_API_KEY=your_api_key_here
-```
+This extension is completely standalone and runs entirely in your browser. Your API keys and problem data never leave your device. All AI requests are made directly from your browser to the AI service providers.
