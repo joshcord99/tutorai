@@ -155,7 +155,8 @@ CRITICAL: DO NOT include any time complexity analysis, space complexity analysis
         ".lh-solution"
       ) as HTMLElement;
       if (solutionElement) {
-        solutionElement.innerHTML = marked.parse(solution);
+        let processedSolution = solution;
+        solutionElement.innerHTML = marked.parse(processedSolution);
       }
     } catch (error) {
       this.showError("Failed to generate solution. Please try again.");

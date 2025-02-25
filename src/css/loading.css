@@ -1,224 +1,222 @@
-
 #leet-helper-overlay .lh-loading-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(8px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+#leet-helper-overlay.lh-dark .lh-loading-overlay {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+}
+
+#leet-helper-overlay .lh-loading-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #666;
+  margin: 8px 0;
+}
+
+#leet-helper-overlay.lh-dark .lh-loading-inline {
+  background: #404040;
+  color: #ccc;
+}
+
+#leet-helper-overlay .lh-loading-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#leet-helper-overlay .lh-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 12px;
+}
+
+#leet-helper-overlay .lh-spinner-medium {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+#leet-helper-overlay .lh-spinner-small {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ddd;
+  border-top: 2px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+#leet-helper-overlay.lh-dark .lh-spinner {
+  border-color: #404040;
+  border-top-color: #007bff;
+}
+
+#leet-helper-overlay.lh-dark .lh-spinner-medium {
+  border-color: #404040;
+  border-top-color: #007bff;
+}
+
+#leet-helper-overlay.lh-dark .lh-spinner-small {
+  border-color: #404040;
+  border-top-color: #007bff;
+}
+
+#leet-helper-overlay .lh-loading-text {
+  font-size: 14px;
+  color: #000;
+  font-weight: 500;
+}
+
+#leet-helper-overlay.lh-dark .lh-loading-text {
+  color: #fff;
+}
+
+#leet-helper-overlay .lh-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+
+#leet-helper-overlay .lh-loading-state .lh-spinner {
+  margin-bottom: 16px;
+}
+
+#leet-helper-overlay .lh-loading-state .lh-loading-text {
+  margin-bottom: 8px;
+}
+
+#leet-helper-overlay .lh-loading-state .lh-loading-subtext {
+  font-size: 12px;
+  color: #666;
+  opacity: 0.8;
+}
+
+#leet-helper-overlay.lh-dark .lh-loading-state .lh-loading-subtext {
+  color: #ccc;
+}
+
+#leet-helper-overlay .lh-progress-bar {
+  width: 100%;
+  height: 4px;
+  background: #e9ecef;
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+
+#leet-helper-overlay .lh-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #007bff, #0056b3);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+  animation: progress-pulse 2s ease-in-out infinite;
+}
+
+#leet-helper-overlay.lh-dark .lh-progress-bar {
+  background: #404040;
+}
+
+#leet-helper-overlay.lh-dark .lh-progress-fill {
+  background: linear-gradient(90deg, #007bff, #0056b3);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  
-  #leet-helper-overlay.lh-dark .lh-loading-overlay {
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(8px);
+  100% {
+    transform: rotate(360deg);
   }
-  
-  #leet-helper-overlay .lh-loading-inline {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    font-size: 12px;
-    color: #666;
-    margin: 8px 0;
+}
+
+@keyframes progress-pulse {
+  0%,
+  100% {
+    opacity: 1;
   }
-  
-  #leet-helper-overlay.lh-dark .lh-loading-inline {
-    background: #404040;
-    color: #ccc;
+  50% {
+    opacity: 0.7;
   }
-  
-  #leet-helper-overlay .lh-loading-content {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+}
+
+#leet-helper-overlay .lh-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+#leet-helper-overlay.lh-dark .lh-skeleton {
+  background: linear-gradient(90deg, #404040 25%, #505050 50%, #404040 75%);
+  background-size: 200% 100%;
+}
+
+#leet-helper-overlay .lh-skeleton-text {
+  height: 16px;
+  margin: 8px 0;
+}
+
+#leet-helper-overlay .lh-skeleton-title {
+  height: 24px;
+  margin: 12px 0;
+}
+
+#leet-helper-overlay .lh-skeleton-button {
+  height: 36px;
+  width: 120px;
+  margin: 8px 0;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
   }
-  
-  #leet-helper-overlay .lh-spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #007bff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-bottom: 12px;
+  100% {
+    background-position: -200% 0;
   }
-  
-  #leet-helper-overlay .lh-spinner-medium {
-    width: 24px;
-    height: 24px;
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid #007bff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  
-  #leet-helper-overlay .lh-spinner-small {
-    width: 16px;
-    height: 16px;
-    border: 2px solid #ddd;
-    border-top: 2px solid #007bff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  
-  #leet-helper-overlay.lh-dark .lh-spinner {
-    border-color: #404040;
-    border-top-color: #007bff;
-  }
-  
-  #leet-helper-overlay.lh-dark .lh-spinner-medium {
-    border-color: #404040;
-    border-top-color: #007bff;
-  }
-  
-  #leet-helper-overlay.lh-dark .lh-spinner-small {
-    border-color: #404040;
-    border-top-color: #007bff;
-  }
-  
-  #leet-helper-overlay .lh-loading-text {
-    font-size: 14px;
-    color: #000;
-    font-weight: 500;
-  }
-  
-  #leet-helper-overlay.lh-dark .lh-loading-text {
-    color: #000;
-  }
-  
-  #leet-helper-overlay .lh-loading-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  #leet-helper-overlay .lh-loading-state .lh-spinner {
-    margin-bottom: 16px;
-  }
-  
-  #leet-helper-overlay .lh-loading-state .lh-loading-text {
-    margin-bottom: 8px;
-  }
-  
-  #leet-helper-overlay .lh-loading-state .lh-loading-subtext {
-    font-size: 12px;
-    color: #666;
-    opacity: 0.8;
-  }
-  
-  #leet-helper-overlay.lh-dark .lh-loading-state .lh-loading-subtext {
-    color: #ccc;
-  }
-  
-  #leet-helper-overlay .lh-progress-bar {
-    width: 100%;
-    height: 4px;
-    background: #e9ecef;
-    border-radius: 2px;
-    overflow: hidden;
-    margin: 8px 0;
-  }
-  
-  #leet-helper-overlay .lh-progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #007bff, #0056b3);
-    border-radius: 2px;
-    transition: width 0.3s ease;
-    animation: progress-pulse 2s ease-in-out infinite;
-  }
-  
-  #leet-helper-overlay.lh-dark .lh-progress-bar {
-    background: #404040;
-  }
-  
-  #leet-helper-overlay.lh-dark .lh-progress-fill {
-    background: linear-gradient(90deg, #007bff, #0056b3);
-  }
-  
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  
-  @keyframes progress-pulse {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.7;
-    }
-  }
-  
-  #leet-helper-overlay .lh-skeleton {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-    background-size: 200% 100%;
-    animation: skeleton-loading 1.5s infinite;
-    border-radius: 4px;
-  }
-  
-  #leet-helper-overlay.lh-dark .lh-skeleton {
-    background: linear-gradient(90deg, #404040 25%, #505050 50%, #404040 75%);
-    background-size: 200% 100%;
-  }
-  
-  #leet-helper-overlay .lh-skeleton-text {
-    height: 16px;
-    margin: 8px 0;
-  }
-  
-  #leet-helper-overlay .lh-skeleton-title {
-    height: 24px;
-    margin: 12px 0;
-  }
-  
-  #leet-helper-overlay .lh-skeleton-button {
-    height: 36px;
-    width: 120px;
-    margin: 8px 0;
-  }
-  
-  @keyframes skeleton-loading {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -200% 0;
-    }
-  }
-  
-  #leet-helper-overlay .lh-loading-overlay.lh-fullscreen {
-    position: fixed;
-    z-index: 20000;
-  }
-  
-  #leet-helper-overlay .lh-loading-overlay.lh-transparent {
-    background: transparent;
-    backdrop-filter: none;
-  }
-  
-  #leet-helper-overlay .lh-loading-overlay.lh-minimal {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(2px);
-  }
-  
-  #leet-helper-overlay.lh-dark .lh-loading-overlay.lh-minimal {
-    background: rgba(0, 0, 0, 0.1);
-  }
-  
+}
+
+#leet-helper-overlay .lh-loading-overlay.lh-fullscreen {
+  position: fixed;
+  z-index: 20000;
+}
+
+#leet-helper-overlay .lh-loading-overlay.lh-transparent {
+  background: transparent;
+  backdrop-filter: none;
+}
+
+#leet-helper-overlay .lh-loading-overlay.lh-minimal {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(2px);
+}
+
+#leet-helper-overlay.lh-dark .lh-loading-overlay.lh-minimal {
+  background: rgba(0, 0, 0, 0.1);
+}

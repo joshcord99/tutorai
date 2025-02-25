@@ -7,45 +7,31 @@
   <link rel="stylesheet" href="dist/src/css/options.css">
 </head>
 <body>
-  <h1>TUTORAI Options</h1>
+  <h1 class="title">TUTORAI Configuration</h1>
   
 
 
   <div class="section">
     <h3>AI Model API Keys</h3>
+    <div class="warning">
+      <strong>Privacy:</strong> Your API key is stored locally and never sent to remote servers.
+    </div>
     <div class="form-group">
       <label for="openaiApiKey">OpenAI API Key (optional):</label>
       <input type="password" id="openaiApiKey" placeholder="sk-...">
-      <div class="warning">
-        For development, you can use a .env file. For production, enter your OpenAI API key here.
-        <br><br>
-        <strong>Privacy:</strong> Your API key is stored locally and never sent to remote servers.
-      </div>
     </div>
     <div class="form-group">
       <label for="anthropicApiKey">Anthropic (Claude) API Key (optional):</label>
       <input type="password" id="anthropicApiKey" placeholder="sk-ant-...">
-      <div class="warning">
-        <strong>Privacy:</strong> Your API key is stored locally and never sent to remote servers.
-      </div>
     </div>
     <div class="form-group">
       <label for="geminiApiKey">Google Gemini API Key (optional):</label>
       <input type="password" id="geminiApiKey" placeholder="AIza...">
-      <div class="warning">
-        <strong>Privacy:</strong> Your API key is stored locally and never sent to remote servers.
-      </div>
     </div>
     <div class="form-group">
       <label for="claudeApiKey">Claude API Key (optional):</label>
       <input type="password" id="claudeApiKey" placeholder="sk-ant-...">
-      <div class="warning">
-        <strong>Privacy:</strong> Your API key is stored locally and never sent to remote servers.
-      </div>
     </div>
-  </div>
-
-  <div class="section">
     <h3>Appearance</h3>
     <div class="form-group">
       <label for="panelPosition">Panel position:</label>
@@ -72,7 +58,7 @@
     </div>
   </div>
 
-  <div class="section">
+  <div class="seconday-section">
     <button class="btn" id="saveSettings">Save Settings</button>
     <button class="btn btn-secondary" id="resetSettings">Reset to Defaults</button>
   </div>

@@ -39,6 +39,10 @@
   color: #e1e1e1;
 }
 
+#leet-helper-overlay label[for="lh-solution-language-content"] {
+  color: #fff !important;
+}
+
 #leet-helper-overlay .lh-language-dropdown {
   padding: 8px 12px;
   border: 1px solid #ddd;

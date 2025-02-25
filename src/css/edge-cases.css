@@ -25,11 +25,6 @@
   color: #e1e1e1;
 }
 
-#leet-helper-overlay.lh-dark .lh-edge-cases li:hover {
-  background: #404040;
-  border-color: #007bff;
-}
-
 #leet-helper-overlay .lh-edge-cases li::before {
   content: "";
   margin-right: 8px;
