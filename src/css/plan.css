@@ -11,7 +11,6 @@
   word-wrap: break-word;
   word-break: break-word;
   white-space: pre-wrap;
-  border-left: 3px solid #007bff;
   margin: 0;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid #e9ecef;
@@ -20,7 +19,6 @@
 
 #leet-helper-overlay.lh-dark .lh-plan {
   background: #2d2d2d;
-  border-left: none;
   box-shadow: none;
   border-bottom-color: #404040;
   color: #000;
@@ -218,7 +216,6 @@
 
 #leet-helper-overlay.lh-dark .lh-plan-steps li {
   background: #374151;
-  border-left-color: #007bff;
 }
 
 #leet-helper-overlay .lh-plan-steps li:last-child {

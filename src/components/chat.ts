@@ -35,7 +35,7 @@ export class ChatComponent {
 
     this.container.innerHTML = `
       <div class="lh-chat-welcome">
-        <button class="lh-btn lh-need-help-btn">Chat</button>
+        <button class="lh-need-help-btn">Chat</button>
       </div>
       <div class="lh-chat-messages" style="display: none;"></div>
       <div class="lh-chat-input" style="display: none;">
