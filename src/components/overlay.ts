@@ -186,19 +186,14 @@ export class LeetHelperOverlay {
           </div>
           <div class="lh-tab-content">
             <div class="lh-tab-pane active" data-tab="chat">
-              <!-- Chat component will be initialized here -->
             </div>
             <div class="lh-tab-pane" data-tab="plan">
-              <!-- Plan component will be initialized here -->
             </div>
             <div class="lh-tab-pane" data-tab="edge-cases">
-              <!-- Edge cases component will be initialized here -->
             </div>
             <div class="lh-tab-pane" data-tab="hints">
-              <!-- Hints component will be initialized here -->
             </div>
             <div class="lh-tab-pane" data-tab="complexity">
-              <!-- Complexity component will be initialized here -->
             </div>
             <div class="lh-tab-pane" data-tab="solution">
               ${SolveComponent.createHTML()}

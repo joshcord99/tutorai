@@ -135,7 +135,6 @@ export class AIClient {
         throw new Error(`Unsupported model: ${model}`);
       }
     } catch (error) {
-      console.error("AI request failed:", error);
       throw error;
     }
   }

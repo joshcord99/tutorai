@@ -1,11 +1,14 @@
-
 export class DisclaimerModal {
-    private modal: HTMLElement | null = null;
-  
-      public show(): void {
+  private modal: HTMLElement | null = null;
+
+  public show(): void {
     this.modal = document.createElement("div");
-      this.modal.className = "lh-disclaimer-modal";
-      this.modal.innerHTML = `
+
+    const overlay = document.getElementById("leet-helper-overlay");
+    const isDarkMode = overlay?.classList.contains("lh-dark");
+
+    this.modal.className = `lh-disclaimer-modal ${isDarkMode ? "lh-dark" : ""}`;
+    this.modal.innerHTML = `
         <div class="lh-disclaimer-content">
           <div class="lh-disclaimer-header">
             <h2>TUTORAI Disclaimer</h2>
@@ -43,49 +46,48 @@ export class DisclaimerModal {
           </div>
         </div>
       `;
-  
-      document.body.appendChild(this.modal);
-      this.setupEventListeners();
-    }
-  
-    public hide(): void {
-      if (this.modal && this.modal.parentNode) {
-        this.modal.parentNode.removeChild(this.modal);
-        this.modal = null;
-      }
-    }
-  
-    private setupEventListeners(): void {
-      if (!this.modal) return;
-  
-      const closeBtn = this.modal.querySelector(".lh-close-modal") as HTMLElement;
-      const closeDisclaimerBtn = this.modal.querySelector(
-        ".lh-close-disclaimer"
-      ) as HTMLElement;
-  
-      const closeModal = () => {
-        this.hide();
-      };
-  
-      closeBtn.addEventListener("click", closeModal);
-      closeDisclaimerBtn.addEventListener("click", closeModal);
-      this.modal.addEventListener("click", (e) => {
-        if (e.target === this.modal) {
-          closeModal();
-        }
-            });
 
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === "Escape") {
-          closeModal();
-          document.removeEventListener("keydown", handleKeyDown);
-        }
-      };
-      document.addEventListener("keydown", handleKeyDown);
-    }
-  
-    public isVisible(): boolean {
-      return this.modal !== null;
+    document.body.appendChild(this.modal);
+    this.setupEventListeners();
+  }
+
+  public hide(): void {
+    if (this.modal && this.modal.parentNode) {
+      this.modal.parentNode.removeChild(this.modal);
+      this.modal = null;
     }
   }
-  
+
+  private setupEventListeners(): void {
+    if (!this.modal) return;
+
+    const closeBtn = this.modal.querySelector(".lh-close-modal") as HTMLElement;
+    const closeDisclaimerBtn = this.modal.querySelector(
+      ".lh-close-disclaimer"
+    ) as HTMLElement;
+
+    const closeModal = () => {
+      this.hide();
+    };
+
+    closeBtn.addEventListener("click", closeModal);
+    closeDisclaimerBtn.addEventListener("click", closeModal);
+    this.modal.addEventListener("click", (e) => {
+      if (e.target === this.modal) {
+        closeModal();
+      }
+    });
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeModal();
+        document.removeEventListener("keydown", handleKeyDown);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+  }
+
+  public isVisible(): boolean {
+    return this.modal !== null;
+  }
+}

@@ -118,6 +118,15 @@
   color: #333;
 }
 
+#leet-helper-overlay .lh-solution h1,
+#leet-helper-overlay .lh-solution h2,
+#leet-helper-overlay .lh-solution h3,
+#leet-helper-overlay .lh-solution h4,
+#leet-helper-overlay .lh-solution h5,
+#leet-helper-overlay .lh-solution h6 {
+  color: #333 !important;
+}
+
 #leet-helper-overlay .lh-solution * {
   overflow-x: hidden;
   word-wrap: break-word;
@@ -139,6 +148,15 @@
   background: #1e293b;
   border-color: #334155;
   color: #d4d4d4;
+}
+
+#leet-helper-overlay.lh-dark .lh-solution h1,
+#leet-helper-overlay.lh-dark .lh-solution h2,
+#leet-helper-overlay.lh-dark .lh-solution h3,
+#leet-helper-overlay.lh-dark .lh-solution h4,
+#leet-helper-overlay.lh-dark .lh-solution h5,
+#leet-helper-overlay.lh-dark .lh-solution h6 {
+  color: #d4d4d4 !important;
 }
 
 #leet-helper-overlay .lh-solution-copy {

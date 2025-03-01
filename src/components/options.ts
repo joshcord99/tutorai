@@ -50,6 +50,13 @@ class OptionsManager {
           }
         }
       });
+
+      const darkModeToggle = document.getElementById(
+        "darkMode"
+      ) as HTMLInputElement;
+      if (darkModeToggle) {
+        this.toggleDarkMode(darkModeToggle.checked);
+      }
     } catch (error) {
       this.showStatus("Failed to load settings", "error");
     }
@@ -59,6 +66,15 @@ class OptionsManager {
     Object.entries(this.formElements).forEach(([key, element]) => {
       element.addEventListener("change", () => this.trackChange(key, element));
     });
+
+    const darkModeToggle = document.getElementById(
+      "darkMode"
+    ) as HTMLInputElement;
+    if (darkModeToggle) {
+      darkModeToggle.addEventListener("change", () => {
+        this.toggleDarkMode(darkModeToggle.checked);
+      });
+    }
 
     document
       .getElementById("saveSettings")
@@ -83,6 +99,14 @@ class OptionsManager {
     }
 
     this.pendingChanges[key] = value;
+  }
+
+  private toggleDarkMode(isDark: boolean): void {
+    if (isDark) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
   }
 
   private async saveSetting(

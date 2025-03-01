@@ -36,7 +36,7 @@
   margin: 0;
   font-size: 20px;
   font-weight: 700;
-  color: #000;
+  color: #fffafa;
   letter-spacing: 0.5px;
 }
 
@@ -62,6 +62,20 @@
   line-height: 1.6;
 }
 
+.lh-disclaimer-modal.lh-dark .lh-disclaimer-body {
+  background: rgba(0, 0, 0, 0.95);
+  padding: 24px;
+  line-height: 1.6;
+}
+
+.lh-disclaimer-modal.lh-dark .lh-disclaimer-footer {
+  background: rgba(0, 0, 0, 0.95);
+  padding: 20px 24px;
+  border-radius: 0 0 16px 16px;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 .lh-disclaimer-body h3 {
   color: #000;
   font-size: 16px;
@@ -69,6 +83,25 @@
   margin: 20px 0 8px 0;
   border-bottom: 2px solid rgba(0, 0, 0, 0.2);
   padding-bottom: 4px;
+}
+
+.lh-disclaimer-modal.lh-dark .lh-disclaimer-body h3 {
+  color: #fff;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 20px 0 8px 0;
+}
+
+.lh-disclaimer-modal.lh-dark .lh-disclaimer-body h3:first-child {
+  margin-top: 0;
+}
+
+.lh-disclaimer-modal.lh-dark .lh-disclaimer-body p {
+  margin: 8px 0 16px 0;
+  color: #f7f2f2;
+  font-size: 14px;
 }
 
 .lh-disclaimer-body h3:first-child {
@@ -79,6 +112,10 @@
   margin: 8px 0 16px 0;
   color: #333;
   font-size: 14px;
+}
+
+#leet-helper-overlay.lh-dark .lh-disclaimer-body p {
+  color: #ccc;
 }
 
 .lh-disclaimer-footer {
@@ -106,4 +143,28 @@
   box-shadow: 0 8px 16px rgba(40, 167, 69, 0.3);
   background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
   color: white;
+}
+
+#leet-helper-overlay .lh-disclaimer-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s;
+}
+
+#leet-helper-overlay .lh-disclaimer-btn:hover {
+  background: #5a6268;
+}
+
+#leet-helper-overlay.lh-dark .lh-disclaimer-btn {
+  background: #42505f;
+  color: #ffffff;
+}
+
+#leet-helper-overlay.lh-dark .lh-disclaimer-btn:hover {
+  background: #343a40;
 }

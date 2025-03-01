@@ -1,5 +1,4 @@
 import { Problem, UserPreferences } from "../types";
-import { savePreferences } from "../tools/utils";
 import { marked } from "marked";
 import { AIClient, AIConfig } from "../tools/serverless-logic";
 
@@ -21,6 +20,14 @@ export class SolveComponent {
     this.config = config;
     this.preferences = preferences;
     this.setupEventListeners();
+
+    if (config.getCurrentLanguage) {
+      const detectedLanguage = config.getCurrentLanguage();
+      if (detectedLanguage && detectedLanguage !== "") {
+        this.selectedLanguage = detectedLanguage;
+        this.updateLanguageDropdowns();
+      }
+    }
   }
 
   public updateContent(problem: Problem): void {
@@ -61,7 +68,6 @@ export class SolveComponent {
     const dropdowns = this.container.querySelectorAll(
       ".lh-language-dropdown"
     ) as NodeListOf<HTMLSelectElement>;
-
     dropdowns.forEach((dropdown) => {
       dropdown.value = this.selectedLanguage;
     });
@@ -74,7 +80,6 @@ export class SolveComponent {
     const content = this.container.querySelector(
       ".lh-solution-content"
     ) as HTMLElement;
-
     if (
       confirm(
         "Are you sure you want to reveal the solution? This may reduce the learning benefit."
@@ -82,11 +87,10 @@ export class SolveComponent {
     ) {
       locked.style.display = "none";
       content.style.display = "block";
-
+      this.updateLanguageDropdowns();
       await this.generateSolutionInLanguage(this.selectedLanguage);
     }
   }
-
   public async generateSolutionInLanguage(language: string): Promise<void> {
     if (!this.currentProblem) {
       return;
@@ -114,7 +118,7 @@ export class SolveComponent {
         javascript: "javascript",
         typescript: "typescript",
         java: "java",
-        cpp: "cpp",
+        cpp: "c++",
         c: "c",
         csharp: "csharp",
         php: "php",
@@ -143,9 +147,8 @@ Requirements:
 - Handle edge cases properly
 - Follow good coding practices for ${languageName}
 - Include proper syntax and language-specific conventions
-
-IMPORTANT: Write in plain text only. No HTML, no markdown, no special formatting.
-Use simple headers and indented code.
+- Use markdown formatting for headers (e.g., # Main Header, ## Sub Header)
+- Use proper code indentation
 
 CRITICAL: DO NOT include any time complexity analysis, space complexity analysis, or complexity explanations in your response. Stop after providing the complete working solution. Do not add any text about "This solution has a time complexity of..." or similar complexity analysis.`;
 
@@ -277,7 +280,7 @@ CRITICAL: DO NOT include any time complexity analysis, space complexity analysis
             <option value="javascript">JavaScript</option>
             <option value="typescript">TypeScript</option>
             <option value="java">Java</option>
-            <option value="cpp">C++</option>
+            <option value="c++">C++</option>
             <option value="c">C</option>
             <option value="csharp">C#</option>
             <option value="php">PHP</option>
@@ -305,7 +308,7 @@ CRITICAL: DO NOT include any time complexity analysis, space complexity analysis
               <option value="javascript">JavaScript</option>
               <option value="typescript">TypeScript</option>
               <option value="java">Java</option>
-              <option value="cpp">C++</option>
+              <option value="c++">C++</option>
               <option value="c">C</option>
               <option value="csharp">C#</option>
               <option value="php">PHP</option>

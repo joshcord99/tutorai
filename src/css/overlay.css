@@ -55,8 +55,8 @@
 }
 
 #leet-helper-overlay.lh-dark .lh-header {
-  background: rgba(44, 62, 80, 0.95);
-  border-bottom-color: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.95);
+  border-bottom-color: rgb(255, 255, 255);
 }
 
 #leet-helper-overlay .lh-logo {
@@ -73,7 +73,8 @@
 
 #leet-helper-overlay .lh-controls {
   display: flex;
-  gap: 4px;
+  gap: 12px;
+  background-color: #000000;
   align-items: center;
 }
 
@@ -104,13 +105,21 @@
 #leet-helper-overlay .lh-minimize {
   font-weight: bold;
   font-size: 16px;
-  padding: 0 10px 8px 10px;
+  padding: 0 10px 15px 10px;
   line-height: 1;
-  color: #667eea;
+  color: #f8f9fd;
+  background: #000000;
   text-align: center;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#leet-helper-overlay .lh-close {
+  color: #f8f9fd;
+  background: #000000;
+  border: none;
 }
 
 #leet-helper-overlay.lh-minimized .lh-content,
@@ -203,7 +212,11 @@
 }
 
 #leet-helper-overlay.lh-dark .lh-tab-content {
-  background: #000;
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  background-color: #000000;
+  max-height: 100%;
 }
 
 #leet-helper-overlay .lh-tab-pane {
@@ -230,8 +243,8 @@
 }
 
 #leet-helper-overlay.lh-dark .lh-footer {
-  border-top-color: #404040;
-  background: #2d2d2d;
+  border-top-color: #ffffff;
+  background: #000000;
 }
 
 #leet-helper-overlay .lh-small {
@@ -258,6 +271,10 @@
 
 #leet-helper-overlay .lh-small .lh-hint {
   font-size: 11px;
+}
+
+#leet-helper-overlay .lh-large .lh-hint {
+  font-size: 14px;
 }
 
 #leet-helper-overlay .lh-large .lh-hint {
