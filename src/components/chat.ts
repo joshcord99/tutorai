@@ -40,7 +40,7 @@ export class ChatComponent {
       <div class="lh-chat-messages" style="display: none;"></div>
       <div class="lh-chat-input" style="display: none;">
         <input type="text" class="lh-chat-text" placeholder="Ask for hints or guidance..." />
-        <button class="lh-btn lh-send-btn" disabled>Send</button>
+        <button class="lh-send-btn" disabled>Send</button>
       </div>
     `;
 

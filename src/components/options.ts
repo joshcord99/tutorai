@@ -71,8 +71,9 @@ class OptionsManager {
       "darkMode"
     ) as HTMLInputElement;
     if (darkModeToggle) {
-      darkModeToggle.addEventListener("change", () => {
+      darkModeToggle.addEventListener("change", async () => {
         this.toggleDarkMode(darkModeToggle.checked);
+        await this.saveSetting("darkMode", darkModeToggle);
       });
     }
 
@@ -107,6 +108,8 @@ class OptionsManager {
     } else {
       document.body.classList.remove("dark");
     }
+
+    this.pendingChanges.darkMode = isDark;
   }
 
   private async saveSetting(

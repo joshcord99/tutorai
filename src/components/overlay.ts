@@ -68,6 +68,7 @@ export class LeetHelperOverlay {
     this.currentPosition = await getPanelPosition();
     this.applyTheme();
     this.setupEventListeners();
+    this.setupStorageListener();
     this.positionPanel();
 
     const solveContainer = this.container.querySelector(
@@ -293,6 +294,22 @@ export class LeetHelperOverlay {
     }
 
     this.setupLanguageDetection();
+  }
+
+  private setupStorageListener(): void {
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+      if (namespace === "sync" && changes.preferences) {
+        const newPreferences = changes.preferences.newValue;
+        if (
+          newPreferences &&
+          (newPreferences.darkMode !== this.preferences.darkMode ||
+            newPreferences.fontSize !== this.preferences.fontSize)
+        ) {
+          this.preferences = { ...this.preferences, ...newPreferences };
+          this.applyTheme();
+        }
+      }
+    });
   }
 
   private startDrag(e: MouseEvent): void {
