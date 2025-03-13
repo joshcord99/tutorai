@@ -28,7 +28,6 @@ export class PlanComponent {
         <div class="lh-plan-content">
           <div class="lh-plan-header">
             <h3>Plan</h3>
-            <button class="lh-btn lh-regenerate-plan">Regenerate</button>
           </div>
           <div class="lh-plan-body">
             <pre class="lh-plan"></pre>
@@ -46,14 +45,7 @@ export class PlanComponent {
     this.setupEventListeners();
   }
 
-  private setupEventListeners(): void {
-    const regenerateBtn = this.container.querySelector(
-      ".lh-regenerate-plan"
-    ) as HTMLElement;
-    if (regenerateBtn) {
-      regenerateBtn.addEventListener("click", () => this.generatePlan());
-    }
-  }
+  private setupEventListeners(): void {}
 
   public async generatePlan(): Promise<void> {
     if (this.isLoading || !this.config.currentProblem) return;
@@ -275,10 +267,5 @@ export class PlanComponent {
 
   public updateConfig(newConfig: Partial<PlanConfig>): void {
     this.config = { ...this.config, ...newConfig };
-  }
-
-  public getPlan(): string {
-    const planElement = this.container.querySelector(".lh-plan") as HTMLElement;
-    return planElement?.textContent || "";
   }
 }

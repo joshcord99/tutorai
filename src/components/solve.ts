@@ -118,7 +118,6 @@ export class SolveComponent {
         javascript: "javascript",
         typescript: "typescript",
         java: "java",
-        cpp: "c++",
         c: "c",
         csharp: "csharp",
         php: "php",

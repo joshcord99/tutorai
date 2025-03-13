@@ -272,7 +272,7 @@
 #leet-helper-overlay.lh-dark .lh-hints-content {
   background: #2d2d2d;
   border-color: #404040;
-  border-left-color: #dc3545;
+  border-left-color: #8900f9;
 }
 
 #leet-helper-overlay .lh-hints-header {
@@ -381,7 +381,6 @@
 
 #leet-helper-overlay.lh-dark .lh-hints-steps li {
   background: #374151;
-  border-left-color: #ff3700;
 }
 
 #leet-helper-overlay .lh-hints-steps li:last-child {

@@ -28,7 +28,6 @@ export class HintsComponent {
         <div class="lh-hints-content">
           <div class="lh-hints-header">
             <h3>Hints</h3>
-            <button class="lh-btn lh-regenerate-hints">Regenerate</button>
           </div>
           <div class="lh-hints-body">
             <div class="lh-hints-list"></div>
@@ -46,14 +45,7 @@ export class HintsComponent {
     this.setupEventListeners();
   }
 
-  private setupEventListeners(): void {
-    const regenerateBtn = this.container.querySelector(
-      ".lh-regenerate-hints"
-    ) as HTMLElement;
-    if (regenerateBtn) {
-      regenerateBtn.addEventListener("click", () => this.generateHints());
-    }
-  }
+  private setupEventListeners(): void {}
 
   public async generateHints(): Promise<void> {
     if (this.isLoading || !this.config.currentProblem) return;
@@ -311,17 +303,5 @@ export class HintsComponent {
 
   public updateConfig(newConfig: Partial<HintsConfig>): void {
     this.config = { ...this.config, ...newConfig };
-  }
-
-  public getHints(): string[] {
-    const hintsList = this.container.querySelector(
-      ".lh-hints-list"
-    ) as HTMLElement;
-    if (!hintsList) return [];
-
-    return Array.from(hintsList.children).map((hintDiv) => {
-      const textDiv = hintDiv.querySelector(".lh-hint-text");
-      return textDiv?.textContent || "";
-    });
   }
 }

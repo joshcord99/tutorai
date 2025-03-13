@@ -98,9 +98,7 @@ export class ChatComponent {
     chatMessages.style.display = "flex";
     chatInput.style.display = "flex";
 
-    if (this.chatHistory.length > 0) {
-      this.displayChatHistory();
-    } else {
+    if (this.chatHistory.length === 0) {
       const aiMessageDiv = document.createElement("div");
       aiMessageDiv.className = "lh-chat-message lh-ai-message";
       aiMessageDiv.innerHTML = `<div class="lh-message-content">Hello! I'm here to help you with this problem. What would you like to know?</div>`;
@@ -131,43 +129,6 @@ export class ChatComponent {
     }
   }
 
-  public isChatVisible(): boolean {
-    return this.isVisible;
-  }
-
-  private displayChatHistory(): void {
-    const chatMessages = this.container.querySelector(
-      ".lh-chat-messages"
-    ) as HTMLElement | null;
-    if (!chatMessages) return;
-
-    chatMessages.innerHTML = "";
-    this.chatHistory.forEach((msg) => {
-      const div = document.createElement("div");
-      div.className = `lh-chat-message ${msg.role === "user" ? "lh-user-message" : "lh-ai-message"}`;
-      div.innerHTML = `<div class="lh-message-content">${
-        msg.role === "user"
-          ? this.escapeHTML(msg.content)
-          : marked.parse(msg.content)
-      }</div>`;
-      chatMessages.appendChild(div);
-    });
-
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-
-  public clearChatHistory(): void {
-    this.chatHistory = [];
-    const chatMessages = this.container.querySelector(
-      ".lh-chat-messages"
-    ) as HTMLElement | null;
-    if (chatMessages) chatMessages.innerHTML = "";
-  }
-
-  public getChatHistory(): ChatMessage[] {
-    return [...this.chatHistory];
-  }
-
   private async sendMessage(): Promise<void> {
     const chatInput = this.container.querySelector(
       ".lh-chat-text"
@@ -191,7 +152,7 @@ export class ChatComponent {
 
     const userDiv = document.createElement("div");
     userDiv.className = "lh-chat-message lh-user-message";
-    userDiv.innerHTML = `<div class="lh-message-content">${this.escapeHTML(message)}</div>`;
+    userDiv.textContent = message;
     chatMessages.appendChild(userDiv);
 
     chatInput.value = "";
@@ -263,14 +224,5 @@ export class ChatComponent {
 
   public updateConfig(newConfig: Partial<ChatConfig>): void {
     this.config = { ...this.config, ...newConfig };
-  }
-
-  private escapeHTML(s: string): string {
-    return s
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
   }
 }

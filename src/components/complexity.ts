@@ -34,7 +34,6 @@ export class ComplexityComponent {
         <div class="lh-complexity-content">
           <div class="lh-complexity-header">
             <h3>Complexity Analysis</h3>
-            <button class="lh-btn lh-regenerate-complexity">Regenerate</button>
           </div>
           <div class="lh-complexity-body">
             <div class="lh-complexity">
@@ -63,14 +62,7 @@ export class ComplexityComponent {
     this.setupEventListeners();
   }
 
-  private setupEventListeners(): void {
-    const regenerateBtn = this.container.querySelector(
-      ".lh-regenerate-complexity"
-    ) as HTMLElement;
-    if (regenerateBtn) {
-      regenerateBtn.addEventListener("click", () => this.generateComplexity());
-    }
-  }
+  private setupEventListeners(): void {}
 
   public async generateComplexity(): Promise<void> {
     if (this.isLoading || !this.config.currentProblem) return;
@@ -255,21 +247,5 @@ export class ComplexityComponent {
     }
 
     return tags.length > 0 ? tags.slice(0, 5) : ["array", "string"];
-  }
-
-  public getComplexity(): ComplexityData {
-    const timeElement = this.container.querySelector(".lh-time") as HTMLElement;
-    const spaceElement = this.container.querySelector(
-      ".lh-space"
-    ) as HTMLElement;
-    const rationaleElement = this.container.querySelector(
-      ".lh-rationale"
-    ) as HTMLElement;
-
-    return {
-      time: timeElement?.textContent || "",
-      space: spaceElement?.textContent || "",
-      rationale: rationaleElement?.textContent || "",
-    };
   }
 }

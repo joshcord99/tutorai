@@ -136,6 +136,19 @@
   border: none;
 }
 
+#leet-helper-overlay .lh-refresh {
+  color: #000000;
+  background: #fffdfd;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#leet-helper-overlay.lh-dark .lh-refresh {
+  color: #f8f9fd;
+  background: #000000;
+}
+
 #leet-helper-overlay.lh-minimized .lh-content,
 #leet-helper-overlay.lh-minimized .lh-footer {
   display: none;
@@ -227,7 +240,7 @@
 
 #leet-helper-overlay .lh-tab[data-tab="chat"]:hover {
   background: rgba(234, 179, 8, 0.1);
-  color: #e6ff05;
+  color: #eab308;
 }
 
 #leet-helper-overlay.lh-dark .lh-tab {
@@ -298,8 +311,8 @@
 }
 
 #leet-helper-overlay .lh-tab[data-tab="solution"].active {
-  border-bottom-color: #f60000;
-  color: #e60000;
+  border-bottom-color: #ef4444;
+  color: #ef4444;
 }
 
 #leet-helper-overlay .lh-tab[data-tab="chat"].active {
@@ -418,10 +431,6 @@
 
 #leet-helper-overlay .lh-small .lh-hint {
   font-size: 11px;
-}
-
-#leet-helper-overlay .lh-large .lh-hint {
-  font-size: 14px;
 }
 
 #leet-helper-overlay .lh-large .lh-hint {

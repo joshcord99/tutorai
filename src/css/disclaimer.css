@@ -146,18 +146,14 @@
 }
 
 #leet-helper-overlay .lh-disclaimer-btn {
-  background: #6c757d;
-  color: white;
+  background: #454242;
+  color: rgb(255, 255, 255);
   border: none;
   padding: 6px 12px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 12px;
   transition: background-color 0.2s;
-}
-
-#leet-helper-overlay .lh-disclaimer-btn:hover {
-  background: #5a6268;
 }
 
 #leet-helper-overlay.lh-dark .lh-disclaimer-btn {

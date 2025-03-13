@@ -28,7 +28,6 @@ export class EdgeCasesComponent {
         <div class="lh-edge-cases-content">
           <div class="lh-edge-cases-header">
             <h3>Edge Cases</h3>
-            <button class="lh-btn lh-regenerate-edge-cases">Regenerate</button>
           </div>
           <div class="lh-edge-cases-body">
             <ul class="lh-edge-cases"></ul>
@@ -49,14 +48,7 @@ export class EdgeCasesComponent {
     this.setupEventListeners();
   }
 
-  private setupEventListeners(): void {
-    const regenerateBtn = this.container.querySelector(
-      ".lh-regenerate-edge-cases"
-    ) as HTMLElement;
-    if (regenerateBtn) {
-      regenerateBtn.addEventListener("click", () => this.generateEdgeCases());
-    }
-  }
+  private setupEventListeners(): void {}
 
   public async generateEdgeCases(): Promise<void> {
     if (this.isLoading) {
@@ -191,19 +183,5 @@ export class EdgeCasesComponent {
 
   public updateConfig(newConfig: Partial<EdgeCasesConfig>): void {
     this.config = { ...this.config, ...newConfig };
-  }
-
-  public getEdgeCases(): string[] {
-    const edgeCasesList = this.container.querySelector(
-      ".lh-edge-cases"
-    ) as HTMLElement;
-    if (!edgeCasesList) {
-      return [];
-    }
-
-    const edgeCases = Array.from(edgeCasesList.children).map(
-      (li) => li.textContent || ""
-    );
-    return edgeCases;
   }
 }

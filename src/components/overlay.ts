@@ -172,6 +172,7 @@ export class LeetHelperOverlay {
             </select>
           </div>
           <div class="lh-controls">
+            <button class="lh-btn lh-refresh" title="Refresh">↻</button>
             <button class="lh-btn lh-minimize" title="Minimize">_</button>
             <button class="lh-btn lh-close" title="Close">×</button>
           </div>
@@ -202,7 +203,7 @@ export class LeetHelperOverlay {
           </div>
         </div>
         <div class="lh-footer">
-          <button class="lh-btn lh-disclaimer-btn">Disclaimer</button>
+          <button class="lh-disclaimer-btn">Disclaimer</button>
         </div>
       `;
     return container;
@@ -210,6 +211,9 @@ export class LeetHelperOverlay {
 
   private setupEventListeners(): void {
     const header = this.container.querySelector(".lh-header") as HTMLElement;
+    const refreshBtn = this.container.querySelector(
+      ".lh-refresh"
+    ) as HTMLElement;
     const minimizeBtn = this.container.querySelector(
       ".lh-minimize"
     ) as HTMLElement;
@@ -230,6 +234,10 @@ export class LeetHelperOverlay {
 
     if (minimizeBtn) {
       minimizeBtn.addEventListener("click", this.toggleMinimize.bind(this));
+    }
+
+    if (refreshBtn) {
+      refreshBtn.addEventListener("click", this.refreshCurrentTab.bind(this));
     }
 
     if (closeBtn) {
@@ -267,7 +275,7 @@ export class LeetHelperOverlay {
       let currentLanguage = this.getCurrentLanguage();
 
       if (!currentLanguage || currentLanguage === "") {
-        currentLanguage = "python";
+        currentLanguage = "Pick Language";
       }
 
       languageDropdown.value = currentLanguage;
@@ -282,7 +290,7 @@ export class LeetHelperOverlay {
       let currentLanguage = this.getCurrentLanguage();
 
       if (!currentLanguage || currentLanguage === "") {
-        currentLanguage = "python";
+        currentLanguage = "Pick Language";
       }
 
       languageDropdownContent.value = currentLanguage;
@@ -357,6 +365,38 @@ export class LeetHelperOverlay {
     this.container
       .querySelector(`.lh-tab-pane[data-tab="${tabName}"]`)
       ?.classList.add("active");
+  }
+
+  private async refreshCurrentTab(): Promise<void> {
+    this.startComponentLoading("hints");
+    this.startComponentLoading("plan");
+    this.startComponentLoading("complexity");
+    this.startComponentLoading("edge-cases");
+
+    try {
+      const promises = [];
+
+      if (this.hintsComponent) {
+        promises.push(this.hintsComponent.generateHints());
+      }
+      if (this.planComponent) {
+        promises.push(this.planComponent.generatePlan());
+      }
+      if (this.complexityComponent) {
+        promises.push(this.complexityComponent.generateComplexity());
+      }
+      if (this.edgeCasesComponent) {
+        promises.push(this.edgeCasesComponent.generateEdgeCases());
+      }
+
+      await Promise.all(promises);
+    } catch (error) {
+      console.error("Error refreshing content:", error);
+      this.finishComponentLoading("hints");
+      this.finishComponentLoading("plan");
+      this.finishComponentLoading("complexity");
+      this.finishComponentLoading("edge-cases");
+    }
   }
 
   private toggleMinimize(): void {
@@ -685,10 +725,10 @@ export class LeetHelperOverlay {
       let cppFound = false;
       for (const element of cppElements) {
         const text = element.textContent?.trim();
-        if (text && (text.includes("C++") || text.includes("cpp"))) {
+        if (text && text.includes("C++")) {
           cppFound = true;
           if (["BUTTON", "SPAN", "DIV", "A"].includes(element.tagName)) {
-            return "cpp";
+            return "c++";
           }
         }
       }
@@ -815,10 +855,9 @@ export class LeetHelperOverlay {
 
       java: "java",
 
-      "c++": "cpp",
-      "c++17": "cpp",
-      "c++20": "cpp",
-      cpp: "cpp",
+      "c++": "c++",
+      "c++17": "c++",
+      "c++20": "c++",
 
       c: "c",
 
@@ -848,7 +887,8 @@ export class LeetHelperOverlay {
       elixir: "elixir",
     };
 
-    const mappedLanguage = languageMap[language.toLowerCase()] || "python";
+    const mappedLanguage =
+      languageMap[language.toLowerCase()] || "Pick Language";
 
     return mappedLanguage;
   }
@@ -915,7 +955,7 @@ export class LeetHelperOverlay {
     let currentLanguage = this.getCurrentLanguage();
 
     if (!currentLanguage || currentLanguage === "") {
-      currentLanguage = "python";
+      currentLanguage = "Pick Language";
     }
 
     const languageDropdown = this.container.querySelector(
@@ -1008,7 +1048,7 @@ export class LeetHelperOverlay {
       "javascript",
       "typescript",
       "java",
-      "cpp",
+      "c++",
       "c",
       "csharp",
       "php",
