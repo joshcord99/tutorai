@@ -28,7 +28,19 @@
     "service_worker": "dist/src/background.js"
   },
   "action": {
-    "default_title": "TUTORAI"
+    "default_title": "TUTORAI",
+    "default_icon": {
+      "16": "src/assets/logo.png",
+      "32": "src/assets/logo.png",
+      "48": "src/assets/logo.png",
+      "128": "src/assets/logo.png"
+    }
+  },
+  "icons": {
+    "16": "src/assets/logo.png",
+    "32": "src/assets/logo.png",
+    "48": "src/assets/logo.png",
+    "128": "src/assets/logo.png"
   },
   "options_page": "options.html",
   "commands": {

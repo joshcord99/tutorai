@@ -1,17 +1,46 @@
 # TUTORAI
 
+<img src="src/assets/full-logo.png" width="200" alt="TUTORAI Logo">
+
 A privacy-preserving AI tutor for LeetCode that provides hints, solutions, and interactive tutoring.
+
+## Disclaimer
+
+TUTORAI is a browser extension that:
+
+- Reads LeetCode problem descriptions from the webpage
+- Provides AI-powered hints and guidance for learning
+- Analyzes code complexity and suggests improvements
+- Helps users understand problem-solving approaches
+- Works only on LeetCode problem pages at this current time (not during contests)
 
 ## Features
 
-<img src="server/assets/plan.png" width="700" alt="Planning Interface">
-<img src="server/assets/chat.png" width="300" alt="Chat Interface">
-<img src="server/assets/edge-case.png" width="300" alt="Edge Case Detection">
-<img src="server/assets/hints.png" width="300" alt="Hints System">
-<img src="server/assets/complexity.png" width="300" alt="Complexity Analysis">
-<img src="server/assets/solve-1.png" width="300" alt="Solution Steps">
-<img src="server/assets/solve-2.png" width="300" alt="Detailed Solutions">
-<img src="server/assets/options.png" width="300" alt="Options Configuration">
+### Example
+
+<img src="src/assets/example.png" width="800" alt="Planning Interface">
+
+### Interface
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
+  <img src="src/assets/chat.png" width="350" alt="Chat Interface">
+  <img src="src/assets/plan.png" width="350" alt="Planning Interface">
+  <img src="src/assets/edge-case.png" width="350" alt="Edge Case Detection">
+  <img src="src/assets/hints.png" width="350" alt="Hints System">
+  <img src="src/assets/complexity.png" width="350" alt="Complexity Analysis">
+  <img src="src/assets/solve-1.png" width="350" alt="Solution Steps">
+</div>
+
+### Solution Analysis
+
+<div style="display: flex; gap: 20px; flex-wrap: wrap;">
+
+  <img src="src/assets/solve-2.png" width="350" alt="Detailed Solutions">
+</div>
+
+### Configuration
+
+<img src="src/assets/options.png" width="400" alt="Options Configuration">
 
 ## Quick Setup
 
