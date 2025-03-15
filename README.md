@@ -1,52 +1,41 @@
 # TUTORAI
 
-A standalone privacy-preserving coding problem tutor for LeetCode that provides AI-powered hints, solutions, and tutoring.
-
-## Quick Start
-
-### 1. Install Dependencies
-
-```bash
-# Install Node.js dependencies
-npm install
-```
-
-### 2. Build the Extension
-
-```bash
-npm run build
-```
-
-### 3. Load the Chrome Extension
-
-1. Open Chrome and go to `chrome://extensions/`
-2. Enable "Developer mode" (toggle in top right)
-3. Click "Load unpacked" and select the `dist` folder
-4. The extension will appear as "TUTORAI"
-
-### 4. Configure API Keys
-
-1. Click on the extension icon and select "Options"
-2. Enter your API keys for the AI services you want to use:
-   - OpenAI API Key (for GPT models)
-   - Anthropic API Key (for Claude models)
-   - Google Gemini API Key (for Gemini models)
-
-### 5. Use the Extension
-
-1. Go to any LeetCode problem (e.g., `https://leetcode.com/problems/two-sum/`)
-2. Press `Ctrl+Shift+L` or click the extension icon
-3. The TUTORAI overlay will appear with AI-powered tutoring features
+A privacy-preserving AI tutor for LeetCode that provides hints, solutions, and interactive tutoring.
 
 ## Features
 
-- AI-powered hints and solutions
-- Complexity analysis
-- Edge case identification
-- Interactive chat with AI tutor
-- Privacy-preserving (runs entirely in your browser)
-- Support for multiple AI providers (OpenAI, Anthropic, Google)
+<img src="server/assets/plan.png" width="700" alt="Planning Interface">
+<img src="server/assets/chat.png" width="300" alt="Chat Interface">
+<img src="server/assets/edge-case.png" width="300" alt="Edge Case Detection">
+<img src="server/assets/hints.png" width="300" alt="Hints System">
+<img src="server/assets/complexity.png" width="300" alt="Complexity Analysis">
+<img src="server/assets/solve-1.png" width="300" alt="Solution Steps">
+<img src="server/assets/solve-2.png" width="300" alt="Detailed Solutions">
+<img src="server/assets/options.png" width="300" alt="Options Configuration">
 
-## Privacy
+## Quick Setup
 
-This extension is completely standalone and runs entirely in your browser. Your API keys and problem data never leave your device. All AI requests are made directly from your browser to the AI service providers.
+1. **Install & Build**
+
+   ```bash
+   npm install
+   npm run build
+   ```
+
+2. **Load Extension**
+   - Open Chrome → `chrome://extensions/`
+   - Enable "Developer mode"
+   - Click "Load unpacked" → select `dist` folder
+
+3. **Configure API Keys**
+   - Click extension icon → "Options"
+   - Add your API keys for OpenAI, Anthropic, or Google Gemini
+
+4. **Start Learning**
+   - Go to any LeetCode problem
+   - Press `Ctrl+Shift+L` or click extension icon
+   - Get AI-powered tutoring instantly
+
+## Privacy First
+
+All processing happens in your browser. Your API keys and data never leave your device.
