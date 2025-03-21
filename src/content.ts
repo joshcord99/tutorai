@@ -139,12 +139,7 @@ class LeetHelperContent {
 
     this.currentProblem = problem;
 
-    if (this.preferences.localServerEnabled) {
-      if (!this.preferences.openaiApiKey) {
-        return;
-      }
-      await this.fetchHints(problem);
-    }
+    await this.fetchHints(problem);
   }
 
   private async fetchHints(problem: Problem): Promise<void> {
