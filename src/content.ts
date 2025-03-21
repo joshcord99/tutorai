@@ -149,6 +149,7 @@ class LeetHelperContent {
       await this.overlay.updateContent({} as HintResponse, problem);
 
       this.overlay.hideLoading();
+      this.overlay.show();
     } catch (error) {
       this.overlay.hideLoading();
       this.showErrorNotice();
