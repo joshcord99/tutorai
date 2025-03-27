@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "TUTORAI",
+  "name": "TutorAI",
   "version": "1.0.0",
   "description": "Privacy-preserving coding problem tutor for LeetCode",
   "permissions": ["activeTab", "storage", "tabs"],
@@ -28,7 +28,7 @@
     "service_worker": "dist/src/background.js"
   },
   "action": {
-    "default_title": "TUTORAI",
+    "default_title": "TutorAI",
     "default_icon": {
       "16": "src/assets/logo.png",
       "32": "src/assets/logo.png",
@@ -48,7 +48,7 @@
       "suggested_key": {
         "default": "Ctrl+Shift+L"
       },
-      "description": "Toggle TUTORAI overlay"
+      "description": "Toggle TutorAI overlay"
     }
   }
 }

@@ -44,11 +44,7 @@ export class EdgeCasesComponent {
     } else {
       this.container.appendChild(edgeCasesContainer);
     }
-
-    this.setupEventListeners();
   }
-
-  private setupEventListeners(): void {}
 
   public async generateEdgeCases(): Promise<void> {
     if (this.isLoading) {
@@ -66,7 +62,6 @@ export class EdgeCasesComponent {
       if (!apiKey) {
         this.config.showModelKeyError(this.config.selectedModel);
         this.isLoading = false;
-        this.hideLoading();
         return;
       }
 
@@ -85,7 +80,6 @@ export class EdgeCasesComponent {
       this.showError("Failed to generate edge cases. Please try again.");
     } finally {
       this.isLoading = false;
-      this.hideLoading();
       this.config.finishComponentLoading?.("edge-cases");
     }
   }
@@ -169,8 +163,6 @@ export class EdgeCasesComponent {
       `;
     }
   }
-
-  private hideLoading(): void {}
 
   public showError(message: string): void {
     const edgeCasesList = this.container.querySelector(

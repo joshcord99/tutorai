@@ -58,11 +58,7 @@ export class ComplexityComponent {
     } else {
       this.container.appendChild(complexityContainer);
     }
-
-    this.setupEventListeners();
   }
-
-  private setupEventListeners(): void {}
 
   public async generateComplexity(): Promise<void> {
     if (this.isLoading || !this.config.currentProblem) return;
@@ -97,7 +93,6 @@ export class ComplexityComponent {
       );
     } finally {
       this.isLoading = false;
-      this.hideLoading();
       this.config.finishComponentLoading?.("complexity");
     }
   }
@@ -130,8 +125,6 @@ export class ComplexityComponent {
     if (rationaleElement)
       rationaleElement.textContent = "Generating complexity analysis...";
   }
-
-  private hideLoading(): void {}
 
   public showError(message: string): void {
     const timeElement = this.container.querySelector(".lh-time") as HTMLElement;

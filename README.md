@@ -1,26 +1,22 @@
-# TUTORAI
+# TutorAI
 
-<img src="src/assets/full-logo.png" width="200" alt="TUTORAI Logo">
+<img src="src/assets/full-logo.png" width="200" alt="TutorAI Logo">
 
 A privacy-preserving AI tutor for LeetCode that provides hints, solutions, and interactive tutoring.
 
-## Disclaimer
+## What is TutorAI?
 
-TUTORAI is a browser extension that:
+TutorAI is a browser extension that:
 
 - Reads LeetCode problem descriptions from the webpage
 - Provides AI-powered hints and guidance for learning
 - Analyzes code complexity and suggests improvements
 - Helps users understand problem-solving approaches
-- Works only on LeetCode problem pages at this current time (not during contests)
+- Works only on LeetCode problem pages (not during contests)
 
 ## Features
 
-### Example
-
-<img src="src/assets/example.png" width="800" alt="Planning Interface">
-
-### Interface
+### Interface Overview
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
   <img src="src/assets/chat.png" width="350" alt="Chat Interface">
@@ -34,7 +30,6 @@ TUTORAI is a browser extension that:
 ### Solution Analysis
 
 <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-
   <img src="src/assets/solve-2.png" width="350" alt="Detailed Solutions">
 </div>
 
@@ -42,29 +37,67 @@ TUTORAI is a browser extension that:
 
 <img src="src/assets/options.png" width="400" alt="Options Configuration">
 
-## Quick Setup
+## Installation & Setup
 
-1. **Install & Build**
+### 1. Install & Build
 
-   ```bash
-   npm install
-   npm run build
-   ```
+```bash
+npm install
+npm run build
+```
 
-2. **Load Extension**
-   - Open Chrome → `chrome://extensions/`
-   - Enable "Developer mode"
-   - Click "Load unpacked" → select `dist` folder
+### 2. Load Extension
 
-3. **Configure API Keys**
-   - Click extension icon → "Options"
-   - Add your API keys for OpenAI, Anthropic, or Google Gemini
+- Open Chrome → `chrome://extensions/`
+- Enable "Developer mode"
+- Click "Load unpacked" → select `dist` folder
 
-4. **Start Learning**
-   - Go to any LeetCode problem
-   - Press `Ctrl+Shift+L` or click extension icon
-   - Get AI-powered tutoring instantly
+### 3. Configure API Keys
 
-## Privacy First
+- Click extension icon → "Options"
+- Add your API keys for OpenAI, Anthropic, or Google Gemini
+
+### 4. Start Learning
+
+- Go to any LeetCode problem
+- Press `Ctrl+Shift+L` or click extension icon
+- Get AI-powered tutoring instantly
+
+## API Usage
+
+**API Calls per Problem:**
+
+- **Initial Load**: 4 API calls (hints, plan, edge cases, complexity analysis)
+- **Chat Messages**: 1 API call per message
+- **Solution Generation**: 1 API call per request
+- **Refresh Button**: 4 API calls (regenerates hints, plan, edge cases, complexity analysis)
+
+**Note:** API costs vary by provider and usage. Check your chosen provider's pricing page for current rates.
+
+## Privacy & Security
 
 All processing happens in your browser. Your API keys and data never leave your device.
+
+## Contributing
+
+### Open Source
+
+TutorAI is open source software. You can review the code and contribute improvements.
+
+### Bug Reports
+
+**Found a bug?** Please report it as an issue on GitHub with details about:
+
+- What you were doing when the bug occurred
+- Steps to reproduce the issue
+- Any error messages you see
+- Screenshots
+
+### Feature Requests
+
+Have ideas for new features or improvements? We'd love to hear them! Please create an issue on GitHub with:
+
+- **Feature Request** label
+- Clear description of the proposed feature
+- Why it would be helpful for learning
+- Any examples or mockups if applicable

@@ -17,10 +17,8 @@ class OptionsManager {
       "openaiApiKey",
       "anthropicApiKey",
       "geminiApiKey",
-      "claudeApiKey",
       "panelPosition",
       "darkMode",
-      "fontSize",
     ];
 
     elements.forEach((id) => {
@@ -141,7 +139,10 @@ class OptionsManager {
     try {
       await savePreferences(this.pendingChanges);
       this.pendingChanges = {};
-      this.showStatus("Settings saved successfully", "success");
+      this.showStatus(
+        "Settings saved successfully: Please refresh the problem page to apply the changes.",
+        "success"
+      );
     } catch (error) {
       this.showStatus("Failed to save settings", "error");
     }
@@ -201,22 +202,15 @@ class OptionsManager {
       const defaultPreferences: UserPreferences = {
         panelPosition: "bottom-right",
         darkMode: false,
-        fontSize: "medium",
         contestSafeMode: true,
         neverUploadToRemote: true,
         openaiApiKey: "",
         anthropicApiKey: "",
         geminiApiKey: "",
-        claudeApiKey: "",
         panelVisible: false,
       };
 
-      const requiredFields = [
-        "panelPosition",
-        "darkMode",
-        "fontSize",
-        "panelVisible",
-      ];
+      const requiredFields = ["panelPosition", "darkMode", "panelVisible"];
       for (const field of requiredFields) {
         if (!(field in defaultPreferences)) {
           throw new Error(`Missing required field: ${field}`);

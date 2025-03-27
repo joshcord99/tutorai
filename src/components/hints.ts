@@ -41,11 +41,7 @@ export class HintsComponent {
     } else {
       this.container.appendChild(hintsContainer);
     }
-
-    this.setupEventListeners();
   }
-
-  private setupEventListeners(): void {}
 
   public async generateHints(): Promise<void> {
     if (this.isLoading || !this.config.currentProblem) return;
@@ -77,7 +73,6 @@ export class HintsComponent {
       this.showError("Failed to generate hints. Please try again.");
     } finally {
       this.isLoading = false;
-      this.hideLoading();
       this.config.finishComponentLoading?.("hints");
     }
   }
@@ -289,8 +284,6 @@ export class HintsComponent {
         "<div class='lh-hint-item'>Generating hints...</div>";
     }
   }
-
-  private hideLoading(): void {}
 
   public showError(message: string): void {
     const hintsList = this.container.querySelector(

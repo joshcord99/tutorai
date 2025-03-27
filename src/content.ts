@@ -1,21 +1,16 @@
 import { readProblem } from "./tools/reader";
 import { LeetHelperOverlay } from "./components/overlay";
-import { getPreferences, isContestPage, debounce } from "./tools/utils";
+import { isContestPage } from "./tools/utils";
 import { Problem, HintResponse } from "./types";
 
 class LeetHelperContent {
   private overlay!: LeetHelperOverlay;
-  private preferences: any;
   private currentProblem: Problem | null = null;
   private isInitialized = false;
-  private mutationObserver: MutationObserver | null = null;
-  private debouncedProcessPage!: () => void;
 
   constructor() {
     try {
       this.overlay = new LeetHelperOverlay();
-      this.preferences = {};
-      this.debouncedProcessPage = debounce(() => this.processPage(), 1000);
       this.initialize();
     } catch (error) {}
   }
@@ -23,17 +18,11 @@ class LeetHelperContent {
   private async initialize(): Promise<void> {
     if (this.isInitialized) return;
 
-    this.preferences = await getPreferences();
     this.setupKeyboardShortcuts();
-    this.setupMutationObserver();
 
     if (isContestPage()) {
       this.showContestNotice();
       return;
-    }
-
-    if (this.preferences.panelVisible) {
-      await this.processPage();
     }
 
     this.isInitialized = true;
@@ -49,42 +38,6 @@ class LeetHelperContent {
       if (e.key === "Escape") {
         this.overlay.hide();
       }
-    });
-  }
-
-  private setupMutationObserver(): void {
-    this.mutationObserver = new MutationObserver((mutations) => {
-      let shouldProcess = false;
-
-      for (const mutation of mutations) {
-        if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
-          for (const node of mutation.addedNodes) {
-            if (node.nodeType === Node.ELEMENT_NODE) {
-              const element = node as Element;
-              if (
-                element.querySelector &&
-                (element.querySelector(
-                  '[data-track-load="description_content"]'
-                ) ||
-                  element.querySelector("h1") ||
-                  element.querySelector('[data-e2e-locator="problem-title"]'))
-              ) {
-                shouldProcess = true;
-                break;
-              }
-            }
-          }
-        }
-      }
-
-      if (shouldProcess) {
-        this.debouncedProcessPage();
-      }
-    });
-
-    this.mutationObserver.observe(document.body, {
-      childList: true,
-      subtree: true,
     });
   }
 
@@ -106,7 +59,7 @@ class LeetHelperContent {
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     `;
     notice.innerHTML = `
-      <strong>TUTORAI</strong><br>
+      <strong>TutorAI</strong><br>
       Disabled on contest pages to ensure fair competition.
     `;
 
@@ -138,18 +91,22 @@ class LeetHelperContent {
     }
 
     this.currentProblem = problem;
-
-    await this.fetchHints(problem);
   }
 
   private async fetchHints(problem: Problem): Promise<void> {
     try {
       this.overlay.showLoading();
-
-      await this.overlay.updateContent({} as HintResponse, problem);
-
-      this.overlay.hideLoading();
       this.overlay.show();
+
+      this.overlay
+        .updateContent({} as HintResponse, problem)
+        .then(() => {
+          this.overlay.hideLoading();
+        })
+        .catch((error) => {
+          this.overlay.hideLoading();
+          this.showErrorNotice();
+        });
     } catch (error) {
       this.overlay.hideLoading();
       this.showErrorNotice();
@@ -174,70 +131,8 @@ class LeetHelperContent {
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     `;
     notice.innerHTML = `
-      <strong>TUTORAI</strong><br>
+      <strong>TutorAI</strong><br>
       Server is slow or unresponsive. Try refreshing the page or check your OpenAI API key.
-    `;
-
-    document.body.appendChild(notice);
-
-    setTimeout(() => {
-      if (notice.parentNode) {
-        notice.parentNode.removeChild(notice);
-      }
-    }, 5000);
-  }
-
-  private showTimeoutNotice(): void {
-    const notice = document.createElement("div");
-    notice.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #fff3cd;
-      border: 1px solid #ffeaa7;
-      border-radius: 6px;
-      padding: 12px 16px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      font-size: 13px;
-      color: #856404;
-      z-index: 9999;
-      max-width: 300px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    `;
-    notice.innerHTML = `
-      <strong>TUTORAI</strong><br>
-      Request timed out. AI generation is taking longer than expected. Try the chat feature instead.
-    `;
-
-    document.body.appendChild(notice);
-
-    setTimeout(() => {
-      if (notice.parentNode) {
-        notice.parentNode.removeChild(notice);
-      }
-    }, 5000);
-  }
-
-  private showServerConnectionError(): void {
-    const notice = document.createElement("div");
-    notice.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #f8d7da;
-      border: 1px solid #f5c6cb;
-      border-radius: 6px;
-      padding: 12px 16px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      font-size: 13px;
-      color: #721c24;
-      z-index: 9999;
-      max-width: 300px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    `;
-    notice.innerHTML = `
-      <strong>TUTORAI</strong><br>
-      Cannot connect to local server. Make sure the server is running at ${this.preferences.serverUrl}
     `;
 
     document.body.appendChild(notice);
@@ -258,21 +153,20 @@ class LeetHelperContent {
       return;
     }
 
-    if (!this.currentProblem) {
-      this.processPage().then(() => {
-        this.overlay.toggle();
-      });
-    } else {
-      this.overlay.toggle();
+    this.processPage().then(() => {
+      if (this.currentProblem) {
+        this.fetchHints(this.currentProblem);
+      }
+    });
+  }
+
+  public async waitForInitialization(): Promise<void> {
+    while (!this.isInitialized) {
+      await new Promise((resolve) => setTimeout(resolve, 50));
     }
   }
 
   public destroy(): void {
-    if (this.mutationObserver) {
-      this.mutationObserver.disconnect();
-      this.mutationObserver = null;
-    }
-
     if (this.overlay) {
       this.overlay.destroy();
     }
@@ -282,11 +176,12 @@ class LeetHelperContent {
 let leetHelper: LeetHelperContent | null = null;
 let isInitializing = false;
 
-function initializeLeetHelper() {
+async function initializeLeetHelper() {
   if (!leetHelper && !isInitializing) {
     isInitializing = true;
     try {
       leetHelper = new LeetHelperContent();
+      await leetHelper.waitForInitialization();
     } catch (error) {
     } finally {
       isInitializing = false;
@@ -299,12 +194,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "toggle") {
       if (!leetHelper) {
         initializeLeetHelper();
-
         setTimeout(() => {
           if (leetHelper) {
             leetHelper.toggleOverlay();
           }
-        }, 100);
+        }, 0);
         sendResponse({ success: true });
       } else {
         leetHelper.toggleOverlay();

@@ -11,27 +11,27 @@ export class DisclaimerModal {
     this.modal.innerHTML = `
         <div class="lh-disclaimer-content">
           <div class="lh-disclaimer-header">
-            <h2>TUTORAI Disclaimer</h2>
+            <h2>TutorAI Disclaimer</h2>
             <button class="lh-close-modal">×</button>
           </div>
           <div class="lh-disclaimer-body">
             <h3>Educational Use Only</h3>
-            <p>TUTORAI is designed exclusively for educational purposes to assist users in learning programming concepts and problem-solving techniques. This tool is not intended to provide complete solutions or enable academic dishonesty.</p>
+            <p>TutorAI is designed exclusively for educational purposes to assist users in learning programming concepts and problem-solving techniques. While this tool can provide complete solutions, it should be used responsibly as a learning aid, not for academic dishonesty.</p>
             
             <h3>No Affiliation</h3>
-            <p>TUTORAI is not affiliated with, endorsed by, or connected to LeetCode, its parent company, or any other coding platform. This is an independent educational tool.</p>
+            <p>TutorAI is not affiliated with, endorsed by, or connected to LeetCode, its parent company, or any other coding platform. This is an independent educational tool.</p>
             
             <h3>Privacy & Data</h3>
             <p>• All processing happens locally on your device<br>
             • No problem data is uploaded to remote servers<br>
             • Your code and problem information never leaves your device<br>
-            • Optional OpenAI integration requires your explicit API key</p>
+            • Optional OpenAI/Anthropic/Google Gemini integration requires your explicit API key</p>
             
             <h3>Contest Safety</h3>
-            <p>TUTORAI automatically disables during LeetCode contests to ensure fair competition and prevent any potential violations of contest rules.</p>
+            <p>TutorAI automatically disables during LeetCode contests to ensure fair competition and prevent any potential violations of contest rules.</p>
             
             <h3>Responsible Use</h3>
-            <p>Users are responsible for using this tool ethically and in accordance with their educational institution's policies. TUTORAI should be used as a learning aid, not as a substitute for understanding and solving problems independently.</p>
+            <p>Users are responsible for using this tool ethically and in accordance with their educational institution's policies. TutorAI should be used as a learning aid, not as a substitute for understanding and solving problems independently.</p>
             
             <h3>Limitations</h3>
             <p>• AI-generated hints and solutions may not always be optimal<br>
@@ -39,7 +39,7 @@ export class DisclaimerModal {
             • Users should verify and understand all provided guidance</p>
             
             <h3>Open Source</h3>
-            <p>TUTORAI is open source software. Users can review the code to understand how it works and verify its privacy practices.</p>
+            <p>TutorAI is open source software. Users can review the code to understand how it works and verify its privacy practices.</p>
           </div>
           <div class="lh-disclaimer-footer">
             <button class="lh-btn lh-close-disclaimer">I Understand</button>

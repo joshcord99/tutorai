@@ -3,7 +3,6 @@ import { UserPreferences, PanelPosition } from "../types";
 const DEFAULT_PREFERENCES: UserPreferences = {
   panelPosition: "bottom-right",
   darkMode: false,
-  fontSize: "medium",
   contestSafeMode: true,
   neverUploadToRemote: true,
   panelVisible: false,

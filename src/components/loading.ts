@@ -1,4 +1,3 @@
-
 export interface LoadingConfig {
     container: HTMLElement;
     message?: string;

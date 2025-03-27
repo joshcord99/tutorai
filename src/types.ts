@@ -27,14 +27,12 @@ export interface HintResponse {
 export interface UserPreferences {
   panelPosition: "top-right" | "top-left" | "bottom-right" | "bottom-left";
   darkMode: boolean;
-  fontSize: "small" | "medium" | "large";
   contestSafeMode: boolean;
   neverUploadToRemote: boolean;
   panelVisible: boolean;
   openaiApiKey?: string;
   anthropicApiKey?: string;
   geminiApiKey?: string;
-  claudeApiKey?: string;
 }
 
 export interface PanelPosition {

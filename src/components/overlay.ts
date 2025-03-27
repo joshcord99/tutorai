@@ -53,7 +53,6 @@ export class LeetHelperOverlay {
     this.preferences = {
       panelPosition: "bottom-right",
       darkMode: false,
-      fontSize: "medium",
       contestSafeMode: true,
       neverUploadToRemote: true,
       panelVisible: false,
@@ -163,7 +162,7 @@ export class LeetHelperOverlay {
     container.className = "lh-container lh-light lh-medium";
     container.innerHTML = `
         <div class="lh-header">
-          <div class="lh-logo">TUTORAI</div>
+          <div class="lh-logo">TutorAI</div>
           <div class="lh-model-selector">
             <select id="lh-ai-model" class="ai-model-switch">
               <option value="openai">OpenAI</option>
@@ -310,8 +309,7 @@ export class LeetHelperOverlay {
         const newPreferences = changes.preferences.newValue;
         if (
           newPreferences &&
-          (newPreferences.darkMode !== this.preferences.darkMode ||
-            newPreferences.fontSize !== this.preferences.fontSize)
+          newPreferences.darkMode !== this.preferences.darkMode
         ) {
           this.preferences = { ...this.preferences, ...newPreferences };
           this.applyTheme();
@@ -453,9 +451,9 @@ export class LeetHelperOverlay {
   }
 
   private applyTheme(): void {
-    const { darkMode, fontSize } = this.preferences;
+    const { darkMode } = this.preferences;
 
-    this.container.className = `lh-container ${darkMode ? "lh-dark" : "lh-light"} lh-${fontSize}`;
+    this.container.className = `lh-container ${darkMode ? "lh-dark" : "lh-light"}`;
   }
 
   private savePosition(): void {
@@ -1093,7 +1091,7 @@ export class LeetHelperOverlay {
 
     const modelName = model.charAt(0).toUpperCase() + model.slice(1);
     errorDiv.innerHTML = `
-        <strong>TUTORAI</strong><br>
+        <strong>TutorAI</strong><br>
         No API key found for ${modelName}. Please add your ${modelName} API key in the extension options or right-click the extension icon and select "Options".
       `;
 
@@ -1225,7 +1223,7 @@ export class LeetHelperOverlay {
       loadingOverlay.className = "lh-loading-overlay";
       loadingOverlay.innerHTML = `
           <div class="lh-spinner"></div>
-          <div class="lh-loading-text">TUTORAI is analyzing...</div>
+          <div class="lh-loading-text">TutorAI is analyzing...</div>
         `;
 
       content.appendChild(loadingOverlay);

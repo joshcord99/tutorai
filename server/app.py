@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = FastAPI(title="TUTORAI API", version="1.0.0")
+app = FastAPI(title="TutorAI API", version="1.0.0")
 
 openai_client = None
 openai_client = None
@@ -548,7 +548,7 @@ async def get_edge_cases(request: dict):
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "service": "TUTORAI API"}
+    return {"status": "healthy", "service": "TutorAI API"}
 
 if __name__ == "__main__":
     import uvicorn

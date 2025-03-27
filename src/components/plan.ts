@@ -41,11 +41,7 @@ export class PlanComponent {
     } else {
       this.container.appendChild(planContainer);
     }
-
-    this.setupEventListeners();
   }
-
-  private setupEventListeners(): void {}
 
   public async generatePlan(): Promise<void> {
     if (this.isLoading || !this.config.currentProblem) return;
@@ -77,7 +73,6 @@ export class PlanComponent {
       this.showError("Failed to generate plan. Please try again.");
     } finally {
       this.isLoading = false;
-      this.hideLoading();
       this.config.finishComponentLoading?.("plan");
     }
   }
@@ -255,8 +250,6 @@ export class PlanComponent {
       `;
     }
   }
-
-  private hideLoading(): void {}
 
   public showError(message: string): void {
     const planElement = this.container.querySelector(".lh-plan") as HTMLElement;
