@@ -172,15 +172,6 @@ export class ChatComponent {
         return;
       }
 
-      const problemContext = `Problem: ${this.config.currentProblem?.title || "Unknown"}\nDescription: ${this.config.currentProblem?.description || "No description available"}`;
-      const currentLanguage = this.config.getCurrentLanguage();
-      const domElements = this.config.collectDOMElements();
-
-      const conversationHistory = this.chatHistory
-        .slice(-10)
-        .map((m) => `${m.role === "user" ? "User" : "Assistant"}: ${m.content}`)
-        .join("\n");
-
       const aiConfig: AIConfig = {
         selectedModel: this.config.selectedModel,
         getApiKeyForModel: this.config.getApiKeyForModel,
@@ -224,5 +215,19 @@ export class ChatComponent {
 
   public updateConfig(newConfig: Partial<ChatConfig>): void {
     this.config = { ...this.config, ...newConfig };
+  }
+
+  public showError(message: string): void {
+    const chatMessages = this.container.querySelector(
+      ".lh-chat-messages"
+    ) as HTMLElement | null;
+
+    if (chatMessages) {
+      const errorDiv = document.createElement("div");
+      errorDiv.className = "lh-chat-message lh-ai-message";
+      errorDiv.innerHTML = `<div class="lh-message-content">${message}</div>`;
+      chatMessages.appendChild(errorDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
   }
 }

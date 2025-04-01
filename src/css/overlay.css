@@ -157,6 +157,10 @@
   transition: all 0.3s ease;
 }
 
+#leet-helper-overlay.lh-minimized .lh-minimize {
+  padding: 0 10px 3px 10px;
+}
+
 #leet-helper-overlay .lh-content {
   height: calc(100% - 120px);
   display: flex;

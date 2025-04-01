@@ -407,14 +407,14 @@ export class LeetHelperOverlay {
 
     if (isMinimized) {
       this.container.classList.remove("lh-minimized");
-      this.container.style.height = "500px";
-      this.container.style.width = "400px";
+      this.container.style.height = "495px";
+      this.container.style.width = "500px";
       minimizeBtn.textContent = "_";
       minimizeBtn.title = "Minimize";
     } else {
       this.container.classList.add("lh-minimized");
-      this.container.style.height = "50px";
-      this.container.style.width = "200px";
+      this.container.style.height = "61px";
+      this.container.style.width = "354px";
       minimizeBtn.textContent = "□";
       minimizeBtn.title = "Restore";
     }
@@ -536,7 +536,9 @@ export class LeetHelperOverlay {
         this.showModelKeyError(this.selectedModel);
         return;
       }
-
+      if (this.chatComponent) {
+        this.chatComponent.updateConfig({ currentProblem: problem });
+      }
       if (this.hintsComponent) {
         this.hintsComponent.updateConfig({ currentProblem: problem });
         await this.hintsComponent.generateHints();
@@ -557,6 +559,8 @@ export class LeetHelperOverlay {
         await this.edgeCasesComponent.generateEdgeCases();
       }
     } catch (error) {
+      if (this.chatComponent)
+        this.chatComponent.showError("Failed to load data");
       if (this.hintsComponent)
         this.hintsComponent.showError("Failed to load data");
       if (this.planComponent)

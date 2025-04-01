@@ -25,6 +25,7 @@ chrome.action.onClicked.addListener(async (tab) => {
   if (tab.url?.includes("leetcode.com/problems/")) {
     const success = await sendMessageToTab(tab.id!, { action: "toggle" });
     if (!success) {
+      //future: debug why the extension is not working
     }
   }
 });
@@ -35,6 +36,7 @@ chrome.commands.onCommand.addListener(async (command) => {
     if (tabs[0] && tabs[0].url?.includes("leetcode.com/problems/")) {
       const success = await sendMessageToTab(tabs[0].id!, { action: "toggle" });
       if (!success) {
+        //future: debug why the extension is not working
       }
     }
   }
