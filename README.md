@@ -50,7 +50,7 @@ npm run build
 
 - Open Chrome → `chrome://extensions/`
 - Enable "Developer mode"
-- Click "Load unpacked" → select `dist` folder
+- Click "Load unpacked" → select `tutorai` folder
 
 ### 3. Configure API Keys
 
@@ -78,6 +78,18 @@ npm run build
 
 All processing happens in your browser. Your API keys and data never leave your device.
 
+### Privacy Policy
+
+For detailed information about how TutorAI handles your data, please see our [Privacy Policy](privacy-policy.md).
+
+**Key Points:**
+
+- We only collect LeetCode problem content to provide tutoring
+- API keys are stored locally on your device
+- No personal information is collected or stored
+- All data processing happens in your browser
+- We do not sell, share, or monetize your data
+
 ## Contributing
 
 ### Open Source
@@ -101,3 +113,10 @@ Have ideas for new features or improvements? We'd love to hear them! Please crea
 - Clear description of the proposed feature
 - Why it would be helpful for learning
 - Any examples or mockups if applicable
+
+## Contact
+
+For questions, bug reports, or privacy concerns:
+
+- **Email:** joshcord99@gmail.com
+- **GitHub:** [github.com/joshcord99](https://github.com/joshcord99)
